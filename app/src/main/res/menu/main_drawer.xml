@@ -1,0 +1,36 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainActivity">
+            <group android:checkableBehavior="none"
+
+                >
+
+
+            <item
+                android:checkable="true"
+                android:id="@+id/main_nav_day"
+                android:icon="@drawable/day"
+
+                android:title="天" />
+            <item
+                android:checkable="true"
+                android:id="@+id/main_nav_month"
+                android:icon="@drawable/month"
+                android:title="月" />
+            <item
+                android:checkable="true"
+                android:id="@+id/main_nav_year"
+                android:icon="@drawable/year"
+                android:title="年" />
+                <item
+                    android:checkable="true"
+                    android:id="@+id/main_nav_kind"
+                    android:icon="@drawable/year"
+                    android:title="分类浏览" />
+
+            </group>
+
+
+
+</menu>
