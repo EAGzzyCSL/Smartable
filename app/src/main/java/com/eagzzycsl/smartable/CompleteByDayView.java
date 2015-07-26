@@ -1,6 +1,5 @@
 package com.eagzzycsl.smartable;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -9,9 +8,7 @@ import android.graphics.Typeface;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.AppCompatButton;
-import android.text.Layout;
 import android.util.AttributeSet;
-import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -21,29 +18,71 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Timer;
-import java.util.TimerTask;
 
-/**
- * Created by eagzzycsl on 7/21/15.
- */
 public class CompleteByDayView extends ViewPager {
 
-    private Calendar calendar = Calendar.getInstance();
+    private Calendar calendar = Calendar.getInstance();//一个日历，用来提供日期
+    private ArrayList<SimpleByDayView> simpleByDayViews = new ArrayList<>(3);//存放viewpager的三个view
 
+    public CompleteByDayView(Context context, AttributeSet attrs) {
+        //构造方法
+        super(context, attrs);
+        updateSimpleByDayViews();//为viewpager更新信息
+        this.setOffscreenPageLimit(3);//设置viewpager的限制为3，有助于优化滑动
+        //为viewpager增加滑动监听，为了在pager滑动的时候更换内容
+        this.addOnPageChangeListener(new OnPageChangeListener() {
+            private boolean haveScrolled = false;//是否已经滚动
 
-    //    private int testday = calendar.get(Calendar.DAY_OF_MONTH);
-    private ArrayList<SimpleByDayView> simpleByDayViews = new ArrayList<SimpleByDayView>(3);
+            @Override
+            public void onPageScrolled(int i, float v, int i1) {
+            }
 
+            @Override
+            public void onPageSelected(int position) {
+                //0为最左边的，1为中间的，2为右边的
+                //当选中最左边的或者最右边的时候就haveScrolled=true，同时日历进行加一天和减一天的操作
+                if (position == 0) {
+                    haveScrolled = true;
+                    calendar.add(Calendar.DAY_OF_MONTH, -1);
+                    //calendar还有一个roll方法也可以增加日期，但是roll的年月日不会同步，即31号加到1号时月不会加1
+                }
+                if (position == 2) {
+                    haveScrolled = true;
+                    calendar.add(Calendar.DAY_OF_MONTH, 1);
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+                //页面在滑动的时候正常状态的变化的值（i）依次为：1，2，0
+                /*
+                1：Indicates that the pager is currently being dragged by the user.
+                2：Indicates that the pager is in the process of settling to a final position.
+                0：Indicates that the pager is in an idle, settled state. The current page is fully in view and no animation is in progress.
+                 */
+                //（翻译自我，仅供参考）1表示正在滑动，2表示将要选定一个位置，应该是发生在当滑动页面使下一个view足够的部分进入屏幕时pager就会把这个页面设为将要进入的页面
+                // ，0表示停下来闲置的状态，发生在新的页面滑动停下来之后，发生在onPagerSelected之后
+                if (i == 0 && haveScrolled) {
+                    //如果状态为0了且确实有滑动（因为在该页面轻微滑动一下会有10的状态转换，没有2，即没有选定新的页面）
+                    //为了页面滚动的同步，目前还没实现
+                    int scrolledY = simpleByDayViews.get(1).getScrollViewScrollY();
+                    System.out.println("scrolledY:" + scrolledY);
+                    //此时即是切换到了最左边或者最右边的页面，这个时候就该把三个页面都换掉然后再选中中间那个
+                    updateSimpleByDayViews();
+                    haveScrolled = false;
+                }
+
+            }
+        });
+    }
+
+    //pager的适配器
     class MyPagerAdapter extends PagerAdapter {
         private ArrayList<SimpleByDayView> mySimpleByDayViews;
 
         public MyPagerAdapter(ArrayList<SimpleByDayView> simpleByDayViews) {
-
-
             this.mySimpleByDayViews = simpleByDayViews;
         }
 
@@ -71,89 +110,56 @@ public class CompleteByDayView extends ViewPager {
         }
     }
 
-    public CompleteByDayView(Context context, AttributeSet attrs) {
-        super(context, attrs);
+    //更新pager的内容
+    public void updateSimpleByDayViews() {
+        //把原来的删掉然后重新添加
         simpleByDayViews.clear();
         simpleByDayViews.add(new SimpleByDayView(getContext(), -1, 1));
         simpleByDayViews.add(new SimpleByDayView(getContext(), 0, 1));
         simpleByDayViews.add(new SimpleByDayView(getContext(), 1, 1));
         this.setAdapter(new MyPagerAdapter(simpleByDayViews));
-        this.addOnPageChangeListener(new OnPageChangeListener() {
-            private boolean haveScrolled = false;
+        //虽然直接换适配器的方法不是太好但是我现在只能这么做了
+        this.setCurrentItem(1, false);//设置pager当前显示第几个，设置我下标为1的那个，也就是中间那个
 
-            @Override
-            public void onPageScrolled(int i, float v, int i1) {
-            }
+    }
 
-            @Override
-            public void onPageSelected(int position) {
-                if (position == 0) {
-                    haveScrolled = true;
-//                    testday--;
-                    calendar.add(Calendar.DAY_OF_MONTH, -1);
-                }
-                if (position == 2) {
-                    haveScrolled = true;
-//                    testday++;
-                    calendar.add(Calendar.DAY_OF_MONTH, 1);
-                }
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int i) {
-                if (i == 0 && haveScrolled) {
-                    int scrolledY = simpleByDayViews.get(1).getScrollViewScrollY();
-                    System.out.println("scrolledY:" + scrolledY);
-                    simpleByDayViews.clear();
-
-                    simpleByDayViews.add(new SimpleByDayView(getContext(), -1, scrolledY));
-                    simpleByDayViews.add(new SimpleByDayView(getContext(), 0, scrolledY));
-                    simpleByDayViews.add(new SimpleByDayView(getContext(), 1, scrolledY));
-                    CompleteByDayView.this.setAdapter(new MyPagerAdapter(simpleByDayViews));
-                    CompleteByDayView.this.setCurrentItem(1, false);
-                    haveScrolled = false;
-                }
-
-            }
-        });
-        this.setCurrentItem(1, false);
+    //从数据库中获得business
+    private Business[] getBusinesses(int diff) {
+        //diff为和日历当天的差值，注意的是三个页面共享一个日历
+        return new Business[]{
+                new Business("1:00-2:00", new MyTime(1, 0), new MyTime(2, 0))
+                , new Business("4:50:6:00", new MyTime(4, 50), new MyTime(6, 0))
+                , new Business("21:53-23:38", new MyTime(21, 53), new MyTime(23, 38))
+                , new Business("18:00-20:00", new MyTime(18, 0), new MyTime(20, 0))
+        };
     }
 
     class SimpleByDayView extends FrameLayout {
-        //        public String day;
         private ScrollView scrollView;
 
         public SimpleByDayView(Context context, int diff, int scrollY) {
             super(context);
-//            this.day = day;
-            //布局：framelayout里面放了scrollview和textview，scrollview里面放了humbleByDayView
+            //布局：frameLayout里面放了scrollView和textView，scrollview里面放了humbleByDayView
             scrollView = new ScrollView(getContext());
             scrollView.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-
-            HumbleByDayView humbleByDayView = new HumbleByDayView(getContext());
+            HumbleByDayView humbleByDayView = new HumbleByDayView(getContext(), getBusinesses(diff));
             humbleByDayView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-
             scrollView.addView(humbleByDayView);
-
             this.addView(scrollView);
-//            scrollView.setScrollY(scrollY);
             TextView textView = new TextView(getContext());
             textView.setGravity(Gravity.CENTER_HORIZONTAL);
-            float destiny = getContext().getResources().getDisplayMetrics().density;
+            float destiny = getContext().getResources().getDisplayMetrics().density;//用来处理dp到像素的转换的
             int w = MyUtil.dpToPxInCode(destiny, 60);
             int h = MyUtil.dpToPxInCode(destiny, 50);
-
             textView.setLayoutParams(new FrameLayout.LayoutParams(w, h));
-            textView.setTextAppearance(getContext(), R.style.textView_date_byDayView);
-
-
+            textView.setTextAppearance(getContext(), R.style.textView_date_byDayView);//设置字的大小样式
+            textView.setBackgroundColor(Color.rgb(255, 255, 255));
             synchronized (this) {
                 //因为使用的是一个日历所以加了一个锁
                 calendar.add(Calendar.DAY_OF_MONTH, diff);
                 textView.setText(calendar.get(Calendar.DAY_OF_MONTH) + "\n" + MyUtil.weekEtoC(calendar.get(Calendar.DAY_OF_WEEK)));
                 calendar.add(Calendar.DAY_OF_MONTH, -diff);
             }
-            textView.setBackgroundColor(Color.rgb(255, 255, 255));
             this.addView(textView);
         }
 
@@ -161,12 +167,8 @@ public class CompleteByDayView extends ViewPager {
             return scrollView.getScrollY();
         }
 
-
         class HumbleByDayView extends ViewGroup {
-            //            final float scale = getContext().getResources().getDisplayMetrics().density;
-            //view自由发挥的大小，即没有限定view大小的时候view的大小，比如wrapContent的时候
-            float destiny = getContext().getResources().getDisplayMetrics().density;
-
+            private final float destiny = getContext().getResources().getDisplayMetrics().density;//dp到像素
             //最终经过计算后得到的view的大小
             private int myWidth;
             private int myHeight;
@@ -182,22 +184,19 @@ public class CompleteByDayView extends ViewPager {
             private int lineLeft = textPadLeft + 3 * textSize + linePadLeft;//线的左端（加入了文字占去的地）
             private int lineRight;//值为myWidth - linePadLeft,但在此处定义无效，因为myWidth还没有赋值。
             private int hpm = height1h / 60;//表示每分钟表示的高度
-            private final int defaultWidth = MyUtil.dpToPxInCode(destiny, 240);   //240;
-            private final int defaultHeight = 27 * height1h;
+            //view自由发挥的大小，即没有限定view大小的时候view的大小，比如wrapContent的时候
+            private final int defaultWidth = MyUtil.dpToPxInCode(destiny, 240);
+            private final int defaultHeight = 27 * height1h;//一天24小时，上下各自空白一些按27算
             //如果调用draw方法的时候结束坐标比起始坐标小了它依然会绘制，因为它并不区分左右先后。
-            //存储事项
-            private Business[] bs;
-            AppCompatButton button;
-            private int indicateLineY;
+            private Business[] bs; //存储事项
+            private AppCompatButton button;
+            private int indicateLineY;//表示当前时间的指示线的纵坐标
 
-
-            public HumbleByDayView(Context context) {
+            public HumbleByDayView(Context context, Business[] bs) {
                 super(context);
-
-                //构造方法
+                this.bs = bs;
                 //为这个calendarView设置一个背景色否则它无法正常显示
                 setBackgroundColor(Color.rgb(255, 255, 255));
-
             }
 
             @Override
@@ -213,11 +212,11 @@ public class CompleteByDayView extends ViewPager {
                 myHeight = (heightMode == MeasureSpec.EXACTLY) ? sizeHeight
                         : defaultHeight;
                 setMeasuredDimension(myWidth, myHeight);
-//            System.out.println("onMeasure");
+                lineRight = myWidth - linePadLeft;//在measure后计算lineRight
             }
 
-            @Override
-            protected void onLayout(boolean changed, int l, int t, int r, int b) {
+            //负责排布那些事件的按钮和那个添加的按钮
+            private void arrangeLayout() {
                 this.removeAllViews();
                 if (bs != null) {
                     for (int i = 0; i < bs.length; i++) {
@@ -243,13 +242,17 @@ public class CompleteByDayView extends ViewPager {
                 button.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(getContext(), "show text", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "click to add new business", Toast.LENGTH_SHORT).show();
                     }
                 });
-//            System.out.println("constructor");
                 addView(button);
-                //为什么在此处声明这个view呢，和view生成时的onMeasure和onLayout有关。但是
-//            System.out.println("onLayout");
+                //TODO 对于时间很短的事件块需要有一个处理，不能显示成一个细条，同样这时不能用块的宽窄来断定事件时间长度
+            }
+
+            //注意onLayout的函数执行在onDraw之前
+            @Override
+            protected void onLayout(boolean changed, int l, int t, int r, int b) {
+                arrangeLayout();
             }
 
             @Override
@@ -266,7 +269,7 @@ public class CompleteByDayView extends ViewPager {
                     //画日期
                     canvas.drawText(String.format("%02d", i) + ":00", textPadLeft, textStart + (height1h + lineWidth) * i, paint);
                     lineY = lineStart + (height1h + lineWidth) * i;
-                    lineRight = myWidth - linePadLeft;
+                    lineRight = myWidth - linePadLeft;//maybe not need;
                     //画线
                     canvas.drawLine(lineLeft, lineY, lineRight, lineY, paint);
                 }
@@ -275,22 +278,21 @@ public class CompleteByDayView extends ViewPager {
                 paint.setColor(Color.rgb(30, 144, 255));
                 canvas.drawLine(lineLeft, indicateLineY, lineRight, indicateLineY, paint);
                 paint.setColor(Color.rgb(169, 169, 169));
-//            System.out.println("onDraw");
+                System.out.println("onDraw");
             }
 
-            @SuppressLint("WrongCall")
+            //将来也许会删，先丢这儿
             public void setBusiness(Business[] bs) {
                 //一个方法，为view设置事项，应该在onStart前调用。
                 this.bs = bs;
                 //这儿先就凑或这么写吧，studio都怀疑怀疑我是不是调错函数了。。
 
-                this.onLayout(false, 0, 0, 0, 0);
+                arrangeLayout();
                 System.out.println("setBusiness");
             }
 
             private void showAddBusiness(float eventY) {
                 //显示一个类似谷歌日历的新建活动的view
-
                 int y = (int) eventY;//点击的纵坐标
                 int poor = y - lineStart;//表示点击的位置和线的起始的差值
                 //当点击的范围在那24个条的范围时才显示view，最上端和最下端都不行。
@@ -298,7 +300,6 @@ public class CompleteByDayView extends ViewPager {
                     //判断点击的条属于哪个条，对于每个条，上面的线属于这个条，下面的线不属于这个条。
                     //但是当那个添加的view显示的时候会把上下的线都覆盖，为了美观
                     //同样当画事件块的时候为了美观下面的条也会不属于这个事件块
-                    //TODO 对于时间很短的事件块需要有一个处理，不能显示成一个细条，同样这时不能用块的宽窄来断定事件时间长度
                     int i = poor / (height1h + lineWidth);
                     //计算view该显示的位置
                     int addBusinessViewTop = lineStart + (height1h + lineWidth) * i;

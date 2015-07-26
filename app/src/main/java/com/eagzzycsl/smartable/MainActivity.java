@@ -71,6 +71,7 @@ public class MainActivity extends ActionBarActivity {
                 myPreviousMenuItem = menuItem;
                 main_drawLayout.closeDrawers();
                 if (id == R.id.main_nav_day) {
+
                     getFragmentManager().beginTransaction().replace(R.id.main_glance_container, new FragmentByDay()).commit();
 
                 }
