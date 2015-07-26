@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.AppCompatButton;
@@ -138,11 +139,11 @@ public class CompleteByDayView extends ViewPager {
 //            scrollView.setScrollY(scrollY);
             TextView textView = new TextView(getContext());
             textView.setGravity(Gravity.CENTER_HORIZONTAL);
-            DisplayMetrics metrics = getContext().getResources().getDisplayMetrics();
-            float dp=50;
+            float destiny = getContext().getResources().getDisplayMetrics().density;
+            int w = MyUtil.dpToPxInCode(destiny, 60);
+            int h = MyUtil.dpToPxInCode(destiny, 50);
 
-            int pixel=(int)(metrics.density*dp+0.5);
-            textView.setLayoutParams(new FrameLayout.LayoutParams(pixel, pixel));
+            textView.setLayoutParams(new FrameLayout.LayoutParams(w, h));
             textView.setTextAppearance(getContext(), R.style.textView_date_byDayView);
 
 
@@ -162,27 +163,27 @@ public class CompleteByDayView extends ViewPager {
 
 
         class HumbleByDayView extends ViewGroup {
-//            final float scale = getContext().getResources().getDisplayMetrics().density;
+            //            final float scale = getContext().getResources().getDisplayMetrics().density;
             //view自由发挥的大小，即没有限定view大小的时候view的大小，比如wrapContent的时候
-            private DisplayMetrics metrics = getContext().getResources().getDisplayMetrics();
-            private final int defaultWidth = 240;
-            private final int defaultHeight = 3000;
+            float destiny = getContext().getResources().getDisplayMetrics().density;
+
             //最终经过计算后得到的view的大小
             private int myWidth;
             private int myHeight;
             //线宽和字的大小，如果线宽是奇数的话字大小宜为奇数，反之偶数
             private int lineWidth = 1;//线宽
-            private int textSize = 21;//文本大小，文本就是指左边的显示时间的那一个，也叫文本
-            private final int topBlank = 120;//顶部会空一小部分,为了美观
-            private int height1h = 120;//一个条的高度，不包括上下的线
+            private int textSize = MyUtil.dpToPxInCode(destiny, 15);//文本大小，文本就是指左边的显示时间的那一个，也叫文本
+            private final int topBlank = MyUtil.dpToPxInCode(destiny, 60);//顶部会空一小部分,为了美观
+            private int height1h = MyUtil.dpToPxInCode(destiny, 60);//一个条的高度，不包括上下的线
             private int lineStart = topBlank + 1;//线的起始高度，即顶部空开始的下一行
             private int textStart = topBlank + lineWidth + (textSize - lineWidth) / 2;//文字的起始高度，注意文字的绘制是从左下角开始而不是左上角
-            private int textPadLeft = 30;//文本和文本左边的空隙
-            private int linePadLeft = 40;//文本和文本右边的空隙
+            private int textPadLeft = MyUtil.dpToPxInCode(destiny, 10);//文本和文本左边的空隙
+            private int linePadLeft = MyUtil.dpToPxInCode(destiny, 5);//文本和文本右边的空隙
             private int lineLeft = textPadLeft + 3 * textSize + linePadLeft;//线的左端（加入了文字占去的地）
             private int lineRight;//值为myWidth - linePadLeft,但在此处定义无效，因为myWidth还没有赋值。
             private int hpm = height1h / 60;//表示每分钟表示的高度
-
+            private final int defaultWidth = MyUtil.dpToPxInCode(destiny, 240);   //240;
+            private final int defaultHeight = 27 * height1h;
             //如果调用draw方法的时候结束坐标比起始坐标小了它依然会绘制，因为它并不区分左右先后。
             //存储事项
             private Business[] bs;
@@ -259,6 +260,7 @@ public class CompleteByDayView extends ViewPager {
                 paint.setColor(Color.rgb(169, 169, 169));
                 paint.setStrokeWidth(lineWidth);//线宽
                 paint.setTextSize(textSize); //据说线宽和字号会冲突，但是目前没有发现
+                paint.setTypeface(Typeface.create(Typeface.SANS_SERIF, Typeface.NORMAL));
                 int lineY;//线的纵坐标
                 for (int i = 0; i <= 24; i++) {
                     //画日期
@@ -275,6 +277,7 @@ public class CompleteByDayView extends ViewPager {
                 paint.setColor(Color.rgb(169, 169, 169));
 //            System.out.println("onDraw");
             }
+
             @SuppressLint("WrongCall")
             public void setBusiness(Business[] bs) {
                 //一个方法，为view设置事项，应该在onStart前调用。
