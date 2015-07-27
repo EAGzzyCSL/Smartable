@@ -6,4 +6,46 @@
     <string name="open">open</string>
     <string name="close">close</string>
     <string name="search">search</string>
+
+
+    //By 宇
+    <color name="divider_color">#D5D5D5</color>
+    <string name="desc">分类来查看</string>
+
+    <string-array name="language">
+        <item>中文简体</item>
+    </string-array>
+    <string-array name="language_values">
+        <item>中文简体</item>
+    </string-array>
+
+    <string-array name="week_start">
+        <item>周日</item>
+        <item>周一</item>
+        <item>周二</item>
+        <item>周三</item>
+        <item>周四</item>
+        <item>周五</item>
+        <item>周六</item>
+    </string-array>
+    <string-array name="week_start_values">
+        <item>周日</item>
+        <item>周一</item>
+        <item>周二</item>
+        <item>周三</item>
+        <item>周四</item>
+        <item>周五</item>
+        <item>周六</item>
+    </string-array>
+
+    <string-array name="night_summary">
+        <item>21:00</item>
+        <item>22:00</item>
+        <item>23:00</item>
+    </string-array>
+    <string-array name="night_summary_values">
+        <item>21:00</item>
+        <item>22:00</item>
+        <item>23:00</item>
+    </string-array>
 </resources>

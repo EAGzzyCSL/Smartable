@@ -1,10 +1,12 @@
 package com.eagzzycsl.smartable;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.AppCompatButton;
@@ -242,7 +244,19 @@ public class CompleteByDayView extends ViewPager {
                 button.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(getContext(), "click to add new business", Toast.LENGTH_SHORT).show();
+
+
+                        Intent intent = new Intent(getContext(), AddActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putInt("year", 2015);
+                        bundle.putInt("month", 7);
+                        bundle.putInt("day", 26);
+                        bundle.putInt("hour", 14);
+                        bundle.putInt("minute", 30);
+                        bundle.putInt("FinalFlag", 1);
+                        intent.putExtras(bundle);
+                        getContext().startActivity(intent);
+                        // Toast.makeText(getContext(), "click to add new business", Toast.LENGTH_SHORT).show();
                     }
                 });
                 addView(button);

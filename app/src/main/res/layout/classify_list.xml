@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp"
+    android:background="#666666">
+
+    <view.FlowLayout
+        android:padding="0dp"
+        android:id="@+id/id_flowlayout"
+        android:layout_width="fill_parent"
+        android:background="#F7F7F7"
+        android:layout_height="wrap_content" >
+        //第一块
+
+            <LinearLayout
+                android:layout_width="155dp"
+                android:layout_height="170dp"
+                android:layout_margin="7dp"
+                android:background="#ffffff"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="40dp"
+                    android:background="#FFFFFF"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/classify_stitle1"
+                        android:layout_width="115dp"
+                        android:layout_height="39dp"
+                        android:textColor="#383838"
+                        android:textSize="21dp"
+                        android:padding="5dp"
+                        android:background="#FFFFFF" />
+
+                    <ImageButton
+                        android:id="@+id/ic_suggestions_add"
+                        android:layout_width="39dp"
+                        android:layout_height="39dp"
+                        android:layout_marginRight="10dp"
+                        android:background="#D5D5D5"
+                        android:contentDescription="@string/desc"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/ic_suggestions_add_blue"
+                        android:tint="#ffffff" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="130dp"
+                    android:background="#ffffff"
+                    android:orientation="vertical" >
+
+                    <ListView
+                        android:id="@+id/listContent1"
+                        android:layout_width="fill_parent"
+                        android:layout_height="130dp"
+                        android:divider="@color/divider_color"
+                        android:background="#ffffff"
+                        android:dividerHeight="1px"
+                        android:fastScrollEnabled="true"
+                        android:focusable="true" />
+                </LinearLayout>
+            </LinearLayout>
+
+        //第二块
+            <LinearLayout
+                android:layout_width="155dp"
+                android:layout_height="170dp"
+                android:layout_margin="7dp"
+                android:background="#ffffff"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="40dp"
+                    android:background="#ffffff"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/classify_stitle2"
+                        android:layout_width="115dp"
+                        android:layout_height="39dp"
+                        android:textColor="#383838"
+                        android:textSize="21dp"
+                        android:padding="5dp"
+                        android:background="#FFFFFF" />
+
+                    <ImageButton
+                        android:id="@+id/ic_suggestions_add2"
+                        android:layout_width="39dp"
+                        android:layout_height="39dp"
+                        android:layout_marginRight="10dp"
+                        android:background="#D5D5D5"
+                        android:contentDescription="@string/desc"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/ic_suggestions_add_blue"
+                        android:tint="#ffffff" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="130dp"
+                    android:background="#ffffff"
+                    android:orientation="vertical" >
+
+                    <ListView
+                        android:id="@+id/listContent2"
+                        android:layout_width="fill_parent"
+                        android:layout_height="130dp"
+                        android:divider="@color/divider_color"
+                        android:background="#ffffff"
+                        android:dividerHeight="1px"
+                        android:fastScrollEnabled="true"
+                        android:focusable="true" />
+                </LinearLayout>
+            </LinearLayout>
+
+
+        //第三块
+
+            <LinearLayout
+                android:layout_width="155dp"
+                android:layout_height="170dp"
+                android:layout_margin="7dp"
+                android:background="#ffffff"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="40dp"
+                    android:background="#FFFFFF"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/classify_stitle3"
+                        android:layout_width="115dp"
+                        android:layout_height="39dp"
+                        android:textColor="#383838"
+                        android:textSize="21dp"
+                        android:padding="5dp"
+                        android:background="#FFFFFF" />
+
+                    <ImageButton
+                        android:id="@+id/ic_suggestions_add3"
+                        android:layout_width="39dp"
+                        android:layout_height="39dp"
+                        android:layout_marginRight="10dp"
+                        android:background="#D5D5D5"
+                        android:contentDescription="@string/desc"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/ic_suggestions_add_blue"
+                        android:tint="#ffffff" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="130dp"
+                    android:background="#ffffff"
+                    android:orientation="vertical" >
+
+                    <ListView
+                        android:id="@+id/listContent3"
+                        android:layout_width="fill_parent"
+                        android:layout_height="130dp"
+                        android:divider="@color/divider_color"
+                        android:background="#ffffff"
+                        android:dividerHeight="1px"
+                        android:fastScrollEnabled="true"
+                        android:focusable="true" />
+                </LinearLayout>
+            </LinearLayout>
+
+        //第四块
+            <LinearLayout
+                android:layout_width="155dp"
+                android:layout_height="170dp"
+                android:layout_margin="7dp"
+                android:background="#ffffff"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="40dp"
+                    android:background="#ffffff"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/classify_stitle4"
+                        android:layout_width="115dp"
+                        android:layout_height="39dp"
+                        android:textColor="#383838"
+                        android:textSize="21dp"
+                        android:padding="5dp"
+                        android:background="#FFFFFF" />
+
+                    <ImageButton
+                        android:id="@+id/ic_suggestions_add4"
+                        android:layout_width="39dp"
+                        android:layout_height="39dp"
+                        android:layout_marginRight="10dp"
+                        android:background="#D5D5D5"
+                        android:contentDescription="@string/desc"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/ic_suggestions_add_blue"
+                        android:tint="#ffffff" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="130dp"
+                    android:background="#ffffff"
+                    android:orientation="vertical" >
+
+                    <ListView
+                        android:id="@+id/listContent4"
+                        android:layout_width="fill_parent"
+                        android:layout_height="130dp"
+                        android:divider="@color/divider_color"
+                        android:background="#ffffff"
+                        android:dividerHeight="1px"
+                        android:fastScrollEnabled="true"
+                        android:focusable="true" />
+                </LinearLayout>
+            </LinearLayout>
+
+    </view.FlowLayout>
+    </RelativeLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

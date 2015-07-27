@@ -27,7 +27,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:hint="please input the title" />
+                android:hint="请输入一个事项..." />
 
 
 
@@ -44,9 +44,10 @@
                     android:src="@drawable/icon_description" />
 
                 <android.support.v7.widget.AppCompatEditText
+                    android:id="@+id/edit_detail"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:hint="input detail" />
+                    android:hint="请输入注释..." />
 
             </LinearLayout>
 
@@ -138,8 +139,10 @@
                     android:src="@drawable/icon_kind" />
 
                 <android.support.v7.widget.AppCompatEditText
+                    android:id="@+id/edit_classify"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:hint="请输入所属分类..."/>
             </LinearLayout>
 
             <LinearLayout
@@ -155,8 +158,10 @@
                     android:src="@drawable/icon_position" />
 
                 <android.support.v7.widget.AppCompatEditText
+                    android:id="@+id/edit_location"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:hint="地点..."/>
             </LinearLayout>
 
             <LinearLayout

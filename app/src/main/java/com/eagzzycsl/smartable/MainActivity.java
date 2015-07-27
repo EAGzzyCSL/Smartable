@@ -1,16 +1,23 @@
 package com.eagzzycsl.smartable;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Toast;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -18,7 +25,7 @@ public class MainActivity extends ActionBarActivity {
     private Toolbar main_toolbar;
     private FloatingActionButton main_fab_add;//圆形浮动按钮
     private NavigationView main_navigationView_nav;//侧滑动栏中的导航菜单
-
+    private static Boolean isQuit = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,8 +66,10 @@ public class MainActivity extends ActionBarActivity {
         main_fab_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setClass(MainActivity.this, AddActivity.class);
+                Intent intent = new Intent(MainActivity.this, AddActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putInt("FinalFlag", 0);
+                intent.putExtras(bundle);
                 startActivity(intent);
             }
         });
@@ -115,10 +124,35 @@ public class MainActivity extends ActionBarActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
+
         if (id == R.id.action_settings) {
+            Intent intent = new Intent(MainActivity.this,SettingActivity.class);
+            startActivity(intent);
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+    //连按两次推出
+    public boolean onKeyDown(int keyCode, KeyEvent event){
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+        if(keyCode == KeyEvent.KEYCODE_BACK){
+            Boolean exit = settings.getBoolean(Consts.DOUBLE_EXIT, true);
+            if(exit){
+                Timer timer = new Timer();
+                if(isQuit == false){
+                    isQuit = true;
+                    Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
+                    timer.schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            isQuit = false;
+                        }
+                    }, 2000);
+                }
+                else finish();
+            } else finish();
+        }
+        return false;
     }
 
 
