@@ -1,3 +1,4 @@
+<!--最外层主块-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -5,51 +6,41 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".MainActivity">
-
+    <!--toolbar-->
     <android.support.v7.widget.Toolbar
         android:id="@+id/main_toolbar"
         android:layout_width="match_parent"
-
         android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-       >
-        <TextView
-            android:layout_width="wrap_content"
-            android:text="lalalla"
-            android:layout_height="wrap_content" />
-
-    </android.support.v7.widget.Toolbar>
-
+        android:background="?attr/colorPrimary" />
+    <!--drawLayout，前面的为显示内容，后面的为抽屉-->
     <android.support.v4.widget.DrawerLayout
         android:id="@+id/main_drawerLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
+        <!--内容显示-->
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
-
+            <!--作为fragment的容器-->
             <FrameLayout
                 android:id="@+id/main_glance_container"
                 android:layout_width="match_parent"
-                android:background="#1e90ff"
-                android:layout_height="match_parent"></FrameLayout>
-
+                android:layout_height="match_parent"
+                android:background="#1e90ff"></FrameLayout>
+            <!--悬浮按钮-->
             <!--there is a bug in support-->
             <!--http://stackoverflow.com/questions/30532863/how-to-add-shadow-to-the-fab-provided-with-the-android-support-design-library-->
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/main_fab_add"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
-                android:layout_marginBottom="10dp"
-                app:borderWidth="0dp"
-
                 android:layout_gravity="end|bottom"
-                android:src="@drawable/ic_add" />
+                android:layout_marginBottom="10dp"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/icon_add"
+                app:borderWidth="0dp" />
         </FrameLayout>
-
+        <!--抽屉-->
         <android.support.design.widget.NavigationView
             android:id="@+id/main_navigationView_nav"
             android:layout_width="320dp"
@@ -57,7 +48,5 @@
             android:layout_gravity="start"
             app:headerLayout="@layout/main_drawer_header"
             app:menu="@menu/main_drawer" />
-
     </android.support.v4.widget.DrawerLayout>
-
 </LinearLayout>

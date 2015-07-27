@@ -2,35 +2,31 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MainActivity">
-            <group android:checkableBehavior="none"
-
-                >
-
-
-            <item
-                android:checkable="true"
-                android:id="@+id/main_nav_day"
-                android:icon="@drawable/day"
-
-                android:title="天" />
-            <item
-                android:checkable="true"
-                android:id="@+id/main_nav_month"
-                android:icon="@drawable/month"
-                android:title="月" />
-            <item
-                android:checkable="true"
-                android:id="@+id/main_nav_year"
-                android:icon="@drawable/year"
-                android:title="年" />
-                <item
-                    android:checkable="true"
-                    android:id="@+id/main_nav_kind"
-                    android:icon="@drawable/year"
-                    android:title="分类浏览" />
-
-            </group>
-
-
-
+    <group android:checkableBehavior="none">
+        <item
+            android:id="@+id/main_nav_day"
+            android:checkable="true"
+            android:icon="@drawable/icon_byday"
+            android:title="天" />
+        <item
+            android:id="@+id/main_nav_month"
+            android:checkable="true"
+            android:icon="@drawable/icon_bymonth"
+            android:title="月" />
+        <item
+            android:id="@+id/main_nav_year"
+            android:checkable="true"
+            android:icon="@drawable/icon_byyear"
+            android:title="年" />
+        <item
+            android:id="@+id/main_nav_kind"
+            android:checkable="true"
+            android:icon="@drawable/icon_bykind"
+            android:title="分类浏览" />
+        <item
+            android:id="@+id/main_nav_setting"
+            android:checkable="true"
+            android:icon="@drawable/icon_setting"
+            android:title="设置" />
+    </group>
 </menu>

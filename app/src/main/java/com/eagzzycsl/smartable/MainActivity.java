@@ -11,25 +11,37 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.support.v7.widget.SearchView;
-import android.widget.Toast;
 
 
 public class MainActivity extends ActionBarActivity {
-    private DrawerLayout main_drawLayout;
+    private DrawerLayout main_drawLayout;//侧滑动栏
     private Toolbar main_toolbar;
-    private FloatingActionButton main_fab_add;
-    private NavigationView main_navigationView_nav;
+    private FloatingActionButton main_fab_add;//圆形浮动按钮
+    private NavigationView main_navigationView_nav;//侧滑动栏中的导航菜单
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        myFindViewById();//findView
+        mySetView();//给view设置侦听等
+        myIni();//一些初始化操作
+    }
+
+    //findViewById
+    private void myFindViewById() {
         main_toolbar = (Toolbar) this.findViewById(R.id.main_toolbar);
-        setSupportActionBar(main_toolbar);
+        main_drawLayout = (DrawerLayout) this.findViewById(R.id.main_drawerLayout);
+        main_fab_add = (FloatingActionButton) findViewById(R.id.main_fab_add);
+        main_navigationView_nav = (NavigationView) findViewById(R.id.main_navigationView_nav);
+    }
+
+    //setView
+    private void mySetView() {
+        //操作toolbar
+        setSupportActionBar(main_toolbar);//用toolbar替代actionBar
         getSupportActionBar().setDisplayShowHomeEnabled(true);//设置toolbar左侧的图标显示
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);//设置将它显示为一个返回键
-        main_drawLayout = (DrawerLayout) this.findViewById(R.id.main_drawerLayout);
         ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(MainActivity.this, main_drawLayout, main_toolbar, R.string.open, R.string.close) {
             @Override
             public void onDrawerOpened(View drawerView) {
@@ -41,52 +53,50 @@ public class MainActivity extends ActionBarActivity {
                 super.onDrawerClosed(drawerView);
             }
         };
-        mDrawerToggle.syncState();
+        mDrawerToggle.syncState();//让toggle和drawLayout的抽屉同步
         main_drawLayout.setDrawerListener(mDrawerToggle);
-        main_fab_add = (FloatingActionButton) findViewById(R.id.main_fab_add);
+        //操作悬浮按钮
         main_fab_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
                 intent.setClass(MainActivity.this, AddActivity.class);
                 startActivity(intent);
-
-
             }
         });
-        main_navigationView_nav = (NavigationView) findViewById(R.id.main_navigationView_nav);
-
+        //操作侧滑导航栏
         main_navigationView_nav.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            private MenuItem myPreviousMenuItem;
+            //默认选中第一项
+            private MenuItem myPreviousMenuItem = main_navigationView_nav.getMenu().getItem(0);
 
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
+                //选中一个时把当前的状态设置为选中，之前的取消选中
                 int id = menuItem.getItemId();
                 if (myPreviousMenuItem != null) {
                     myPreviousMenuItem.setChecked(false);
                 }
-
                 menuItem.setChecked(true);
-                Toast.makeText(MainActivity.this, menuItem.getTitle().toString(), Toast.LENGTH_SHORT).show();
+                // Toast.makeText(MainActivity.this, menuItem.getTitle().toString(), Toast.LENGTH_SHORT).show();
                 myPreviousMenuItem = menuItem;
                 main_drawLayout.closeDrawers();
-                if (id == R.id.main_nav_day) {
-
-                    getFragmentManager().beginTransaction().replace(R.id.main_glance_container, new FragmentByDay()).commit();
-
-                }
-
-                if (id == R.id.main_nav_kind) {
-                    getFragmentManager().beginTransaction().replace(R.id.main_glance_container, new FragmentByKind()).commit();
-
+                switch (id) {
+                    case R.id.main_nav_day:
+                        getFragmentManager().beginTransaction().replace(R.id.main_glance_container, new FragmentByDay()).commit();
+                        break;
+                    case R.id.main_nav_kind:
+                        getFragmentManager().beginTransaction().replace(R.id.main_glance_container, new FragmentByKind()).commit();
+                        break;
                 }
                 return true;
             }
-
         });
+    }
 
-
+    //初始化
+    private void myIni() {
         getFragmentManager().beginTransaction().add(R.id.main_glance_container, new FragmentByDay()).commit();
+        main_navigationView_nav.getMenu().getItem(0).setChecked(true);
 
     }
 
@@ -108,9 +118,6 @@ public class MainActivity extends ActionBarActivity {
         if (id == R.id.action_settings) {
             return true;
         }
-
-
-
         return super.onOptionsItemSelected(item);
     }
 

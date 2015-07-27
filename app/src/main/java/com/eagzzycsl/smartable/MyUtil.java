@@ -1,11 +1,8 @@
 package com.eagzzycsl.smartable;
 
-import android.util.DisplayMetrics;
 
-/**
- * Created by eagzzycsl on 7/23/15.
- */
 public class MyUtil {
+    //一个工具类，提供一些静态方法供调用
     private static String[] weekEtoCString = new String[]{"", "日", "一", "二", "三", "四", "五", "六"};
 
     public static String weekEtoC(int e) {

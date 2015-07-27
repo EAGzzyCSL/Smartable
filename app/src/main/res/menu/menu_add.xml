@@ -3,18 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".AddActivity">
     <item
-
         android:id="@+id/action_delete"
         android:icon="@drawable/icon_delete"
-
         app:showAsAction="ifRoom"
-        android:title="save this event"
+        android:title="delete this event"
         />
     <item
-
         android:id="@+id/action_save"
         android:icon="@drawable/icon_save"
-
         app:showAsAction="ifRoom"
         android:title="save this event"
         />
