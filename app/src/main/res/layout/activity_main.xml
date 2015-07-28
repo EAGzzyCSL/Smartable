@@ -26,7 +26,7 @@
                 android:id="@+id/main_glance_container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#1e90ff"></FrameLayout>
+                ></FrameLayout>
             <!--悬浮按钮-->
             <!--there is a bug in support-->
             <!--http://stackoverflow.com/questions/30532863/how-to-add-shadow-to-the-fab-provided-with-the-android-support-design-library-->

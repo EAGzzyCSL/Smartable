@@ -7,7 +7,6 @@ import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.PreferenceActivity;
-
 /**
  * Created by JZF on 2015/7/27.
  */
@@ -19,11 +18,9 @@ public class SettingActivity extends PreferenceActivity implements OnSharedPrefe
     private ListPreference mListPreference_3;
     private CheckBoxPreference mCheckPreference_1;
     private CheckBoxPreference mCheckPreference_2;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         addPreferencesFromResource(R.layout.activity_setting);
         initPreferences();
     }

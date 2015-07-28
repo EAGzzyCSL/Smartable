@@ -1,78 +1,77 @@
 <?xml version = "1.0" encoding = "utf-8"?>
-
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin" >
+    android:paddingTop="@dimen/activity_vertical_margin">
 
-    <PreferenceCategory
-        android:title="通用">
+
+    <PreferenceCategory android:title="通用">
 
         <CheckBoxPreference
 
+            android:defaultValue="false"
             android:key="usl_light"
-            android:title="屏幕常亮"
             android:summary="禁用锁屏，保持屏幕常亮"
-            android:defaultValue="false" />
+            android:title="屏幕常亮" />
 
         <CheckBoxPreference
+            android:defaultValue="true"
             android:key="double_exit"
-            android:title="双击退出"
             android:summary="连续点击两次返回键退出程序"
-            android:defaultValue="true"/>
+            android:title="双击退出" />
 
         <ListPreference
-            android:key="language"
-            android:title="语言选择"
-            android:summary="选择一个适合自己的语言"
+            android:defaultValue="0"
             android:dialogTitle="请选择适合语言"
             android:entries="@array/language"
             android:entryValues="@array/language_values"
-            android:defaultValue="0"/>
+            android:key="language"
+            android:summary="选择一个适合自己的语言"
+            android:title="语言选择" />
     </PreferenceCategory>
 
-    <PreferenceCategory
-        android:title="基本设置">
+    <PreferenceCategory android:title="基本设置">
 
         <ListPreference
-            android:key="night_summary"
-            android:title="每晚提醒"
+            android:defaultValue="21"
             android:dialogTitle="请选择适合的时间"
             android:entries="@array/night_summary"
             android:entryValues="@array/night_summary_values"
-            android:defaultValue="21"/>
+            android:key="night_summary"
+            android:title="每晚提醒" />
+
         <ListPreference
-            android:key="week_start"
-            android:title="周开始于"
+            android:defaultValue="0"
             android:dialogTitle="请选择开始星期"
             android:entries="@array/week_start"
             android:entryValues="@array/week_start_values"
-            android:defaultValue="0"/>
+            android:key="week_start"
+            android:title="周开始于" />
 
     </PreferenceCategory>
 
-    <PreferenceCategory
-        android:title="支持">
+    <PreferenceCategory android:title="支持">
+
         <EditTextPreference
+            android:defaultValue="edit default value"
             android:key="edittext_key"
-            android:title="edit text"
             android:summary="edit summary"
-            android:defaultValue="edit default value"/>
+            android:title="edit text" />
+
         <Preference
             android:key="suggestion"
-            android:title="意见反馈">
-        </Preference>
+            android:title="意见反馈"></Preference>
+
         <Preference
             android:key="question"
-            android:title="常见问题" >
-        </Preference>
+            android:title="常见问题"></Preference>
+
         <Preference
             android:key="about"
-            android:title="关于我们" >
-        </Preference>
+            android:title="关于我们"></Preference>
 
     </PreferenceCategory>
 

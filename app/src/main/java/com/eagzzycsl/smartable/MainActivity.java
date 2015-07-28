@@ -96,6 +96,9 @@ public class MainActivity extends ActionBarActivity {
                     case R.id.main_nav_kind:
                         getFragmentManager().beginTransaction().replace(R.id.main_glance_container, new FragmentByKind()).commit();
                         break;
+                    case R.id.main_nav_setting:
+                        getFragmentManager().beginTransaction().replace(R.id.main_glance_container, new FragmentSetting()).commit();
+                        break;
                 }
                 return true;
             }
