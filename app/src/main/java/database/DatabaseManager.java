@@ -353,6 +353,13 @@ public class DatabaseManager {
             instance = null;
     }
 
+    public int delete_thing(String table , String whereClause, String[] whereArgs){
+        int result = 0;
+        if(sqLiteDatabase.isOpen()){
+            result = sqLiteDatabase.delete(table, whereClause, whereArgs);
+        }
+        return result;
+    }
     //TODO Just to remember
     //TODO 找出所有的 "==" 改成 equals
     //TODO 没把握，不要写 .get.add， 用add最好

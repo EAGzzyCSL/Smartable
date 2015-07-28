@@ -1,10 +1,16 @@
 package com.eagzzycsl.smartable;
 
 import android.app.Fragment;
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -28,6 +34,8 @@ public class FragmentByKind extends Fragment {
     private TextView textview11;// 各个小标题
     private View[] child_classify = new View[30];
     private FlowLayout mFlowLayout;
+    private ImageButton[] add_button = new ImageButton[50];
+    private int i;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -35,11 +43,6 @@ public class FragmentByKind extends Fragment {
         View v = inflater.inflate(R.layout.fragment_kind, container, false);
 
         mFlowLayout = (FlowLayout) v.findViewById(R.id.id_flowlayout);
-
-       /* LinearLayout.LayoutParams polish_classify = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT
-        );*/
 
         //分类界面融合入框架 - 主函数中 By宇
         DatabaseManager databaseManager = DatabaseManager.getInstance(getActivity());//连接DatabaseManager
@@ -51,7 +54,7 @@ public class FragmentByKind extends Fragment {
         if (-1 == query_classify.getLocaNum()) {
             Toast.makeText(getActivity(), "目前还没有任何事项，主人快点加点事情吧！", Toast.LENGTH_SHORT).show();
         } else {
-            for (int i = 0; i < query_classify.getLocaNum(); i++) {
+            for (i = 0; i < query_classify.getLocaNum(); i++) {
 
                 LinearLayout.LayoutParams polish_classify = new LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.MATCH_PARENT,
@@ -74,13 +77,23 @@ public class FragmentByKind extends Fragment {
                         new int[]{R.id.btn_check_off_normal_holo_light, R.id.title});//适配器装填数据 , 把填充的 data 数组里的值打印到 【自定义】 ListView 里
 //                listContent1 = (ListView) v.findViewById(R.id.listContent1);
                 listContent[i].setAdapter(adapter[i]);
+
+                //add_button点击事件“功能绑定”
+                add_button[i] = (ImageButton) child_classify[i].findViewById(R.id.ic_suggestions_add);
+                add_button[i].setOnClickListener(listener_add_button);
+
+                //add_button 点击事件“效果绑定”
+                add_button[i].setOnTouchListener(listener_OnTouch);
+
+                //ListView点击事件
+                listContent[i].setOnItemClickListener(listener_ListView);
             }
-
-
         }
         databaseManager.close();//这个界面要多次访问数据库，因此不在DatabaseManager中关闭数据库
+
         return v;
     }
+
 
     //分类界面融合入框架 - 自定义函数  By宇
     private List<Map<String, Object>> getData(int roll) {
@@ -100,4 +113,92 @@ public class FragmentByKind extends Fragment {
         }
         return list;
     }
+
+
+    //点击事件处理，获取是哪个块里的事件,打包数据；并跳转到add界面，在add界面写好接收title
+    private View.OnClickListener listener_add_button = new View.OnClickListener() {
+        //TODO 研究：采用标记的方法记录每个“块”的位置
+        private int index2;
+        @Override
+        public void onClick(View v) {
+
+            DatabaseManager databaseManager = DatabaseManager.getInstance(getActivity());//连接DatabaseManager
+            DatabaseManager.query_classify query_classify = databaseManager.new query_classify();//得到内部类对象
+
+            Intent intent = new Intent(getActivity(), AddActivity.class);
+
+            //打包数据
+            try {
+                Bundle allBundle = new Bundle();
+                String FinalFlag = "FragmentByKind";
+                allBundle.putString("FinalFlag", FinalFlag);
+
+                //获取add_button所在“块”的坐标
+                int index = ((ViewGroup) v.getParent().getParent().getParent().getParent()).indexOfChild((ViewGroup) v.getParent().getParent().getParent());
+                allBundle.putString("location_title", query_classify.getLocaTitle().get(index));
+                //TODO 日后这边会加好几个属性
+
+                intent.putExtras(allBundle);
+                startActivityForResult(intent, 1);
+//                getActivity().startActivity(intent);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    };
+
+
+    //给ImageButton 添加“按下”的效果
+    private View.OnTouchListener listener_OnTouch = new View.OnTouchListener() {
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                //更改为按下时的背景颜色
+                v.setBackgroundColor(Color.parseColor("#E6E6E6"));
+            } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                //改为抬起时的背景颜色
+                v.setBackgroundColor(Color.parseColor("#D5D5D5"));
+            }
+            return false;
+        }
+    };
+
+
+    //ListView点击事件
+    private AdapterView.OnItemClickListener listener_ListView=new AdapterView.OnItemClickListener(){
+
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+            DatabaseManager databaseManager = DatabaseManager.getInstance(getActivity());//连接DatabaseManager
+            DatabaseManager.query_classify query_classify = databaseManager.new query_classify();//得到内部类对象
+
+            Intent intent = new Intent(getActivity(), AddActivity.class);
+
+            //打包数据
+            try {
+                Bundle allBundle = new Bundle();
+                String FinalFlag = "FragmentByKind_ListView";//与“所跳转页面”的暗号
+                allBundle.putString("FinalFlag", FinalFlag);
+
+                //获取listView所在“块”的坐标
+                int index = ((ViewGroup)parent.getParent().getParent().getParent().getParent()).indexOfChild((ViewGroup) parent.getParent().getParent().getParent());
+//                ((ViewGroup) view.getParent().getParent().getParent()).indexOfChild((ViewGroup) view.getParent().getParent());
+                allBundle.putString("location_title", query_classify.getLocaTitle().get(index));
+
+                //获取listView里TextView的值
+                HashMap<String,String> item_value_parent= (HashMap<String, String>) parent.getItemAtPosition(position);
+                String item_value = item_value_parent.get("title");
+                allBundle.putString("item_value", item_value);
+                Log.i("TAG","_____"  + item_value);
+                //TODO 日后这边会加好几个属性
+
+                intent.putExtras(allBundle);
+                startActivityForResult(intent, 1);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    };
+
 }

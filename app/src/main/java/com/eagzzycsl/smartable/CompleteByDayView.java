@@ -253,7 +253,7 @@ public class CompleteByDayView extends ViewPager {
                         bundle.putInt("day", 26);
                         bundle.putInt("hour", 14);
                         bundle.putInt("minute", 30);
-                        bundle.putInt("FinalFlag", 1);
+                        bundle.putString("FinalFlag", "1");
                         intent.putExtras(bundle);
                         getContext().startActivity(intent);
                         // Toast.makeText(getContext(), "click to add new business", Toast.LENGTH_SHORT).show();
@@ -342,3 +342,4 @@ public class CompleteByDayView extends ViewPager {
         }
     }
 }
+//TODO 之前忘了定义linePadRight,不过用left替代也可以

@@ -13,6 +13,7 @@ import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -36,6 +37,8 @@ public class AddActivity extends ActionBarActivity {
     private AppCompatTextView textView_startTime;
     private AppCompatTextView textView_endDate;
     private AppCompatTextView textView_endTime;
+    private AppCompatEditText editText_location;
+    private AppCompatEditText editText_title;
     // 切换是否全天的switch，不过是compat中的switch所以名字里带着compat，为的是5.0的样式
     private SwitchCompat switch_allDay;
     // 设置提醒时间的TextView
@@ -46,8 +49,8 @@ public class AddActivity extends ActionBarActivity {
             "提前一天（23:00）" };
     // 一个变量，用到时再解释。
     private String[] alertItems = noAllDayAlert;
-    int FinalFlag = 0;
-    int year_0, month_0, day_0, hour_0, minute_0, FinalFlag_1;
+    private String FinalFlag,FinalFlag_1,location_title,title;
+    int year_0, month_0, day_0, hour_0, minute_0;
 
     static Boolean switch_allDay_zhuangtai = false;
 
@@ -55,18 +58,16 @@ public class AddActivity extends ActionBarActivity {
     private void iniDateAndTime() {
         // 一个方法用来在界面创建的时候就把起始结束时间设定为当前时间
         // 目前这儿缺少一个取整数的算法，即在11:30进行添加事件的操作时会把默认的事件事件设定为12:00-13:00
-        if(FinalFlag == 0) {
-            textView_startDate.setText(MyPickerDialog.getDate());
-            textView_endDate.setText(MyPickerDialog.getDate());
-            textView_startTime.setText(MyPickerDialog.getTime());
-            textView_endTime.setText(MyPickerDialog.getTime());
-        } else if (FinalFlag == 1){
+        if(FinalFlag.equals("1")) {
             textView_startDate.setText(MyPickerDialog.getDate(year_0,month_0,day_0));
             textView_endDate.setText(MyPickerDialog.getDate(year_0,month_0,day_0));
             textView_startTime.setText(MyPickerDialog.getTime(hour_0, minute_0));
             textView_endTime.setText(MyPickerDialog.getTime(hour_0 + 1,minute_0));
-        } else if (FinalFlag == 2){
-            //等待中。。。
+        } else {
+            textView_startDate.setText(MyPickerDialog.getDate());
+            textView_endDate.setText(MyPickerDialog.getDate());
+            textView_startTime.setText(MyPickerDialog.getTime());
+            textView_endTime.setText(MyPickerDialog.getTime());
         }
         // 这个姑且放在这儿，不算是初始化时间的，是给提醒那一栏设置默认提醒项的
         textView_alert.setText(alertItems[2]);
@@ -81,14 +82,31 @@ public class AddActivity extends ActionBarActivity {
         // 把toolbar设置为actionbar，这样toolbar就和actionbar一样用了，起码目前我没有发现有大的影响或者差别
 
         Bundle bundle = getIntent().getExtras();
-        if(bundle.getInt("FinalFlag") != 0){
-            year_0 = bundle.getInt("year");
-            month_0 = bundle.getInt("month");
-            day_0 = bundle.getInt("day");
-            hour_0 = bundle.getInt("hour");
-            minute_0 = bundle.getInt("minute");
-            FinalFlag_1 = bundle.getInt("FinalFlag");
-            FinalFlag = FinalFlag_1;
+        FinalFlag_1 = bundle.getString("FinalFlag");
+        FinalFlag = FinalFlag_1 + "";
+        if(FinalFlag.equals("0") == false){
+            switch (bundle.getString("FinalFlag")){
+                case "1":{
+                    year_0 = bundle.getInt("year");
+                    month_0 = bundle.getInt("month");
+                    day_0 = bundle.getInt("day");
+                    hour_0 = bundle.getInt("hour");
+                    minute_0 = bundle.getInt("minute");
+                    break;
+                }
+                case "FragmentByKind_ListView":{
+                    title = bundle.getString("item_value");
+                    location_title = bundle.getString("location_title");
+                    Log.i("TAG","################   " + title + "    " + location_title);
+                    break;
+                }
+                case "FragmentByKind":{
+                    location_title = bundle.getString("location_title");
+                    break;
+                }
+                default:
+                    break;
+            }
         }
 
 
@@ -112,6 +130,16 @@ public class AddActivity extends ActionBarActivity {
         textView_endTime = (AppCompatTextView) findViewById(R.id.textView_endTime);
         switch_allDay = (SwitchCompat) findViewById(R.id.switch_allDay);
         textView_alert = (AppCompatTextView) findViewById(R.id.textView_alert);
+        editText_location = (AppCompatEditText) findViewById(R.id.edit_location);
+        editText_title = (AppCompatEditText) findViewById(R.id.main_editText_title);
+
+        if(FinalFlag.equals("FragmentByKind"))
+            editText_location.setText(location_title);
+
+        if(FinalFlag.equals("FragmentByKind_ListView")){
+            editText_location.setText(location_title);
+            editText_title.setText(title);
+        }
 
         textView_alert.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -162,40 +190,8 @@ public class AddActivity extends ActionBarActivity {
                     }
                 });
 
-        if(FinalFlag == 0) {
-            // 那四个日期时间的文本点击后分别显示对应的选择时间日期的对话框
-            // 这么调是因为如果直接去产生一个picker的这块会多好几行代码，看着臃肿而且不便修改
-            textView_startDate.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    new MyDatePickerDialog(AddActivity.this, textView_startDate)
-                            .show();
-                }
-            });
-            textView_endDate.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    new MyDatePickerDialog(AddActivity.this, textView_endDate)
-                            .show();
-                }
-            });
-            textView_startTime.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    new MyTimePickerDialog(AddActivity.this, textView_startTime)
-                            .show();
-                }
-            });
-            textView_endTime.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    new MyTimePickerDialog(AddActivity.this, textView_endTime)
-                            .show();
-                }
-            });
-        }
         //当为单天添加事件时为这四个,即从屏幕上点击进入时，不是圆圈添加
-        else if (FinalFlag == 1){
+        if(FinalFlag.equals("1")) {
             textView_startDate.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -244,8 +240,39 @@ public class AddActivity extends ActionBarActivity {
             });
         }
 
+        else{
+            // 那四个日期时间的文本点击后分别显示对应的选择时间日期的对话框
+            // 这么调是因为如果直接去产生一个picker的这块会多好几行代码，看着臃肿而且不便修改
+            textView_startDate.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new MyDatePickerDialog(AddActivity.this, textView_startDate)
+                            .show();
+                }
+            });
+            textView_endDate.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new MyDatePickerDialog(AddActivity.this, textView_endDate)
+                            .show();
+                }
+            });
+            textView_startTime.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new MyTimePickerDialog(AddActivity.this, textView_startTime)
+                            .show();
+                }
+            });
+            textView_endTime.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new MyTimePickerDialog(AddActivity.this, textView_endTime)
+                            .show();
+                }
+            });
+        }
         iniDateAndTime();
-
     }
 
     // 有关菜单的操作
@@ -265,20 +292,36 @@ public class AddActivity extends ActionBarActivity {
                 return true;
             }
             case R.id.action_save: {
-                DatabaseManager databaseManager = DatabaseManager
-                        .getInstance(AddActivity.this);
+                DatabaseManager databaseManager = DatabaseManager.getInstance(AddActivity.this);
 
                 databaseManager.insert_add_table("add_table", (getValues())[0]);
                 databaseManager.close();
                 Toast.makeText(this, "恭喜主人，您成功加入了一件事！", Toast.LENGTH_SHORT).show();
 
                 // 跳转到“分类界面”
-                Intent intent = new Intent(AddActivity.this, MainActivity.class);
-                AddActivity.this.startActivity(intent);
+//                Intent intent = new Intent(AddActivity.this, MainActivity.class);
+//                AddActivity.this.startActivity(intent);
                 finish();
 
                 //
                 return true;
+            }
+            case R.id.action_delete: {
+                DatabaseManager databaseManager = DatabaseManager.getInstance(AddActivity.this);
+                String[] data = {title,location_title};
+
+                if(FinalFlag.equals("FragmentByKind_ListView")){
+                    databaseManager.delete_thing("add_table","title = ? and location = ?",data);
+                    databaseManager.close();
+                    Toast.makeText(this, "恭喜主人，您成功删除了一件事！", Toast.LENGTH_SHORT).show();
+
+//                    Intent intent = new Intent(AddActivity.this, MainActivity.class);
+//                    startActivity(intent);
+                    finish();
+                }
+
+                return true;
+
             }
             case android.R.id.home: {
                 // 此处可能会涉及到安卓的activity的栈的东西

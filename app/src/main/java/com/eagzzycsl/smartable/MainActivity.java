@@ -68,7 +68,7 @@ public class MainActivity extends ActionBarActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, AddActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putInt("FinalFlag", 0);
+                bundle.putString("FinalFlag", "0");
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
