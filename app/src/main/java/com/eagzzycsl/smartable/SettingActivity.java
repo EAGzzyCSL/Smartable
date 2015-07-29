@@ -10,7 +10,7 @@ import android.preference.PreferenceActivity;
 /**
  * Created by JZF on 2015/7/27.
  */
-public class SettingActivity extends PreferenceActivity implements OnSharedPreferenceChangeListener {
+public class SettingActivity extends PreferenceActivity implements OnSharedPreferenceChangeListener ,Const {
 
     private  EditTextPreference mEtPreference;
     private ListPreference mListPreference_1;
@@ -26,12 +26,12 @@ public class SettingActivity extends PreferenceActivity implements OnSharedPrefe
     }
 
     private void initPreferences() {
-        mEtPreference = (EditTextPreference) findPreference(Consts.EDIT_KEY);
-        mListPreference_1 = (ListPreference)findPreference(Consts.LANGUAGE);
-        mListPreference_2 = (ListPreference)findPreference(Consts.NIGHT_SUMMARY);
-        mListPreference_3 = (ListPreference)findPreference(Consts.WEEK_START);
-        mCheckPreference_1 = (CheckBoxPreference)findPreference(Consts.USL_LIGHT);
-        mCheckPreference_2 = (CheckBoxPreference)findPreference(Consts.DOUBLE_EXIT);
+        mEtPreference = (EditTextPreference) findPreference(Const.EDIT_KEY);
+        mListPreference_1 = (ListPreference)findPreference(Const.LANGUAGE);
+        mListPreference_2 = (ListPreference)findPreference(Const.NIGHT_SUMMARY);
+        mListPreference_3 = (ListPreference)findPreference(Const.WEEK_START);
+        mCheckPreference_1 = (CheckBoxPreference)findPreference(Const.USL_LIGHT);
+        mCheckPreference_2 = (CheckBoxPreference)findPreference(Const.DOUBLE_EXIT);
     }
 
     @Override
@@ -40,10 +40,10 @@ public class SettingActivity extends PreferenceActivity implements OnSharedPrefe
 
         // Setup the initial values
         SharedPreferences sharedPreferences = getPreferenceScreen().getSharedPreferences();
-        mListPreference_1.setSummary(sharedPreferences.getString(Consts.LANGUAGE, ""));
-        mListPreference_2.setSummary(sharedPreferences.getString(Consts.NIGHT_SUMMARY, ""));
-        mListPreference_3.setSummary(sharedPreferences.getString(Consts.WEEK_START, ""));
-        mEtPreference.setSummary(sharedPreferences.getString(Consts.EDIT_KEY,"linc"));
+        mListPreference_1.setSummary(sharedPreferences.getString(Const.LANGUAGE, ""));
+        mListPreference_2.setSummary(sharedPreferences.getString(Const.NIGHT_SUMMARY, ""));
+        mListPreference_3.setSummary(sharedPreferences.getString(Const.WEEK_START, ""));
+        mEtPreference.setSummary(sharedPreferences.getString(Const.EDIT_KEY,"linc"));
 
         // Set up a listener whenever a key changes
         sharedPreferences.registerOnSharedPreferenceChangeListener(this);
@@ -58,13 +58,13 @@ public class SettingActivity extends PreferenceActivity implements OnSharedPrefe
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if(key.equals(Consts.LANGUAGE))
+        if(key.equals(Const.LANGUAGE))
             mListPreference_1.setSummary(sharedPreferences.getString(key,""));
-        else if(key.equals(Consts.NIGHT_SUMMARY))
+        else if(key.equals(Const.NIGHT_SUMMARY))
             mListPreference_2.setSummary(sharedPreferences.getString(key,""));
-        else if(key.equals(Consts.WEEK_START))
+        else if(key.equals(Const.WEEK_START))
             mListPreference_3.setSummary(sharedPreferences.getString(key,""));
-        else if(key.equals(Consts.EDIT_KEY))
+        else if(key.equals(Const.EDIT_KEY))
             mEtPreference.setSummary(sharedPreferences.getString(key,"20"));
     }
 }

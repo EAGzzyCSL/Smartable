@@ -13,6 +13,7 @@ public class FragmentByDay extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_day, container, false);
         completeByDayView = (CompleteByDayView) v.findViewById(R.id.calendarView_main);
+
         return v;
     }
 
@@ -20,6 +21,9 @@ public class FragmentByDay extends Fragment {
     public void onResume() {
         super.onResume();
         //在onResume的时候更新界面
+        completeByDayView.updateSimpleByDayViews();
+    }
+    public void updateSimpleByDayViews(){
         completeByDayView.updateSimpleByDayViews();
     }
 }

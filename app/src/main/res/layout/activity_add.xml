@@ -6,7 +6,7 @@
     tools:context=".AddActivity">
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/toolBar_main"
+        android:id="@+id/toolBar_add"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary" />
@@ -115,7 +115,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="4"
-                    android:text="2001-2-2" />
+                    tools:text="2001-2-2" />
 
 
                 <android.support.v7.widget.AppCompatTextView
@@ -124,7 +124,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="right"
-                    android:text="22:22" />
+                    tools:text="22:22" />
             </LinearLayout>
 
             <LinearLayout

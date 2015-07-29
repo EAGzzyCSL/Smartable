@@ -56,7 +56,7 @@
     <PreferenceCategory
         android:title="支持">
         <EditTextPreference
-            android:key="edittext_key"
+            android:key="editText_key"
             android:title="edit text"
             android:summary="edit summary"
             android:defaultValue="edit default value"/>

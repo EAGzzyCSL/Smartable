@@ -23,6 +23,8 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import database.DatabaseManager;
+
 public class CompleteByDayView extends ViewPager {
 
     private Calendar calendar = Calendar.getInstance();//一个日历，用来提供日期
@@ -126,14 +128,19 @@ public class CompleteByDayView extends ViewPager {
     }
 
     //从数据库中获得business
-    private Business[] getBusinesses(int diff) {
+    private ArrayList<Business> getBusinesses(int diff) {
         //diff为和日历当天的差值，注意的是三个页面共享一个日历
-        return new Business[]{
-                new Business("1:00-2:00", new MyTime(1, 0), new MyTime(2, 0))
-                , new Business("4:50:6:00", new MyTime(4, 50), new MyTime(6, 0))
-                , new Business("21:53-23:38", new MyTime(21, 53), new MyTime(23, 38))
-                , new Business("18:00-20:00", new MyTime(18, 0), new MyTime(20, 0))
-        };
+//        return new Business[]{
+//                new Business(1,"1:00-2:00", new MyTime(1, 0), new MyTime(2, 0))
+//                , new Business(2,"4:50:6:00", new MyTime(4, 50), new MyTime(6, 0))
+//                , new Business(3,"21:53-23:38", new MyTime(21, 53), new MyTime(23, 38))
+//                , new Business(4,"18:00-20:00", new MyTime(18, 0), new MyTime(20, 0))
+//        };
+        ArrayList<Business> bs;
+        calendar.add(Calendar.DAY_OF_MONTH,diff);
+        bs=DatabaseManager.getInstance(getContext()).getBusiness(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH));
+        calendar.add(Calendar.DAY_OF_MONTH,-diff);
+        return bs;
     }
 
     class SimpleByDayView extends FrameLayout {
@@ -190,11 +197,11 @@ public class CompleteByDayView extends ViewPager {
             private final int defaultWidth = MyUtil.dpToPxInCode(destiny, 240);
             private final int defaultHeight = 27 * height1h;//一天24小时，上下各自空白一些按27算
             //如果调用draw方法的时候结束坐标比起始坐标小了它依然会绘制，因为它并不区分左右先后。
-            private Business[] bs; //存储事项
+            private ArrayList<Business> bs; //存储事项
             private AppCompatButton button;
             private int indicateLineY;//表示当前时间的指示线的纵坐标
 
-            public HumbleByDayView(Context context, Business[] bs) {
+            public HumbleByDayView(Context context, ArrayList<Business> bs) {
                 super(context);
                 this.bs = bs;
                 //为这个calendarView设置一个背景色否则它无法正常显示
@@ -221,19 +228,26 @@ public class CompleteByDayView extends ViewPager {
             private void arrangeLayout() {
                 this.removeAllViews();
                 if (bs != null) {
-                    for (int i = 0; i < bs.length; i++) {
+                    for (int i = 0; i < bs.size(); i++) {
                         //定义事件的view并为他们添加相关属性
                         AppCompatButton businessView = new AppCompatButton(getContext());
                         businessView.setBackgroundColor(Color.rgb(60, 174, 256));
-                        businessView.setText(bs[i].getName());
+                        businessView.setText(bs.get(i).getTitle());
+                        businessView.setTag(bs.get(i).getId());
+                        businessView.setOnClickListener(new OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Toast.makeText(getContext(), v.getTag().toString(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
                         addView(businessView);
                         //计算事件被摆放的位置
                         //位置为起始加上时间折算出来的像素，每个小时的时间要多加一个横线的高度
                         //不要使用时间的差值，因为差值计算出来的小时无法判断中间有没有跨越一条横线所以不能准确绘制
-                        int bt = topBlank + lineWidth + bs[i].getStart().getHour() * (height1h + lineWidth) + bs[i].getStart().getMinute() * hpm;
-                        int bm = topBlank + lineWidth + bs[i].getEnd().getHour() * (height1h + lineWidth) + bs[i].getEnd().getMinute() * hpm;
+                        int bt = topBlank + lineWidth + bs.get(i).getStart().getHour() * (height1h + lineWidth) + bs.get(i).getStart().getMinute() * hpm;
+                        int bm = topBlank + lineWidth + bs.get(i).getEnd().getHour() * (height1h + lineWidth) + bs.get(i).getEnd().getMinute() * hpm;
                         //如果这个事件结束时间是整点的话绘制的时候减去两个像素为了美观
-                        bm -= bs[i].getEnd().getMinute() == 0 ? 2 * lineWidth : 0;
+                        bm -= bs.get(i).getEnd().getMinute() == 0 ? 2 * lineWidth : 0;
                         getChildAt(i).layout(lineLeft, bt, lineRight, bm);
                     }
                 }
@@ -248,12 +262,12 @@ public class CompleteByDayView extends ViewPager {
 
                         Intent intent = new Intent(getContext(), AddActivity.class);
                         Bundle bundle = new Bundle();
-                        bundle.putInt("year", 2015);
-                        bundle.putInt("month", 7);
-                        bundle.putInt("day", 26);
-                        bundle.putInt("hour", 14);
-                        bundle.putInt("minute", 30);
-                        bundle.putString("FinalFlag", "1");
+                        bundle.putInt("year", calendar.get(Calendar.YEAR));
+                        bundle.putInt("month", calendar.get(Calendar.MONTH));
+                        bundle.putInt("day", calendar.get(Calendar.DAY_OF_MONTH));
+                        bundle.putInt("hour", (int)button.getTag());
+                        bundle.putInt("minute", calendar.get(Calendar.MINUTE));
+                        bundle.putString("opt", "add");
                         intent.putExtras(bundle);
                         getContext().startActivity(intent);
                         // Toast.makeText(getContext(), "click to add new business", Toast.LENGTH_SHORT).show();
@@ -292,18 +306,17 @@ public class CompleteByDayView extends ViewPager {
                 paint.setColor(Color.rgb(30, 144, 255));
                 canvas.drawLine(lineLeft, indicateLineY, lineRight, indicateLineY, paint);
                 paint.setColor(Color.rgb(169, 169, 169));
-                System.out.println("onDraw");
+//                System.out.println("onDraw");
             }
 
             //将来也许会删，先丢这儿
-            public void setBusiness(Business[] bs) {
-                //一个方法，为view设置事项，应该在onStart前调用。
-                this.bs = bs;
-                //这儿先就凑或这么写吧，studio都怀疑怀疑我是不是调错函数了。。
-
-                arrangeLayout();
-                System.out.println("setBusiness");
-            }
+//            public void setBusiness(ArrayList<Business> bs) {
+//                //一个方法，为view设置事项，应该在onStart前调用。
+//                this.bs = bs;
+//
+//                arrangeLayout();
+//                System.out.println("setBusiness");
+//            }
 
             private void showAddBusiness(float eventY) {
                 //显示一个类似谷歌日历的新建活动的view
@@ -320,6 +333,7 @@ public class CompleteByDayView extends ViewPager {
                     int addBusinessViewBottom = lineStart + (height1h + lineWidth) * (i + 1) + lineWidth;
                     //系统在layout的时候坐标的计算是取坐标的左侧
                     //假设屏幕有100*100像素，则当画（20，20，80，80）的时候用掉的像素点是20-79，正好60行个点，同样，如果画2到3则粗细为1，画2-2则无结果因为粗细为0
+                    button.setTag(i);
                     button.layout(lineLeft, addBusinessViewTop, lineRight, addBusinessViewBottom);
                 }
             }

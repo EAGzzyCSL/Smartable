@@ -1,5 +1,6 @@
 package com.eagzzycsl.smartable;
 
+import android.app.Fragment;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -16,6 +17,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Toast;
 
+import java.util.Calendar;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -26,13 +28,17 @@ public class MainActivity extends ActionBarActivity {
     private FloatingActionButton main_fab_add;//圆形浮动按钮
     private NavigationView main_navigationView_nav;//侧滑动栏中的导航菜单
     private static Boolean isQuit = false;
+    private int fragmentId=0;
+    private FragmentByDay fragmentByDay;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        fragmentByDay=new FragmentByDay();
         myFindViewById();//findView
         mySetView();//给view设置侦听等
         myIni();//一些初始化操作
+        System.out.println(this.getLocalClassName()+"#######");
     }
 
     //findViewById
@@ -68,9 +74,16 @@ public class MainActivity extends ActionBarActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, AddActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putString("FinalFlag", "0");
+                bundle.putString("opt", "add");
+                bundle.putInt("year", 2015);
+                bundle.putInt("month",6);
+                bundle.putInt("day",29);
+                Calendar c=Calendar.getInstance();
+                bundle.putInt("hour",c.get(Calendar.HOUR_OF_DAY));
+                bundle.putInt("minute",c.get(Calendar.MINUTE));
                 intent.putExtras(bundle);
                 startActivity(intent);
+                //fab既要处理按天显示时的添加又要处理按分类显示时的添加，应该在设置一个变量记录fragment来分别处理
             }
         });
         //操作侧滑导航栏
@@ -91,13 +104,16 @@ public class MainActivity extends ActionBarActivity {
                 main_drawLayout.closeDrawers();
                 switch (id) {
                     case R.id.main_nav_day:
-                        getFragmentManager().beginTransaction().replace(R.id.main_glance_container, new FragmentByDay()).commit();
+                        getFragmentManager().beginTransaction().replace(R.id.main_glance_container, fragmentByDay).commit();
+                        fragmentId=1;
                         break;
                     case R.id.main_nav_kind:
                         getFragmentManager().beginTransaction().replace(R.id.main_glance_container, new FragmentByKind()).commit();
+                        fragmentId=2;
                         break;
                     case R.id.main_nav_setting:
                         getFragmentManager().beginTransaction().replace(R.id.main_glance_container, new FragmentSetting()).commit();
+                        fragmentId=3;
                         break;
                 }
                 return true;
@@ -107,8 +123,8 @@ public class MainActivity extends ActionBarActivity {
 
     //初始化
     private void myIni() {
-        getFragmentManager().beginTransaction().add(R.id.main_glance_container, new FragmentByDay()).commit();
-        main_navigationView_nav.getMenu().getItem(0).setChecked(true);
+//        getFragmentManager().beginTransaction().add(R.id.main_glance_container, new FragmentByDay()).commit();
+        fragmentId=1;
 
     }
 
@@ -139,7 +155,7 @@ public class MainActivity extends ActionBarActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event){
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
         if(keyCode == KeyEvent.KEYCODE_BACK){
-            Boolean exit = settings.getBoolean(Consts.DOUBLE_EXIT, true);
+            Boolean exit = settings.getBoolean(Const.DOUBLE_EXIT, true);
             if(exit){
                 Timer timer = new Timer();
                 if(isQuit == false){
@@ -158,5 +174,25 @@ public class MainActivity extends ActionBarActivity {
         return false;
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        switch (fragmentId){
+            case 1:
+                getFragmentManager().beginTransaction().replace(R.id.main_glance_container,new FragmentByDay()).commit();
+                break;
+            case 2:
+                fragmentByDay.updateSimpleByDayViews();
+//                getFragmentManager().beginTransaction().replace(R.id.main_glance_container,new FragmentByKind()).commit();
 
+                break;
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+
+    }
 }
