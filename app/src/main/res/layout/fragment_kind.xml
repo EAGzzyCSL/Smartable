@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#666666"
-    android:padding="10dp">
+    android:padding="5dp">
 
     <LinearLayout
         android:id="@+id/fragment_kind_box"

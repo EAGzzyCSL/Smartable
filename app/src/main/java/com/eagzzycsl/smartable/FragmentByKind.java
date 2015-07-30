@@ -72,7 +72,7 @@ public class FragmentByKind extends Fragment {
         mFlowLayout = (FlowLayout) v.findViewById(R.id.id_flowlayout);
         fragment_kind_box = (LinearLayout) v.findViewById(R.id.fragment_kind_box);
         RelativeLayout.LayoutParams scroll = new RelativeLayout.LayoutParams(
-                RelativeLayout.LayoutParams.MATCH_PARENT, MyUtil.dpToPxInCode(destiny, (int) (height_dp - 210)));
+                RelativeLayout.LayoutParams.MATCH_PARENT, MyUtil.dpToPxInCode(destiny, (int) (height_dp - 10)));
         fragment_kind_box.setLayoutParams(scroll);
 
 
@@ -256,7 +256,7 @@ public class FragmentByKind extends Fragment {
                 allBundle.putInt("hour",c.get(Calendar.HOUR_OF_DAY));
                 allBundle.putInt("minute", c.get(Calendar.MINUTE));
                 //获取add_button所在“块”的坐标
-                int index = ((ViewGroup) v.getParent().getParent().getParent().getParent()).indexOfChild((ViewGroup) v.getParent().getParent().getParent());
+                int index = ((ViewGroup) v.getParent().getParent().getParent().getParent().getParent()).indexOfChild((ViewGroup) v.getParent().getParent().getParent().getParent());
                 allBundle.putString("location_title", query_classify.getLocaTitle().get(index));
                 //TODO 日后这边会加好几个属性
 
