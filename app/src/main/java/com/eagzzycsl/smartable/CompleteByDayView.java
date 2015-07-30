@@ -55,6 +55,7 @@ public class CompleteByDayView extends ViewPager {
                 if (position == 2) {
                     haveScrolled = true;
                     calendar.add(Calendar.DAY_OF_MONTH, 1);
+                    System.out.println("#################"+calendar.get(Calendar.DAY_OF_MONTH));
                 }
             }
 
@@ -122,6 +123,8 @@ public class CompleteByDayView extends ViewPager {
         simpleByDayViews.add(new SimpleByDayView(getContext(), 0, 1));
         simpleByDayViews.add(new SimpleByDayView(getContext(), 1, 1));
         this.setAdapter(new MyPagerAdapter(simpleByDayViews));
+
+        System.out.println(calendar.get(Calendar.DAY_OF_MONTH)+"@@@@@@@@@@@@@@@@@@@@@@");
         //虽然直接换适配器的方法不是太好但是我现在只能这么做了
         this.setCurrentItem(1, false);//设置pager当前显示第几个，设置我下标为1的那个，也就是中间那个
 
@@ -137,9 +140,12 @@ public class CompleteByDayView extends ViewPager {
 //                , new Business(4,"18:00-20:00", new MyTime(18, 0), new MyTime(20, 0))
 //        };
         ArrayList<Business> bs;
-        calendar.add(Calendar.DAY_OF_MONTH,diff);
-        bs=DatabaseManager.getInstance(getContext()).getBusiness(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH));
-        calendar.add(Calendar.DAY_OF_MONTH,-diff);
+        synchronized(this){
+
+            calendar.add(Calendar.DAY_OF_MONTH,diff);
+            bs=DatabaseManager.getInstance(getContext()).getBusiness(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH));
+            calendar.add(Calendar.DAY_OF_MONTH,-diff);
+        }
         return bs;
     }
 
@@ -237,6 +243,12 @@ public class CompleteByDayView extends ViewPager {
                         businessView.setOnClickListener(new OnClickListener() {
                             @Override
                             public void onClick(View v) {
+                                Bundle bundle=new Bundle();
+                                bundle.putString("opt","edit_withId");
+                                bundle.putString("id", v.getTag().toString());
+                                Intent intent=new Intent(getContext(),AddActivity.class);
+                                intent.putExtras(bundle);
+                                getContext().startActivity(intent);
                                 Toast.makeText(getContext(), v.getTag().toString(), Toast.LENGTH_SHORT).show();
                             }
                         });
@@ -301,22 +313,14 @@ public class CompleteByDayView extends ViewPager {
                     //画线
                     canvas.drawLine(lineLeft, lineY, lineRight, lineY, paint);
                 }
-                Calendar calendar = Calendar.getInstance();
-                indicateLineY = topBlank + lineWidth + calendar.get(Calendar.HOUR_OF_DAY) * (height1h + lineWidth) + calendar.get(Calendar.MINUTE) * hpm;
-                paint.setColor(Color.rgb(30, 144, 255));
-                canvas.drawLine(lineLeft, indicateLineY, lineRight, indicateLineY, paint);
+                //临时先把单天显示的线注释掉
+//                Calendar calendar = Calendar.getInstance();
+//                indicateLineY = topBlank + lineWidth + calendar.get(Calendar.HOUR_OF_DAY) * (height1h + lineWidth) + calendar.get(Calendar.MINUTE) * hpm;
+//                paint.setColor(Color.rgb(30, 144, 255));
+//                canvas.drawLine(lineLeft, indicateLineY, lineRight, indicateLineY, paint);
                 paint.setColor(Color.rgb(169, 169, 169));
 //                System.out.println("onDraw");
             }
-
-            //将来也许会删，先丢这儿
-//            public void setBusiness(ArrayList<Business> bs) {
-//                //一个方法，为view设置事项，应该在onStart前调用。
-//                this.bs = bs;
-//
-//                arrangeLayout();
-//                System.out.println("setBusiness");
-//            }
 
             private void showAddBusiness(float eventY) {
                 //显示一个类似谷歌日历的新建活动的view

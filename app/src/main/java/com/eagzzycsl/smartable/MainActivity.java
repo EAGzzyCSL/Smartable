@@ -28,13 +28,15 @@ public class MainActivity extends ActionBarActivity {
     private FloatingActionButton main_fab_add;//圆形浮动按钮
     private NavigationView main_navigationView_nav;//侧滑动栏中的导航菜单
     private static Boolean isQuit = false;
-    private int fragmentId=0;
+    private String nowFragment;
     private FragmentByDay fragmentByDay;
+    private FragmentByKind fragmentByKind;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        fragmentByDay=new FragmentByDay();
+
         myFindViewById();//findView
         mySetView();//给view设置侦听等
         myIni();//一些初始化操作
@@ -75,10 +77,10 @@ public class MainActivity extends ActionBarActivity {
                 Intent intent = new Intent(MainActivity.this, AddActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putString("opt", "add");
-                bundle.putInt("year", 2015);
-                bundle.putInt("month",6);
-                bundle.putInt("day",29);
                 Calendar c=Calendar.getInstance();
+                bundle.putInt("year", c.get(Calendar.YEAR));
+                bundle.putInt("month",c.get(Calendar.MONTH));
+                bundle.putInt("day",c.get(Calendar.DAY_OF_MONTH));
                 bundle.putInt("hour",c.get(Calendar.HOUR_OF_DAY));
                 bundle.putInt("minute",c.get(Calendar.MINUTE));
                 intent.putExtras(bundle);
@@ -105,15 +107,14 @@ public class MainActivity extends ActionBarActivity {
                 switch (id) {
                     case R.id.main_nav_day:
                         getFragmentManager().beginTransaction().replace(R.id.main_glance_container, fragmentByDay).commit();
-                        fragmentId=1;
+                        nowFragment="byDay";
                         break;
                     case R.id.main_nav_kind:
-                        getFragmentManager().beginTransaction().replace(R.id.main_glance_container, new FragmentByKind()).commit();
-                        fragmentId=2;
+                        getFragmentManager().beginTransaction().replace(R.id.main_glance_container, fragmentByKind).commit();
+                        nowFragment="byKind";
                         break;
                     case R.id.main_nav_setting:
                         getFragmentManager().beginTransaction().replace(R.id.main_glance_container, new FragmentSetting()).commit();
-                        fragmentId=3;
                         break;
                 }
                 return true;
@@ -124,8 +125,11 @@ public class MainActivity extends ActionBarActivity {
     //初始化
     private void myIni() {
 //        getFragmentManager().beginTransaction().add(R.id.main_glance_container, new FragmentByDay()).commit();
-        fragmentId=1;
+        fragmentByDay=new FragmentByDay();
+        fragmentByKind=new FragmentByKind();
 
+        getFragmentManager().beginTransaction().replace(R.id.main_glance_container,fragmentByDay).commit();
+        nowFragment="byDay";
     }
 
     @Override
@@ -177,14 +181,14 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        switch (fragmentId){
-            case 1:
-                getFragmentManager().beginTransaction().replace(R.id.main_glance_container,new FragmentByDay()).commit();
-                break;
-            case 2:
+        switch (nowFragment){
+            case "byDay":
                 fragmentByDay.updateSimpleByDayViews();
-//                getFragmentManager().beginTransaction().replace(R.id.main_glance_container,new FragmentByKind()).commit();
-
+//                getFragmentManager().beginTransaction().replace(R.id.main_glance_container,new FragmentByDay()).commit();
+                break;
+            case "byKind":
+                fragmentByKind=new FragmentByKind();
+                getFragmentManager().beginTransaction().replace(R.id.main_glance_container,fragmentByKind).commit();
                 break;
         }
     }

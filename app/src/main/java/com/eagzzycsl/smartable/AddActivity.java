@@ -47,34 +47,13 @@ public class AddActivity extends ActionBarActivity {
     // 一个变量，用到时再解释。
     private String[] alertItems = noAllDayAlert;
     private String FinalFlag, FinalFlag_1, location_title, title;
-//    int year_0, month_0, day_0, hour_0, minute_0;
 
     static Boolean switch_allDay_zhuangtai = false;
 
     private MyTime timeStart = new MyTime();
     private MyTime timeEnd = new MyTime();
     private String opt;
-
-    private void iniDateAndTime() {
-        // 一个方法用来在界面创建的时候就把起始结束时间设定为当前时间
-        // 目前这儿缺少一个取整数的算法，即在11:30进行添加事件的操作时会把默认的事件事件设定为12:00-13:00
-//        if (FinalFlag.equals("1")) {
-//            textView_startDate.setText(MyPickerDialog.getDate(year_0, month_0, day_0));
-//            textView_endDate.setText(MyPickerDialog.getDate(year_0, month_0, day_0));
-//            textView_startTime.setText(MyPickerDialog.getMoment(hour_0, minute_0));
-//            textView_endTime.setText(MyPickerDialog.getMoment(hour_0 + 1, minute_0));
-//        } else {
-//            textView_startDate.setText(MyPickerDialog.getDate(timeStart));
-//            textView_endDate.setText(MyPickerDialog.getDate(timeEnd));
-//            textView_startTime.setText(MyPickerDialog.getMoment(timeStart));
-//            textView_endTime.setText(MyPickerDialog.getMoment(timeEnd));
-//        }
-        // 这个姑且放在这儿，不算是初始化时间的，是给提醒那一栏设置默认提醒项的
-        // alertItems见下
-
-    }
-
-
+private int Business_id;
     private void myIni() {
         textView_startDate.setText(MyPickerDialog.getDate(timeStart.getYear(),
                 timeStart.getMonth(), timeStart.getDay()));
@@ -93,153 +72,59 @@ public class AddActivity extends ActionBarActivity {
         mySetView();//给view设置侦听等
         Bundle bundle = getIntent().getExtras();
         opt = bundle.getString("opt");
-        if (opt.equals("add")) {
-            //算法有问题，很容易出现25小时的问题
-            //还有一个是小时的那个下标问题到底哪边处理的好？目前这边处理好了
-            timeStart = new MyTime(bundle.getInt("year"),
-                    bundle.getInt("month")+1,
-                    bundle.getInt("day"),
-                    bundle.getInt("hour"),
-                    0);
-            timeEnd = new MyTime(bundle.getInt("year"),
-                    bundle.getInt("month")+1,
-                    bundle.getInt("day"),
-                    bundle.getInt("hour")+1,
-                    0);
-        } else if (opt.equals("add_withClass")) {
-            //add in by kind view
+
+        switch (opt) {
+            case "add":
+                //算法有问题，很容易出现25小时的问题
+                //还有一个是小时的那个下标问题到底哪边处理的好？目前这边处理好了
+                timeStart = new MyTime(bundle.getInt("year"),
+                        bundle.getInt("month") + 1,
+                        bundle.getInt("day"),
+                        bundle.getInt("hour"),
+                        0);
+                timeEnd = new MyTime(bundle.getInt("year"),
+                        bundle.getInt("month") + 1,
+                        bundle.getInt("day"),
+                        bundle.getInt("hour") + 1,
+                        0);
+
+                break;
+            case "add_withClass":
+
+                editText_location.setText(bundle.getString("location_title"));
+                timeStart = new MyTime(bundle.getInt("year"),
+                        bundle.getInt("month") + 1,
+                        bundle.getInt("day"),
+                        bundle.getInt("hour"),
+                        0);
+                timeEnd = new MyTime(bundle.getInt("year"),
+                        bundle.getInt("month") + 1,
+                        bundle.getInt("day"),
+                        bundle.getInt("hour") + 1,
+                        0);
+                //add in by kind view
+                break;
+            case "edit":
+                location_title = bundle.getString("location_title");
+                title = bundle.getString("item_value");
+                editText_location.setText(location_title);
+                editText_title.setText(title);
+
+                break;
+            case "edit_withId":
+                int id=Integer.valueOf(bundle.getString("id"));
+                Business_id=id;
+                DatabaseManager dm=DatabaseManager.getInstance(AddActivity.this);
+
+                Business bs=dm.getBusiness(id);
+                timeStart=bs.getStart();
+                timeEnd=bs.getEnd();
+                editText_title.setText(bs.getTitle());
+
+                dm.close();
+                break;
         }
         myIni();//一些初始化操作
-        class JustForAnnotation {
-        /*
-
-
-        FinalFlag_1 = bundle.getString("FinalFlag");
-        FinalFlag = FinalFlag_1 + "";
-        if (FinalFlag.equals("0") == false) {
-            switch (bundle.getString("FinalFlag")) {
-                case "1": {
-
-                    year_0 = bundle.getInt("year");
-                    month_0 = bundle.getInt("month");
-                    day_0 = bundle.getInt("day");
-                    hour_0 = bundle.getInt("hour");
-                    minute_0 = bundle.getInt("minute");
-                    break;
-                }
-                case "FragmentByKind_ListView": {
-                    title = bundle.getString("item_value");
-                    location_title = bundle.getString("location_title");
-                    Log.i("TAG", "################   " + title + "    " + location_title);
-                    break;
-                }
-                case "FragmentByKind": {
-                    location_title = bundle.getString("location_title");
-                    break;
-                }
-                default:
-                    break;
-            }
-        }
-        if (FinalFlag.equals("FragmentByKind"))
-            editText_location.setText(location_title);
-
-        if (FinalFlag.equals("FragmentByKind_ListView")) {
-            editText_location.setText(location_title);
-            editText_title.setText(title);
-        }
-
-
-        //当为单天添加事件时为这四个,即从屏幕上点击进入时，不是圆圈添加
-        if (FinalFlag.equals("1")) {
-            textView_startDate.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    new DatePickerDialog(AddActivity.this, new DatePickerDialog.OnDateSetListener() {
-                        @Override
-                        public void onDateSet(DatePicker view, int year, int monthOfYear,
-                                              int dayOfMonth) {
-                            //月份的下标从0开始
-                            textView_startDate.setText(MyPickerDialog.getDate(year, monthOfYear + 1, dayOfMonth));
-                            timeStart.setDate(year, monthOfYear + 1, dayOfMonth);
-
-                        }
-                    }, year_0, month_0, day_0).show();
-                }
-            });
-            textView_endDate.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    new DatePickerDialog(AddActivity.this, new DatePickerDialog.OnDateSetListener() {
-                        @Override
-                        public void onDateSet(DatePicker view, int year, int monthOfYear,
-                                              int dayOfMonth) {
-                            textView_endDate.setText(MyPickerDialog.getDate(year, monthOfYear + 1, dayOfMonth));
-                            timeEnd.setDate(year, monthOfYear + 1, dayOfMonth);
-                        }
-                    }, year_0, month_0, day_0).show();
-                }
-            });
-            textView_startTime.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    new TimePickerDialog(AddActivity.this, new TimePickerDialog.OnTimeSetListener() {
-                        @Override
-                        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                            textView_startTime.setText(MyPickerDialog.getMoment(hourOfDay, minute));
-                            timeStart.setMoment(hourOfDay, minute);
-                        }
-                    }, hour_0, minute_0, true).show();
-                }
-            });
-            textView_endTime.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    new TimePickerDialog(AddActivity.this, new TimePickerDialog.OnTimeSetListener() {
-                        @Override
-                        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                            textView_endTime.setText(MyPickerDialog.getMoment(hourOfDay, minute));
-                            timeEnd.setMoment(hourOfDay, minute);
-                        }
-                    }, hour_0 + 1, minute_0, true).show();
-                }
-            });
-        } else {
-            // 那四个日期时间的文本点击后分别显示对应的选择时间日期的对话框
-            // 这么调是因为如果直接去产生一个picker的这块会多好几行代码，看着臃肿而且不便修改
-            textView_startDate.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    new MyDatePickerDialog(AddActivity.this, textView_startDate)
-                            .show();
-                }
-            });
-            textView_endDate.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    new MyDatePickerDialog(AddActivity.this, textView_endDate)
-                            .show();
-                }
-            });
-            textView_startTime.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    new MyTimePickerDialog(AddActivity.this, textView_startTime)
-                            .show();
-                }
-            });
-            textView_endTime.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    new MyTimePickerDialog(AddActivity.this, textView_endTime)
-                            .show();
-                }
-            });
-        }
-*/
-        }
-
-//        iniDateAndTime();
     }
 
     // 有关菜单的操作
@@ -271,12 +156,18 @@ public class AddActivity extends ActionBarActivity {
             case R.id.action_delete: {
                 DatabaseManager databaseManager = DatabaseManager.getInstance(AddActivity.this);
                 String[] data = {title, location_title};
-                if (FinalFlag.equals("FragmentByKind_ListView")) {
+//                if (FinalFlag.equals("FragmentByKind_ListView")) {
+                    if (opt.equals("edit")) {
                     databaseManager.delete_thing("add_table", "title = ? and location = ?", data);
-                    databaseManager.close();
+
                     Toast.makeText(this, "恭喜主人，您成功删除了一件事！", Toast.LENGTH_SHORT).show();
-                    finish();
                 }
+                if(opt.equals("edit_withId")){
+                    databaseManager.deleteBusiness(Business_id);
+                    Toast.makeText(this, "您成功删除了一件事！", Toast.LENGTH_SHORT).show();
+                }
+                databaseManager.close();
+                finish();
                 return true;
             }
             case android.R.id.home: {
@@ -456,24 +347,11 @@ class MyPickerDialog {
         // 有参数的getDate方法用于在通过对话框选定了日期后拼接一个日期的字符串出来，同时加上星期
         Calendar calendar = Calendar.getInstance();
         // 因为要获取星期，所以先给日历设定一个当前的日期以便于返回一个星期
-        calendar.set(year, monthOfYear-1, dayOfMonth);
-//        String weekEtoC[] = new String[]{"", "日", "一", "二", "三", "四", "五",
-//                "六"};
+        calendar.set(year, monthOfYear - 1, dayOfMonth);
         // 因为返回的星期是数字而且周日为第一天所以用数组来实现转化
         return year + "年" + monthOfYear + "月" + dayOfMonth + "日"
                 + MyUtil.weekEtoC(calendar.get(Calendar.DAY_OF_WEEK));
     }
-
-//    public static String getDate(MyTime myTime) {
-//        // 无参数的getDate方法用于返回当前日期的字符串
-//        Calendar calendar = Calendar.getInstance();
-//        myTime.setDate(calendar.get(Calendar.YEAR),
-//                calendar.get(Calendar.MONTH) + 1,
-//                calendar.get(Calendar.DAY_OF_MONTH));
-//        return getDate(calendar.get(Calendar.YEAR),
-//                calendar.get(Calendar.MONTH) + 1,
-//                calendar.get(Calendar.DAY_OF_MONTH));
-//    }
 
     // getTime参考getDate
     public static String getMoment(int hourOfDay, int minute) {
@@ -482,13 +360,6 @@ class MyPickerDialog {
         return hourOfDay + ":" + String.format("%02d", minute);
     }
 
-//    public static String getMoment(MyTime myTime) {
-//        Calendar calendar = Calendar.getInstance();
-//        myTime.setMoment(calendar.get(Calendar.HOUR_OF_DAY),
-//                calendar.get(Calendar.MINUTE));
-//        return getMoment(calendar.get(Calendar.HOUR_OF_DAY),
-//                calendar.get(Calendar.MINUTE));
-//    }
 }
 
 class MyDatePickerDialog extends MyPickerDialog {
@@ -503,11 +374,11 @@ class MyDatePickerDialog extends MyPickerDialog {
             public void onDateSet(DatePicker view, int year, int monthOfYear,
                                   int dayOfMonth) {
                 myTime.setDate(year, monthOfYear + 1, dayOfMonth);
-                textView.setText(MyPickerDialog.getDate(year, monthOfYear+1,
+                textView.setText(MyPickerDialog.getDate(year, monthOfYear + 1,
                         dayOfMonth));
             }
-        }, myTime.getYear(), myTime.getMonth()-1,
-               myTime.getDay()).show();
+        }, myTime.getYear(), myTime.getMonth() - 1,
+                myTime.getDay()).show();
     }
 }
 
@@ -517,7 +388,6 @@ class MyTimePickerDialog extends MyPickerDialog {
     }
 
     public void show() {
-//        Calendar calendar = Calendar.getInstance();
         new TimePickerDialog(context, new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {

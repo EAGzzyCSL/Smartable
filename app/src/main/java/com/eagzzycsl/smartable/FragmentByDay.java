@@ -21,7 +21,7 @@ public class FragmentByDay extends Fragment {
     public void onResume() {
         super.onResume();
         //在onResume的时候更新界面
-        completeByDayView.updateSimpleByDayViews();
+//        completeByDayView.updateSimpleByDayViews();
     }
     public void updateSimpleByDayViews(){
         completeByDayView.updateSimpleByDayViews();

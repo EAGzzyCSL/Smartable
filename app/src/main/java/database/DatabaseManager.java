@@ -406,4 +406,32 @@ public class DatabaseManager implements TableFiled {
 
         return bs;
     }
+
+    public Business getBusiness(int id) {
+        Business bs = null;
+        //s and e year ,mont,day
+        Cursor c = sqLiteDatabase.rawQuery("select * from business where _id=?", new String[]{
+                String.valueOf(id)
+        });
+        if (c.moveToFirst()) {
+            bs = new Business(c.getInt(c.getColumnIndex("_id")),
+                    c.getString(c.getColumnIndex(TableFiled.TITLE)),
+                    new MyTime(c.getInt(c.getColumnIndex(TableFiled.START_year)),
+                            c.getInt(c.getColumnIndex(TableFiled.START_month)),
+                            c.getInt(c.getColumnIndex(TableFiled.START_day)),
+                            c.getInt(c.getColumnIndex(TableFiled.START_hour)),
+                            c.getInt(c.getColumnIndex(TableFiled.START_minute))),
+                    new MyTime(c.getInt(c.getColumnIndex(TableFiled.END_year)),
+                            c.getInt(c.getColumnIndex(TableFiled.END_month)),
+                            c.getInt(c.getColumnIndex(TableFiled.END_day)),
+                            c.getInt(c.getColumnIndex(TableFiled.END_hour)),
+                            c.getInt(c.getColumnIndex(TableFiled.END_minute))));
+        }
+        c.close();
+        return bs;
+    }
+    public void deleteBusiness( int id){
+        sqLiteDatabase.delete("business","_id=?",new String[]{String.valueOf(id)});
+
+    }
 }

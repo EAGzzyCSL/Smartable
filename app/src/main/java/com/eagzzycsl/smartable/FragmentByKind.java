@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -131,11 +132,20 @@ public class FragmentByKind extends Fragment {
             try {
                 Bundle allBundle = new Bundle();
                 String FinalFlag = "FragmentByKind";
-                allBundle.putString("FinalFlag", FinalFlag);
-
+//                allBundle.putString("FinalFlag", FinalFlag);
+                allBundle.putString("opt", "add_withClass");
+                Calendar c=Calendar.getInstance();
+                allBundle.putInt("year", c.get(Calendar.YEAR));
+                allBundle.putInt("month",c.get(Calendar.MONTH));
+                allBundle.putInt("day",c.get(Calendar.DAY_OF_MONTH));
+                allBundle.putInt("hour",c.get(Calendar.HOUR_OF_DAY));
+                allBundle.putInt("minute", c.get(Calendar.MINUTE));
                 //获取add_button所在“块”的坐标
                 int index = ((ViewGroup) v.getParent().getParent().getParent().getParent()).indexOfChild((ViewGroup) v.getParent().getParent().getParent());
                 allBundle.putString("location_title", query_classify.getLocaTitle().get(index));
+
+
+
                 //TODO 日后这边会加好几个属性
 
                 intent.putExtras(allBundle);
@@ -179,8 +189,8 @@ public class FragmentByKind extends Fragment {
             try {
                 Bundle allBundle = new Bundle();
                 String FinalFlag = "FragmentByKind_ListView";//与“所跳转页面”的暗号
-                allBundle.putString("FinalFlag", FinalFlag);
-
+//                allBundle.putString("FinalFlag", FinalFlag);
+                allBundle.putString("opt", "edit");
                 //获取listView所在“块”的坐标
                 int index = ((ViewGroup)parent.getParent().getParent().getParent().getParent()).indexOfChild((ViewGroup) parent.getParent().getParent().getParent());
 //                ((ViewGroup) view.getParent().getParent().getParent()).indexOfChild((ViewGroup) view.getParent().getParent());
