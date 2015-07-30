@@ -9,52 +9,62 @@ TODO 还有对第二个参数的后期设定margin是有用的，但是如果没
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:id="@+id/box">
+    android:orientation="vertical">
 
     <LinearLayout
-        android:layout_width="155dip"
-        android:layout_height="190dip"
-        android:layout_margin="7dp"
-        android:background="#0000ff"
+        android:id="@+id/classif_box"
+        android:layout_width="match_parent"
+        android:layout_height="190dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="5dp"
+
+        android:background="#FFF555"
         android:orientation="vertical">
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="40dip"
+            android:id="@+id/classify_Linear1"
+            android:layout_width="155dp"
+            android:layout_height="40dp"
             android:background="#FFFFFF"
             android:orientation="horizontal">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                >
+                <TextView
+                    android:id="@+id/classify_stitle1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="42dp"
+                    android:background="#FFFFFF"
+                    android:padding="5dp"
+                    android:textColor="#383838"
+                    android:textSize="21dp" />
 
-            <TextView
-                android:id="@+id/classify_stitle1"
-                android:layout_width="115dip"
-                android:layout_height="42dip"
-                android:background="#FFFFFF"
-                android:padding="5dip"
-                android:textColor="#383838"
-                android:textSize="21dip" />
+                <ImageButton
+                    android:id="@+id/ic_suggestions_add"
+                    android:layout_width="39dp"
+                    android:layout_height="39dp"
+                    android:layout_alignParentRight = "true"
+                    android:background="#D5D5D5"
+                    android:contentDescription="@string/desc"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_suggestions_add_blue"
+                    android:tint="#ffffff" />
+            </RelativeLayout>
 
-            <ImageButton
-                android:id="@+id/ic_suggestions_add"
-                android:layout_width="39dip"
-                android:layout_height="39dip"
-                android:layout_marginRight="10dip"
-                android:background="#D5D5D5"
-                android:contentDescription="@string/desc"
-                android:scaleType="fitXY"
-                android:src="@drawable/ic_suggestions_add_blue"
-                android:tint="#ffffff" />
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="150dip"
+            android:id="@+id/classify_Linear2"
+            android:layout_width="155dp"
+            android:layout_height="150dp"
             android:background="#00000000"
             android:orientation="vertical">
 
             <ListView
                 android:id="@+id/listContent1"
-                android:layout_width="155dip"
-                android:layout_height="154dip"
+                android:layout_width="match_parent"
+                android:layout_height="154dp"
                 android:background="#FFFFFF"
                 android:divider="@color/divider_color"
                 android:dividerHeight="1px"
@@ -128,17 +138,3 @@ TODO 还有对第二个参数的后期设定margin是有用的，但是如果没
                  android:focusable="true" />&ndash;&gt;
          </LinearLayout>
      </LinearLayout>-->
-
-
-
-
-
-
-
-
-
-
-
-
-
-

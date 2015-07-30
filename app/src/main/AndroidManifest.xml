@@ -19,5 +19,10 @@
         <activity android:name=".AddActivity"></activity>
         <activity android:name=".SettingActivity"></activity>
     </application>
-
+    <supports-screens
+        android:smallScreens="true"
+        android:normalScreens="true"
+        android:largeScreens="true"
+        android:resizeable="true"
+        android:anyDensity="true"/>
 </manifest>

@@ -1,30 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/relativeLayout_test"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="10dp"
-    android:background="#666666">
+    android:background="#666666"
+    android:padding="10dp">
 
-    <ScrollView
+    <LinearLayout
+        android:id="@+id/fragment_kind_box"
         android:layout_width="match_parent"
         android:layout_height="415dp"
-        android:background="#F7F7F7">
+        >
 
-        <view.FlowLayout
-            android:padding="0dp"
-            android:id="@+id/id_flowlayout"
-            android:layout_width="wrap_content"
-            android:background="#F7F7F7"
-            android:layout_height="wrap_content" >
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#F7F7F7">
 
-        </view.FlowLayout>
-    </ScrollView>
+            <view.FlowLayout
+                android:id="@+id/id_flowlayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#F7F7F7"
+                android:padding="0dp">
+
+            </view.FlowLayout>
+        </ScrollView>
+
+    </LinearLayout>
+
 
 </RelativeLayout>
-
 
 
