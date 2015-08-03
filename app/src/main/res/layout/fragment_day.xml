@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <com.eagzzycsl.smartable.CompleteByDayView
+    <view.CompleteByDayView
         android:id="@+id/calendarView_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

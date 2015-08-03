@@ -26,6 +26,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import common.MyUtil;
 import database.DatabaseManager;
 import view.FlowLayout;
 
@@ -34,7 +35,7 @@ public class FragmentByKind extends Fragment {
     SimpleAdapter[] adapter = new SimpleAdapter[50];// 自定义适配器， 将【数组】data 里的东西 放进【容器】ListView
 
     final float width_suggest = 155;//每个块的建议宽度 单位dp
-    final int margin_final = 13;
+    final int margin_final = 5;
     private LinearLayout[] classif_box = new LinearLayout[50];
     ;
     private LinearLayout[] classify_Linear1 = new LinearLayout[50];
@@ -150,13 +151,13 @@ public class FragmentByKind extends Fragment {
                      *算法：if(boxNum_temp小数部分 <= 0.8)  widthSet = (width_dp - 10 * 2 - 7 )/ boxNum_temp整数部分 - 7
                      *算法：if(boxNum_temp小数部分 >= 0.8)  widthSet = (width_dp - 10 * 2 - 7 )/ (boxNum_temp整数部分 + 1) - 7
                      */
-                    float boxNum_temp = (width_dp - 10 * 2 - margin_final) / (width_suggest + margin_final);
+                    float boxNum_temp = (width_dp - 5* 2 - margin_final) / (width_suggest + margin_final);
                     int boxNum_int = (int) boxNum_temp;
                     int width_Set;
                     if ((boxNum_temp - boxNum_int) <= 0.8) {
-                        width_Set = (int) ((width_dp - 10 * 2 - margin_final) / boxNum_int - margin_final);
+                        width_Set = (int) ((width_dp - 5 * 2 - margin_final) / boxNum_int - margin_final);
                     } else {
-                        width_Set = (int) ((width_dp - 10 * 2 - margin_final) / (boxNum_int + 1) - margin_final);
+                        width_Set = (int) ((width_dp - 5 * 2 - margin_final) / (boxNum_int + 1) - margin_final);
                     }
                     Log.i("TAG", "______" + "width_Set:" + String.valueOf(width_Set));
                     LinearLayout.LayoutParams Linear1_2 = new LinearLayout.LayoutParams(

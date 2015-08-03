@@ -7,6 +7,8 @@ import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.PreferenceFragment;
 
+import common.Const;
+
 /**
  * Created by eagzzycsl on 7/28/15.
  */

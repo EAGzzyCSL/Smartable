@@ -1,9 +1,9 @@
-package com.eagzzycsl.smartable;
+package common;
 
 /**
  * CreatedbyJZFon2015/7/27.
  */
-interface Const {
+public interface Const {
     String LANGUAGE = "language";
     String NIGHT_SUMMARY = "night_summary";
     String WEEK_START = "week_start";

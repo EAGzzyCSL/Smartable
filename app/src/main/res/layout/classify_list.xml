@@ -17,7 +17,6 @@ TODO 还有对第二个参数的后期设定margin是有用的，但是如果没
         android:layout_height="190dp"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
-        android:layout_marginRight="5dp"
 
         android:background="#FFF555"
         android:orientation="vertical">

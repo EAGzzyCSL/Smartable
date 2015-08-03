@@ -1,6 +1,9 @@
-package com.eagzzycsl.smartable;
+package common;
 
 import android.content.ContentValues;
+
+import common.MyTime;
+import common.TableFiled;
 
 /**
  * Created by eagzzycsl on 7/20/15.
@@ -10,7 +13,10 @@ public class Business implements TableFiled {
     private String title;
     private MyTime start;
     private MyTime end;
-
+    private int week;
+    public int getWeek(){
+        return this.week;
+    }
     //    private String annotation;
 //    private boolean isRemind;
 //    private int remind_early;
@@ -26,7 +32,12 @@ public class Business implements TableFiled {
         this.start = start;
         this.end = end;
     }
-
+    public Business(String title, MyTime start, MyTime end,int week) {
+        this.title = title;
+        this.start = start;
+        this.end = end;
+        this.week=week;
+    }
     public int getId() {
         return this.id;
     }
@@ -84,5 +95,6 @@ public class Business implements TableFiled {
 //        return this.day;
 //    }
 //}
+
 
 

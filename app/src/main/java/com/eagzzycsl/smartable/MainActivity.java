@@ -1,6 +1,5 @@
 package com.eagzzycsl.smartable;
 
-import android.app.Fragment;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -20,6 +19,8 @@ import android.widget.Toast;
 import java.util.Calendar;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import common.Const;
 
 
 public class MainActivity extends ActionBarActivity {

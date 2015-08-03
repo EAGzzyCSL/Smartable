@@ -1,4 +1,4 @@
-package com.eagzzycsl.smartable;
+package common;
 
 
 public class MyUtil {

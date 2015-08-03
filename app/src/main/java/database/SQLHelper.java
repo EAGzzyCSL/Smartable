@@ -3,7 +3,7 @@ package database;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import com.eagzzycsl.smartable.TableFiled;
+import common.TableFiled;
 /**
  * Created by 宇 on 2015/7/16.
  */

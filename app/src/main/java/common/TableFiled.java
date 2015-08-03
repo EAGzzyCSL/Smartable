@@ -1,4 +1,4 @@
-package com.eagzzycsl.smartable;
+package common;
 
 /**
  * Created by eagzzycsl on 7/29/15.

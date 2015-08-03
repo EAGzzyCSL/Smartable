@@ -12,7 +12,6 @@ import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,6 +23,9 @@ import android.widget.Toast;
 import java.util.Arrays;
 import java.util.Calendar;
 
+import common.Business;
+import common.MyTime;
+import common.MyUtil;
 import database.DatabaseManager;
 
 

@@ -1,4 +1,4 @@
-package com.eagzzycsl.smartable;
+package view;
 
 import android.content.Context;
 import android.content.Intent;
@@ -19,6 +19,11 @@ import android.widget.FrameLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.eagzzycsl.smartable.AddActivity;
+import common.Business;
+import common.MyUtil;
+import com.eagzzycsl.smartable.R;
 
 import java.util.ArrayList;
 import java.util.Calendar;

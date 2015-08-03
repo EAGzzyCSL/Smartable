@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import view.CompleteByDayView;
+
 public class FragmentByDay extends Fragment {
     private CompleteByDayView completeByDayView;
 

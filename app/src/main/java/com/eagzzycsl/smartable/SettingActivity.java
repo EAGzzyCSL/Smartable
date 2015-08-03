@@ -7,10 +7,13 @@ import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.PreferenceActivity;
+
+import common.Const;
+
 /**
  * Created by JZF on 2015/7/27.
  */
-public class SettingActivity extends PreferenceActivity implements OnSharedPreferenceChangeListener ,Const {
+public class SettingActivity extends PreferenceActivity implements OnSharedPreferenceChangeListener , Const {
 
     private  EditTextPreference mEtPreference;
     private ListPreference mListPreference_1;

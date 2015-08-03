@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <!--toolbar-->
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/weekPre_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <view.ByWeekView
+            android:id="@+id/byWeekView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <!--悬浮按钮-->
+        <!--there is a bug in support-->
+        <!--http://stackoverflow.com/questions/30532863/how-to-add-shadow-to-the-fab-provided-with-the-android-support-design-library-->
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/weekPre_fab_different"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|bottom"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/icon_different"
+            app:borderWidth="0dp" />
+    </FrameLayout>
+
+
+</LinearLayout>
