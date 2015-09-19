@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <string-array name="array_dayAmount">
+        <item>1day</item>
+        <item>3day</item>
+        <item>7day</item>
+    </string-array>
+</resources>

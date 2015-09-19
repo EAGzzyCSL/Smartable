@@ -3,8 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+    <view.SwitchInWeekView
+        android:id="@+id/switchInWeekView"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:background="@color/primary"
+        />
     <view.CompleteByDayView
-        android:id="@+id/calendarView_main"
+        android:id="@+id/completeByDayView_byDay"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </LinearLayout>

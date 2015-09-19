@@ -9,6 +9,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,7 +24,7 @@ import java.util.TimerTask;
 import common.Const;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends AppCompatActivity {
     private DrawerLayout main_drawLayout;//侧滑动栏
     private Toolbar main_toolbar;
     private FloatingActionButton main_fab_add;//圆形浮动按钮
@@ -41,7 +42,6 @@ public class MainActivity extends ActionBarActivity {
         myFindViewById();//findView
         mySetView();//给view设置侦听等
         myIni();//一些初始化操作
-        System.out.println(this.getLocalClassName()+"#######");
     }
 
     //findViewById
@@ -131,6 +131,7 @@ public class MainActivity extends ActionBarActivity {
 
         getFragmentManager().beginTransaction().replace(R.id.main_glance_container,fragmentByDay).commit();
         nowFragment="byDay";
+
     }
 
     @Override
@@ -157,27 +158,27 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
     //连按两次推出
-    public boolean onKeyDown(int keyCode, KeyEvent event){
-        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
-        if(keyCode == KeyEvent.KEYCODE_BACK){
-            Boolean exit = settings.getBoolean(Const.DOUBLE_EXIT, true);
-            if(exit){
-                Timer timer = new Timer();
-                if(isQuit == false){
-                    isQuit = true;
-                    Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
-                    timer.schedule(new TimerTask() {
-                        @Override
-                        public void run() {
-                            isQuit = false;
-                        }
-                    }, 2000);
-                }
-                else finish();
-            } else finish();
-        }
-        return false;
-    }
+//    public boolean onKeyDown(int keyCode, KeyEvent event){
+//        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+//        if(keyCode == KeyEvent.KEYCODE_BACK){
+//            Boolean exit = settings.getBoolean(Const.DOUBLE_EXIT, true);
+//            if(exit){
+//                Timer timer = new Timer();
+//                if(isQuit == false){
+//                    isQuit = true;
+//                    Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
+//                    timer.schedule(new TimerTask() {
+//                        @Override
+//                        public void run() {
+//                            isQuit = false;
+//                        }
+//                    }, 2000);
+//                }
+//                else finish();
+//            } else finish();
+//        }
+//        return false;
+//    }
 
     @Override
     protected void onStart() {

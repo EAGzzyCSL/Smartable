@@ -21,24 +21,38 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.eagzzycsl.smartable.AddActivity;
+
 import common.Business;
 import common.MyUtil;
+
+import com.eagzzycsl.smartable.FragmentByDay;
 import com.eagzzycsl.smartable.R;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import common.ScrollAdjustClick;
 import database.DatabaseManager;
 
 public class CompleteByDayView extends ViewPager {
 
     private Calendar calendar = Calendar.getInstance();//一个日历，用来提供日期
     private ArrayList<SimpleByDayView> simpleByDayViews = new ArrayList<>(3);//存放viewpager的三个view
-
+    private ScrollAdjustClick scrollAdjustClick;
+    public void setScrollAdjustClick(ScrollAdjustClick scrollAdjustClick){
+        this.scrollAdjustClick=scrollAdjustClick;
+    }
+    public void changeNowPager(int value){
+        calendar.add(Calendar.DAY_OF_MONTH,value);
+        updateSimpleByDayViews();
+    }
     public CompleteByDayView(Context context, AttributeSet attrs) {
         //构造方法
         super(context, attrs);
+
+
         updateSimpleByDayViews();//为viewpager更新信息
+
         this.setOffscreenPageLimit(3);//设置viewpager的限制为3，有助于优化滑动
         //为viewpager增加滑动监听，为了在pager滑动的时候更换内容
         this.addOnPageChangeListener(new OnPageChangeListener() {
@@ -55,12 +69,13 @@ public class CompleteByDayView extends ViewPager {
                 if (position == 0) {
                     haveScrolled = true;
                     calendar.add(Calendar.DAY_OF_MONTH, -1);
+                    scrollAdjustClick.adjustClick(-1);
                     //calendar还有一个roll方法也可以增加日期，但是roll的年月日不会同步，即31号加到1号时月不会加1
                 }
                 if (position == 2) {
                     haveScrolled = true;
                     calendar.add(Calendar.DAY_OF_MONTH, 1);
-                    System.out.println("#################"+calendar.get(Calendar.DAY_OF_MONTH));
+                    scrollAdjustClick.adjustClick(1);
                 }
             }
 
@@ -78,7 +93,6 @@ public class CompleteByDayView extends ViewPager {
                     //如果状态为0了且确实有滑动（因为在该页面轻微滑动一下会有10的状态转换，没有2，即没有选定新的页面）
                     //为了页面滚动的同步，目前还没实现
                     int scrolledY = simpleByDayViews.get(1).getScrollViewScrollY();
-                    System.out.println("scrolledY:" + scrolledY);
                     //此时即是切换到了最左边或者最右边的页面，这个时候就该把三个页面都换掉然后再选中中间那个
                     updateSimpleByDayViews();
                     haveScrolled = false;
@@ -129,7 +143,6 @@ public class CompleteByDayView extends ViewPager {
         simpleByDayViews.add(new SimpleByDayView(getContext(), 1, 1));
         this.setAdapter(new MyPagerAdapter(simpleByDayViews));
 
-        System.out.println(calendar.get(Calendar.DAY_OF_MONTH)+"@@@@@@@@@@@@@@@@@@@@@@");
         //虽然直接换适配器的方法不是太好但是我现在只能这么做了
         this.setCurrentItem(1, false);//设置pager当前显示第几个，设置我下标为1的那个，也就是中间那个
 
@@ -145,11 +158,11 @@ public class CompleteByDayView extends ViewPager {
 //                , new Business(4,"18:00-20:00", new MyTime(18, 0), new MyTime(20, 0))
 //        };
         ArrayList<Business> bs;
-        synchronized(this){
+        synchronized (this) {
 
-            calendar.add(Calendar.DAY_OF_MONTH,diff);
-            bs=DatabaseManager.getInstance(getContext()).getBusiness(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH));
-            calendar.add(Calendar.DAY_OF_MONTH,-diff);
+            calendar.add(Calendar.DAY_OF_MONTH, diff);
+            bs = DatabaseManager.getInstance(getContext()).getBusiness(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH));
+            calendar.add(Calendar.DAY_OF_MONTH, -diff);
         }
         return bs;
     }
@@ -248,10 +261,10 @@ public class CompleteByDayView extends ViewPager {
                         businessView.setOnClickListener(new OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Bundle bundle=new Bundle();
-                                bundle.putString("opt","edit_withId");
+                                Bundle bundle = new Bundle();
+                                bundle.putString("opt", "edit_withId");
                                 bundle.putString("id", v.getTag().toString());
-                                Intent intent=new Intent(getContext(),AddActivity.class);
+                                Intent intent = new Intent(getContext(), AddActivity.class);
                                 intent.putExtras(bundle);
                                 getContext().startActivity(intent);
                                 Toast.makeText(getContext(), v.getTag().toString(), Toast.LENGTH_SHORT).show();
@@ -282,7 +295,7 @@ public class CompleteByDayView extends ViewPager {
                         bundle.putInt("year", calendar.get(Calendar.YEAR));
                         bundle.putInt("month", calendar.get(Calendar.MONTH));
                         bundle.putInt("day", calendar.get(Calendar.DAY_OF_MONTH));
-                        bundle.putInt("hour", (int)button.getTag());
+                        bundle.putInt("hour", (int) button.getTag());
                         bundle.putInt("minute", calendar.get(Calendar.MINUTE));
                         bundle.putString("opt", "add");
                         intent.putExtras(bundle);
