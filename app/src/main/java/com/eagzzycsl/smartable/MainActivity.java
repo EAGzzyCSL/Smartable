@@ -117,6 +117,9 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.main_nav_setting:
                         getFragmentManager().beginTransaction().replace(R.id.main_glance_container, new FragmentSetting()).commit();
                         break;
+                    case R.id.main_nav_month:
+                        startActivity(new Intent(MainActivity.this,WeekPreviewActivity.class));
+                        break;
                 }
                 return true;
             }
@@ -192,6 +195,7 @@ public class MainActivity extends AppCompatActivity {
                 fragmentByKind=new FragmentByKind();
                 getFragmentManager().beginTransaction().replace(R.id.main_glance_container,fragmentByKind).commit();
                 break;
+
         }
     }
 

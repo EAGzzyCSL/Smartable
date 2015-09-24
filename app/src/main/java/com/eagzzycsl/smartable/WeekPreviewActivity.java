@@ -10,13 +10,12 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import algorithm.SmartArrange;
+import common.Affair;
 import common.Business;
 import common.MyTime;
 import view.ByWeekView;
 
-/**
- * Created by eagzzycsl on 8/2/15.
- */
 public class WeekPreviewActivity extends ActionBarActivity {
     private Toolbar weekPre_toolbar;
     private FloatingActionButton weekPre_fab_different;
@@ -63,13 +62,23 @@ public class WeekPreviewActivity extends ActionBarActivity {
 
     private void myIni() {
         ArrayList<Business> bs = new ArrayList<>();
-        bs.add(new Business("1:00-10:00", new MyTime(1, 0), new MyTime(10, 0), 1));
-        bs.add(new Business("8:00-12:00", new MyTime(8, 0), new MyTime(12, 0), 2));
-        bs.add(new Business("6:00-8:00", new MyTime(6, 0), new MyTime(8, 0), 3));
-        bs.add(new Business("18:00-22:00", new MyTime(18, 0), new MyTime(22, 0), 4));
-        bs.add(new Business("13:00-17:00", new MyTime(13, 0), new MyTime(17, 0), 5));
-        bs.add(new Business("15:00-19:00", new MyTime(15, 0), new MyTime(19, 0), 6));
-        bs.add(new Business("20:00-24:00", new MyTime(20, 0), new MyTime(24, 0), 7));
+        Affair as[] = new Affair[] { new Affair(0, 1, 0, 2, 0, 3), new Affair(1, 1, 1, 4, 1, 3),
+                new Affair(2, 0, 0, 3, 2, 5), new Affair(3, 0, 1, 4, 3, 6), new Affair(4, 0, 2, 1, 1, 3),
+                new Affair(5, 0, 3, 2, 0, 3),
+
+        };
+        SmartArrange sa = new SmartArrange(7, as);
+        sa.doArrange();
+        for(int i=0;i<as.length;i++){
+            bs.add(as[i].toBusiness());
+        }
+//        bs.add(new Business("1:00-10:00", new MyTime(1, 0), new MyTime(10, 0), 1));
+//        bs.add(new Business("8:00-12:00", new MyTime(8, 0), new MyTime(12, 0), 2));
+//        bs.add(new Business("6:00-8:00", new MyTime(6, 0), new MyTime(8, 0), 3));
+//        bs.add(new Business("18:00-22:00", new MyTime(18, 0), new MyTime(22, 0), 4));
+//        bs.add(new Business("13:00-17:00", new MyTime(13, 0), new MyTime(17, 0), 5));
+//        bs.add(new Business("15:00-19:00", new MyTime(15, 0), new MyTime(19, 0), 6));
+//        bs.add(new Business("20:00-24:00", new MyTime(20, 0), new MyTime(24, 0), 7));
 
         byWeekView.setBusiness(bs);
     }
