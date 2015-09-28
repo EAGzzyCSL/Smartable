@@ -6,7 +6,11 @@
     <string name="open">open</string>
     <string name="close">close</string>
     <string name="search">search</string>
-
+    <string name="pleaseInputOneBusiness">请输入一个事项</string>
+    <string name="wholeDay">全天</string>
+    <string name="noLabel">暂无\n标签</string>
+    <string name="position">地点</string>
+    <string name="noAlert">暂不\n提醒</string>
 
     //By 宇
     <color name="divider_color">#E6E6E6</color>
@@ -48,4 +52,6 @@
         <item>22:00</item>
         <item>23:00</item>
     </string-array>
+    <string name="title_activity_single_add">SingleAddActivity</string>
+    <string name="title_activity_smart_add">SmartAddActivity</string>
 </resources>

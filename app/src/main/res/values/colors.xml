@@ -10,5 +10,7 @@
     <color name="icons">#FFFFFF</color>
     <color name="divider">#B6B6B6</color>
     <color name="white">#FFFFFF</color>
+    <color name="add_pos_default">#CBFA96</color>
+    <color name="add_alert_default">#FAF1B6</color>
 
 </resources>

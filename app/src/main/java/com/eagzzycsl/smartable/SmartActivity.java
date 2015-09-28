@@ -144,55 +144,7 @@ public class SmartActivity extends ActionBarActivity {
 
 }
 
-class LabelAdapter extends RecyclerView.Adapter<LabelAdapter.ViewHolder> {
-    private ArrayList<String> items;
-    private Context context;
 
-    public LabelAdapter(ArrayList<String> items, Context context) {
-        this.items = items;
-        this.context = context;
-    }
-
-    @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.recycler_label, parent, false));
-    }
-
-    @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.setText(items.get(position));
-    }
-
-    @Override
-    public int getItemCount() {
-        return items.size();
-    }
-
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        private AppCompatTextView textView;
-
-        public ViewHolder(final View itemView) {
-            super(itemView);
-            textView = (AppCompatTextView) itemView.findViewById(R.id.label_layout_textView);
-            textView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    addData(getAdapterPosition());
-                }
-            });
-        }
-
-        public void setText(String text) {
-            textView.setText(text);
-        }
-
-        public void addData(int position) {
-            items.add(position, "java");
-            notifyItemInserted(position);
-        }
-
-    }
-}
 
 // what is viewType?
 class AddedAdapter extends RecyclerView.Adapter<AddedAdapter.ViewHolder> {

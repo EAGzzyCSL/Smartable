@@ -1,0 +1,19 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.eagzzycsl.smartable.SingleAddActivity">
+    <item
+        android:id="@+id/singleAdd_action_delete"
+        android:icon="@drawable/icon_delete"
+        app:showAsAction="ifRoom"
+        android:title="delete this event"
+        />
+    <item
+        android:id="@+id/singleAdd_action_save"
+        android:icon="@drawable/icon_save"
+        app:showAsAction="ifRoom"
+        android:title="save this event"
+        />
+    <item android:id="@+id/action_settings" android:title="@string/action_settings"
+        android:orderInCategory="100" app:showAsAction="never" />
+</menu>

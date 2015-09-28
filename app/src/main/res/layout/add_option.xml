@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<android.support.v7.widget.AppCompatCheckBox xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/add_option_checkBox"
+    android:layout_width="0dp"
+    android:layout_height="@dimen/singleAdd_bar_height"
+    android:layout_marginLeft="10dp"
+    android:button="@null"
+    android:gravity="center"
+    android:textColor="@drawable/add_option_text_color"
+    android:textSize="32sp" />

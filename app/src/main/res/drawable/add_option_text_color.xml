@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:color="@color/white" android:state_checked="true" />
+    <!--<item android:color="@color/secondary_text" android:state_pressed="true" />-->
+    <!--似乎在手机上并没有这个按下的过程，按下就算是选中了-->
+    <item android:color="@color/secondary_text" />
+</selector>
