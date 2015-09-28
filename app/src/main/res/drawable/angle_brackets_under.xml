@@ -12,7 +12,7 @@
             android:pivotY="50%"
             android:toDegrees="-60">
             <shape android:shape="line">
-                <stroke android:color="@color/background_material_light" android:width="10dp"></stroke>
+                <stroke android:color="@color/background_material_light" android:width="@dimen/singleAdd_bar_interval"></stroke>
             </shape>
         </rotate>
     </item>

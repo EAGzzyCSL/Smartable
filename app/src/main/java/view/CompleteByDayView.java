@@ -1,5 +1,6 @@
 package view;
 
+import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Canvas;
@@ -39,13 +40,16 @@ public class CompleteByDayView extends ViewPager {
     private Calendar calendar = Calendar.getInstance();//一个日历，用来提供日期
     private ArrayList<SimpleByDayView> simpleByDayViews = new ArrayList<>(3);//存放viewpager的三个view
     private ScrollAdjustClick scrollAdjustClick;
-    public void setScrollAdjustClick(ScrollAdjustClick scrollAdjustClick){
-        this.scrollAdjustClick=scrollAdjustClick;
+
+    public void setScrollAdjustClick(ScrollAdjustClick scrollAdjustClick) {
+        this.scrollAdjustClick = scrollAdjustClick;
     }
-    public void changeNowPager(int value){
-        calendar.add(Calendar.DAY_OF_MONTH,value);
+
+    public void changeNowPager(int value) {
+        calendar.add(Calendar.DAY_OF_MONTH, value);
         updateSimpleByDayViews();
     }
+
     public CompleteByDayView(Context context, AttributeSet attrs) {
         //构造方法
         super(context, attrs);
@@ -283,8 +287,10 @@ public class CompleteByDayView extends ViewPager {
                 }
                 //先添加事件最后再添加添加事件的那个view,后添加的缘故是这样可以让它居于上面
                 button = new AppCompatButton(getContext());
+                button.setLayoutParams(new ViewGroup.LayoutParams(lineRight-lineLeft,height1h));
                 button.setBackgroundColor(Color.argb(192, 30, 144, 255));
                 button.setText("+");
+                button.setGravity(Gravity.CENTER);
                 button.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View v) {

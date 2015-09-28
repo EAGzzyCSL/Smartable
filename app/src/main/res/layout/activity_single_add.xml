@@ -3,24 +3,25 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-
+    <!--toolbar替代actionbar-->
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar_singleAdd"
         android:layout_width="match_parent"
+
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary" />
-
+    <!--主布局-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
 
         android:padding="@dimen/paddingByLily">
-
+        <!--输入事项窗口-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/singleAdd_bar_height"
-            android:layout_margin="15dp"
+            android:layout_margin="@dimen/singleAdd_bar_interval"
             android:background="@color/primary"
             android:gravity="center_vertical"
             android:orientation="horizontal"
@@ -30,9 +31,9 @@
             android:paddingTop="@dimen/singleAdd_bar_innerPaddingVertical">
 
             <android.support.v7.widget.AppCompatEditText
-
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/editText_title"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
                 android:hint="@string/pleaseInputOneBusiness"
@@ -41,29 +42,29 @@
                 android:textSize="@dimen/singleAdd_bar_textSize" />
 
             <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
                 android:scaleType="fitXY"
-                android:src="@drawable/icon_save" />
+                android:background="@android:color/transparent"
+                android:src="@drawable/icon_voice_white" />
         </LinearLayout>
-
+        <!--设置时间-->
         <LinearLayout
             android:layout_width="match_parent"
 
             android:layout_height="@dimen/singleAdd_bar_height"
-            android:layout_margin="15dp">
+            android:layout_margin="@dimen/singleAdd_bar_interval">
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginRight="10dp"
                 android:layout_weight="1"
                 android:orientation="vertical">
-
+                <!--设置时间的上半部分-->
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
                     android:background="@drawable/angle_brackets_up"
@@ -74,31 +75,29 @@
                         android:id="@+id/textView_startDate"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_marginRight="30dp"
+                        android:layout_marginRight="@dimen/brackets_margin"
                         android:layout_weight="1"
                         android:gravity="center_vertical"
-                        android:text="@string/hello_world"
                         android:textColor="@android:color/white"
-                        android:textSize="24dp" />
+                        android:textSize="@dimen/singleAdd_bar_textSize" />
 
                     <android.support.v7.widget.AppCompatTextView
                         android:id="@+id/textView_endDate"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_gravity="fill_horizontal"
-                        android:layout_marginLeft="30dp"
+                        android:layout_marginLeft="@dimen/brackets_margin"
                         android:layout_weight="1"
                         android:gravity="center_vertical"
-                        android:text="@string/hello_world"
                         android:textColor="@android:color/white"
-                        android:textSize="24dp" />
+                        android:textSize="@dimen/singleAdd_bar_textSize" />
 
 
                 </LinearLayout>
-
+                <!--设置时间的下半部分-->
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
                     android:background="@drawable/angle_brackets_under"
@@ -110,41 +109,42 @@
                         android:id="@+id/textView_startTime"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_marginRight="30dp"
+                        android:layout_marginRight="@dimen/brackets_margin"
                         android:layout_weight="1"
                         android:gravity="center_vertical"
-                        android:text="@string/hello_world"
                         android:textColor="@android:color/white"
-                        android:textSize="24dp" />
+                        android:textSize="@dimen/singleAdd_bar_textSize" />
 
                     <android.support.v7.widget.AppCompatTextView
                         android:id="@+id/textView_endTime"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_marginLeft="30dp"
+                        android:layout_marginLeft="@dimen/brackets_margin"
                         android:layout_weight="1"
                         android:gravity="center_vertical"
-                        android:text="@string/hello_world"
                         android:textColor="@android:color/white"
-                        android:textSize="24dp" />
+                        android:textSize="@dimen/singleAdd_bar_textSize" />
                 </LinearLayout>
 
 
             </LinearLayout>
 
-            <android.support.v7.widget.AppCompatButton
+            <android.support.v7.widget.AppCompatCheckBox
+                android:id="@+id/checkBox_wholeDay"
                 android:layout_width="@dimen/singleAdd_bar_height"
                 android:layout_height="@dimen/singleAdd_bar_height"
-                android:background="@color/primary"
+                android:background="@drawable/add_option_bkg_whole_day"
+                android:button="@null"
+                android:gravity="center"
                 android:text="@string/wholeDay"
                 android:textColor="@android:color/white"
-                android:textSize="32dp" />
+                android:textSize="@dimen/singleAdd_bar_textSize" />
         </LinearLayout>
-
+        <!--设置标签-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="15dp">
+            android:layout_margin="@dimen/singleAdd_bar_interval">
 
             <LinearLayout
                 android:layout_width="@dimen/singleAdd_bar_height"
@@ -154,7 +154,7 @@
                 <android.support.v7.widget.AppCompatTextView
                     android:layout_width="@dimen/singleAdd_bar_height"
                     android:layout_height="@dimen/singleAdd_bar_height"
-                    android:background="@color/primary"
+                    android:background="@drawable/add_option_no_label_bkg"
                     android:gravity="center"
                     android:text="@string/noLabel"
                     android:textColor="@color/white"
@@ -167,16 +167,16 @@
                 android:layout_height="@dimen/singleAdd_bar_height"
                 android:layout_weight="1"
 
-
+                android:overScrollMode="never"
                 ></android.support.v7.widget.RecyclerView>
 
 
         </LinearLayout>
-
+        <!--设置地点-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="15dp">
+            android:layout_margin="@dimen/singleAdd_bar_interval">
 
             <LinearLayout
                 android:layout_width="@dimen/singleAdd_bar_height"
@@ -187,7 +187,7 @@
                 <android.support.v7.widget.AppCompatTextView
                     android:layout_width="@dimen/singleAdd_bar_height"
                     android:layout_height="@dimen/singleAdd_bar_height"
-                    android:background="@color/primary"
+                    android:background="@drawable/add_option_no_pos_bkg"
                     android:gravity="center"
                     android:text="@string/position"
                     android:textColor="@color/white"
@@ -199,17 +199,17 @@
                 android:layout_width="0dp"
                 android:layout_height="@dimen/singleAdd_bar_height"
                 android:layout_weight="1"
-
+                android:overScrollMode="never"
 
                 ></android.support.v7.widget.RecyclerView>
 
 
         </LinearLayout>
-
+        <!--设置提醒-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="15dp">
+            android:layout_margin="@dimen/singleAdd_bar_interval">
 
             <LinearLayout
                 android:layout_width="@dimen/singleAdd_bar_height"
@@ -217,10 +217,12 @@
 
                 android:orientation="vertical">
 
-                <android.support.v7.widget.AppCompatTextView
+                <android.support.v7.widget.AppCompatCheckBox
+                    android:id="@+id/checkbox_noAlert"
                     android:layout_width="@dimen/singleAdd_bar_height"
                     android:layout_height="@dimen/singleAdd_bar_height"
-                    android:background="@color/primary"
+                    android:background="@drawable/add_option_bkg_alert"
+                    android:button="@null"
                     android:gravity="center"
                     android:text="@string/noAlert"
                     android:textColor="@color/white"
@@ -231,6 +233,7 @@
                 android:id="@+id/recyclerView_alert"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/singleAdd_bar_height"
+                android:overScrollMode="never"
                 android:layout_weight="1"></android.support.v7.widget.RecyclerView>
 
 

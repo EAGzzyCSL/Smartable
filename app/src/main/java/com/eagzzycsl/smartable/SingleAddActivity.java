@@ -6,6 +6,8 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatCheckBox;
+import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,6 +19,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.TimePicker;
@@ -24,8 +27,10 @@ import android.widget.TimePicker;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import common.Business;
 import common.MyTime;
 import common.MyUtil;
+import database.DatabaseManager;
 
 public class SingleAddActivity extends AppCompatActivity implements OptionType {
     private Toolbar toolbar_singleAdd;
@@ -41,6 +46,11 @@ public class SingleAddActivity extends AppCompatActivity implements OptionType {
     private OptionWhenAddBusinessAdapter labelAdapter;
     private OptionWhenAddBusinessAdapter posAdapter;
     private OptionWhenAddBusinessAdapter alertAdapter;
+    private AppCompatCheckBox checkbox_noAlert;
+    private AppCompatCheckBox checkBox_wholeDay;
+    private AppCompatEditText editText_title;
+    private String opt;
+    private String title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +58,52 @@ public class SingleAddActivity extends AppCompatActivity implements OptionType {
         setContentView(R.layout.activity_single_add);
         myFindViewById();//findView
         mySetView();//给view设置侦听等
+        Bundle bundle = getIntent().getExtras();
+        opt = bundle.getString("opt");
+
+        switch (opt) {
+            case "add": {
+                //算法有问题，很容易出现25小时的问题
+                //还有一个是小时的那个下标问题到底哪边处理的好？目前这边处理好了
+                timeStart = new MyTime(bundle.getInt("year"),
+                        bundle.getInt("month") + 1,
+                        bundle.getInt("day"),
+                        bundle.getInt("hour"),
+                        0);
+                timeEnd = new MyTime(bundle.getInt("year"),
+                        bundle.getInt("month") + 1,
+                        bundle.getInt("day"),
+                        bundle.getInt("hour") + 1,
+                        0);
+                getSupportActionBar().setTitle("新建事项");
+                break;
+            }
+            case "edit": {
+                //需要修改
+//                location_title = bundle.getString("location_title");
+//                title = bundle.getString("item_value");
+//                editText_location.setText(location_title);
+                editText_title.setText(title);
+
+                break;
+            }
+            case "edit_withId": {
+
+
+                //需要修改
+                int id = Integer.valueOf(bundle.getString("id"));
+//                Business_id=id;
+                DatabaseManager dm = DatabaseManager.getInstance(SingleAddActivity.this);
+
+                Business bs = dm.getBusiness(id);
+                timeStart = bs.getStart();
+                timeEnd = bs.getEnd();
+                editText_title.setText(bs.getTitle());
+
+                dm.close();
+                break;
+            }
+        }
         myIni();//一些初始化操作
     }
 
@@ -64,17 +120,25 @@ public class SingleAddActivity extends AppCompatActivity implements OptionType {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
+        switch (id) {
+            case R.id.action_settings: {
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+                return true;
+            }
+            case android.R.id.home: {
+                // 此处可能会涉及到安卓的activity的栈的东西
+                finish();
+                return true;
+            }
         }
+
 
         return super.onOptionsItemSelected(item);
     }
 
     private void myFindViewById() {
         toolbar_singleAdd = (Toolbar) findViewById(R.id.toolbar_singleAdd);
+        editText_title = (AppCompatEditText) findViewById(R.id.main_editText_title);
         textView_startDate = (AppCompatTextView) findViewById(R.id.textView_startDate);
         textView_startTime = (AppCompatTextView) findViewById(R.id.textView_startTime);
         textView_endDate = (AppCompatTextView) findViewById(R.id.textView_endDate);
@@ -83,6 +147,7 @@ public class SingleAddActivity extends AppCompatActivity implements OptionType {
         recyclerView_label = (RecyclerView) findViewById(R.id.recyclerView_label);
         recyclerView_pos = (RecyclerView) findViewById(R.id.recyclerView_pos);
         recyclerView_alert = (RecyclerView) findViewById(R.id.recyclerView_alert);
+        checkBox_wholeDay = (AppCompatCheckBox) findViewById(R.id.checkBox_wholeDay);
 
     }
 
@@ -133,14 +198,24 @@ public class SingleAddActivity extends AppCompatActivity implements OptionType {
                 this.add("与己为乐");
             }
         }, SingleAddActivity.this, recyclerView_label, OptionType.LABEL));
-        recyclerView_pos.setAdapter(new OptionWhenAddBusinessAdapter(new ArrayList<String>() {
+        OptionWhenAddBusinessAdapter test=new OptionWhenAddBusinessAdapter(new ArrayList<String>() {
             {
                 this.add("宿舍");
                 this.add("教室");
                 this.add("其他");
+                this.add("a");
+                this.add("b");
+                this.add("c");
+                this.add("d");
+                this.add("e");
+                this.add("f");
+                this.add("g");
                 this.add("+");
             }
-        }, SingleAddActivity.this, recyclerView_pos, OptionType.POS));
+        },SingleAddActivity.this, recyclerView_pos, OptionType.POS);
+        test.setLayoutManager(recyclerView_pos.getLayoutManager());
+        recyclerView_pos.setAdapter(test);
+
         recyclerView_alert.setAdapter(new OptionWhenAddBusinessAdapter(new ArrayList<String>() {
             {
 
@@ -152,6 +227,18 @@ public class SingleAddActivity extends AppCompatActivity implements OptionType {
             }
 
         }, SingleAddActivity.this, recyclerView_alert, OptionType.ALERT));
+        checkBox_wholeDay.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    textView_startTime.setVisibility(View.INVISIBLE);
+                    textView_endTime.setVisibility(View.INVISIBLE);
+                } else {
+                    textView_startTime.setVisibility(View.VISIBLE);
+                    textView_endTime.setVisibility(View.VISIBLE);
+                }
+            }
+        });
 
     }
 

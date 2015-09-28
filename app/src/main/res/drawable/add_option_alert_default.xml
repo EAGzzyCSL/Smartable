@@ -6,12 +6,12 @@
         </shape>
     </item>
     <item
-        android:left="-20dp"
-        android:right="-20dp"
-        android:top="-20dp">
+        android:left="@dimen/bkg_line_width_negative"
+        android:right="@dimen/bkg_line_width_negative"
+        android:top="@dimen/bkg_line_width_negative">
         <shape android:shape="rectangle">
             <stroke
-                android:width="20dp"
+                android:width="@dimen/bkg_line_width"
                 android:color="@color/secondary_text"></stroke>
         </shape>
     </item>

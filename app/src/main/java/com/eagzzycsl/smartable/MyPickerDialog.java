@@ -12,9 +12,7 @@ import java.util.Calendar;
 import common.MyTime;
 import common.MyUtil;
 
-/**
- * Created by eagzzycsl on 9/25/15.
- */
+
 public class MyPickerDialog {
 
     // 因为日期时间的选择有相似性而且雷同多所以先为他们写一个父类
@@ -34,7 +32,7 @@ public class MyPickerDialog {
         // 因为要获取星期，所以先给日历设定一个当前的日期以便于返回一个星期
         calendar.set(year, monthOfYear - 1, dayOfMonth);
         // 因为返回的星期是数字而且周日为第一天所以用数组来实现转化
-        return year + "年" + monthOfYear + "月" + dayOfMonth + "日"
+        return year + "." + monthOfYear + "." + dayOfMonth + " "
                 + MyUtil.weekEtoC(calendar.get(Calendar.DAY_OF_WEEK));
     }
 

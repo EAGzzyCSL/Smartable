@@ -2,10 +2,15 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
-    <dimen name="paddingByLily">15dp</dimen>
-    <dimen name="singleAdd_bar_height">100dp</dimen>
+    <dimen name="paddingByLily">5dp</dimen>
+    <dimen name="brackets_margin">10dp</dimen>
+    <dimen name="singleAdd_bar_height">60dp</dimen>
+    <dimen name="singleAdd_bar_interval">5dp</dimen>
     <dimen name="singleAdd_bar_height_x2">200dp</dimen>
-    <dimen name="singleAdd_bar_textSize">32sp</dimen>
-    <dimen name="singleAdd_bar_innerPaddingVertical">20dp</dimen>
-    <dimen name="singleAdd_bar_innerPaddingHorizontal">40dp</dimen>
+    <dimen name="singleAdd_bar_textSize">16sp</dimen>
+    <dimen name="singleAdd_bar_innerPaddingVertical">5dp</dimen>
+    <dimen name="singleAdd_bar_innerPaddingHorizontal">10dp</dimen>
+    <dimen name="bkg_line_width">5dp</dimen>
+    <dimen name="bkg_line_width_negative">-5dp</dimen>
+    <dimen name="drawer_width">240dp</dimen>
 </resources>

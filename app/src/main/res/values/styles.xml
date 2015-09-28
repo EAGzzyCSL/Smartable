@@ -2,7 +2,6 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
         <!--导航栏底色-->
         <item name="colorPrimaryDark">@color/primary_dark</item>
         <!--状态栏底色-->
@@ -11,7 +10,7 @@
         <item name="colorAccent">@color/accent</item>
         <!--和 colorAccent相反，正常状态下按钮的颜色-->
         <item name="colorControlNormal">@android:color/white</item>
-
+        <item name="android:textColorPrimary">@android:color/white</item>
         <!--EditText 输入框中字体的颜色-->
 
     </style>
@@ -32,10 +31,5 @@
         <item name="android:textAppearance">?android:attr/textAppearanceLarge</item>
         <item name="android:textSize">18sp</item>
         <item name="android:textStyle">bold</item>
-
     </style>
-    <style name="addActivity_bar">
-
-    </style>
-
 </resources>

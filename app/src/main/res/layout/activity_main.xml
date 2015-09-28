@@ -25,8 +25,7 @@
             <FrameLayout
                 android:id="@+id/main_glance_container"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                ></FrameLayout>
+                android:layout_height="match_parent"></FrameLayout>
             <!--悬浮按钮-->
             <!--there is a bug in support-->
             <!--http://stackoverflow.com/questions/30532863/how-to-add-shadow-to-the-fab-provided-with-the-android-support-design-library-->
@@ -43,10 +42,11 @@
         <!--抽屉-->
         <android.support.design.widget.NavigationView
             android:id="@+id/main_navigationView_nav"
-            android:layout_width="320dp"
+            android:layout_width="@dimen/drawer_width"
             android:layout_height="match_parent"
             android:layout_gravity="start"
             app:headerLayout="@layout/main_drawer_header"
+            app:itemTextColor="@color/primary_text"
             app:menu="@menu/main_drawer" />
     </android.support.v4.widget.DrawerLayout>
 </LinearLayout>

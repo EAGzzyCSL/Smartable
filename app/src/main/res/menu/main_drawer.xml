@@ -2,11 +2,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MainActivity">
-    <group android:checkableBehavior="none">
+    <group android:checkableBehavior="none" >
         <item
             android:id="@+id/main_nav_day"
             android:checkable="true"
             android:icon="@drawable/icon_byday"
+
             android:title="天" />
         <item
             android:id="@+id/main_nav_month"
@@ -26,6 +27,7 @@
         <item
             android:id="@+id/main_nav_setting"
             android:checkable="true"
+
             android:icon="@drawable/icon_setting"
             android:title="设置" />
     </group>

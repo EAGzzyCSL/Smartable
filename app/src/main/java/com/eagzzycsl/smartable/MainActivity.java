@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
         main_fab_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, AddActivity.class);
+                Intent intent = new Intent(MainActivity.this, SingleAddActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putString("opt", "add");
                 Calendar c=Calendar.getInstance();

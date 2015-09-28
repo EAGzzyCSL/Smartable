@@ -6,8 +6,8 @@
     android:id="@+id/add_option_checkBox"
     android:layout_width="0dp"
     android:layout_height="@dimen/singleAdd_bar_height"
-    android:layout_marginLeft="10dp"
+    android:layout_marginLeft="@dimen/bkg_line_width"
     android:button="@null"
     android:gravity="center"
     android:textColor="@drawable/add_option_text_color"
-    android:textSize="32sp" />
+    android:textSize="@dimen/singleAdd_bar_textSize" />

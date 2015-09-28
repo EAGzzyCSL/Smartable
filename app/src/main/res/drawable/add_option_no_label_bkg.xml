@@ -12,7 +12,7 @@
         <shape android:shape="rectangle">
             <stroke
                 android:width="@dimen/bkg_line_width"
-                android:color="@color/secondary_text"></stroke>
+                android:color="@color/primary"></stroke>
         </shape>
     </item>
 </layer-list>
