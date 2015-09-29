@@ -120,6 +120,9 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.main_nav_month:
                         startActivity(new Intent(MainActivity.this,WeekPreviewActivity.class));
                         break;
+                    case R.id.main_nav_year:
+                        startActivity(new Intent(MainActivity.this,SmartAddActivity.class));
+                        break;
                 }
                 return true;
             }

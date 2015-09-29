@@ -40,7 +40,8 @@ public class SQLHelper extends SQLiteOpenHelper implements TableFiled {
         // 归档 filing_table
         db.execSQL("CREATE TABLE IF NOT EXISTS filing_table("
                 + "_id integer primary key autoincrement," + "title STRING,"
-                + "isComplete integer," + "isRoll booleam" + ");");
+                + "isComplete integer," + "isRoll boolean" + ");");
+        //这儿的boolean之前似乎打错了
         //business
         db.execSQL("CREATE TABLE IF NOT EXISTS business("
                         + "_id integer primary key autoincrement,"

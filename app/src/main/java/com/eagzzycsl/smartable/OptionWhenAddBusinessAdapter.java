@@ -2,6 +2,7 @@ package com.eagzzycsl.smartable;
 
 import android.content.Context;
 import android.support.v7.widget.AppCompatCheckBox;
+import android.support.v7.widget.AppCompatRadioButton;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,18 +22,18 @@ public class OptionWhenAddBusinessAdapter extends RecyclerView.Adapter<OptionWhe
     private boolean haveGetContainerHeight = false;
     private String type;
     private int selectedItemPos = -1;
-    private AppCompatCheckBox headCheckedBox;
+    private AppCompatRadioButton headCheckedBox;
     private RecyclerView.LayoutManager layoutManager;
 
     public void clearSelected() {
         this.selectedItemPos = -1;
         for (int i = 0; i < layoutManager.getChildCount(); i++) {
-            AppCompatCheckBox aCb = (AppCompatCheckBox) (layoutManager.getChildAt(i));
-            aCb.setChecked(false);
+            AppCompatRadioButton aCR = (AppCompatRadioButton) (layoutManager.getChildAt(i));
+            aCR.setChecked(false);
         }
     }
 
-    public OptionWhenAddBusinessAdapter(ArrayList<String> items, Context context, RecyclerView container, String type, AppCompatCheckBox headCheckedBox) {
+    public OptionWhenAddBusinessAdapter(ArrayList<String> items, Context context, RecyclerView container, String type, AppCompatRadioButton headCheckedBox) {
         this.items = items;
         this.context = context;
         this.container = container;
@@ -45,6 +46,8 @@ public class OptionWhenAddBusinessAdapter extends RecyclerView.Adapter<OptionWhe
     public void onViewRecycled(ViewHolder holder) {
         super.onViewRecycled(holder);
         holder.setChecked(false);
+        //这句有用嘛？
+
     }
 
 
@@ -98,12 +101,12 @@ public class OptionWhenAddBusinessAdapter extends RecyclerView.Adapter<OptionWhe
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private AppCompatCheckBox textView;
+        private AppCompatRadioButton textView;
         private boolean isAdd = false;
 
         public ViewHolder(final View itemView) {
             super(itemView);
-            textView = (AppCompatCheckBox) itemView.findViewById(R.id.add_option_checkBox);
+            textView = (AppCompatRadioButton) itemView.findViewById(R.id.add_option_checkBox);
             if (type == OptionType.ALERT || type == OptionType.POS) {
 
 
@@ -126,9 +129,9 @@ public class OptionWhenAddBusinessAdapter extends RecyclerView.Adapter<OptionWhe
                         headCheckedBox.setChecked(false);
                         selectedItemPos = getAdapterPosition();
                         for (int i = 0; i < layoutManager.getChildCount(); i++) {
-                            AppCompatCheckBox aCb = (AppCompatCheckBox) (layoutManager.getChildAt(i));
-                            if (aCb != (AppCompatCheckBox) buttonView) {
-                                aCb.setChecked(false);
+                            AppCompatRadioButton aCR = (AppCompatRadioButton) (layoutManager.getChildAt(i));
+                            if (aCR != (AppCompatRadioButton) buttonView) {
+                                aCR.setChecked(false);
                             }
                         }
                     }

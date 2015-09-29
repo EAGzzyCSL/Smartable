@@ -262,6 +262,7 @@ public class CompleteByDayView extends ViewPager {
                         AppCompatButton businessView = new AppCompatButton(getContext());
                         businessView.setBackgroundResource(R.drawable.day_preview_item_bkg);
                         businessView.setGravity(Gravity.LEFT);
+                        businessView.setTextColor(Color.BLACK);
                         businessView.setText(bs.get(i).getTitle());
                         businessView.setTag(bs.get(i).getId());
                         businessView.setOnClickListener(new OnClickListener() {
@@ -293,6 +294,7 @@ public class CompleteByDayView extends ViewPager {
 
                 button.setBackgroundResource(R.drawable.day_add_item_bkg);
                 button.setText("+");
+                button.setTextColor(Color.BLACK);
                 button.setGravity(Gravity.LEFT);
                 button.setOnClickListener(new OnClickListener() {
                     @Override

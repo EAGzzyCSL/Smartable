@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.AppCompatEditText;
+import android.support.v7.widget.AppCompatRadioButton;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -23,6 +24,7 @@ import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -51,10 +53,11 @@ public class SingleAddActivity extends AppCompatActivity implements OptionType {
     private AppCompatEditText editText_title;
     private String opt;
     private String title;
-    private AppCompatCheckBox checkbox_noAlert;
-    private AppCompatCheckBox checkBox_noLabel;
-    private AppCompatCheckBox checkBox_noPos;
+    private AppCompatRadioButton radioButton_noAlert;
+    private AppCompatRadioButton radioButton_noLabel;
+    private AppCompatRadioButton radioButton_noPos;
 
+    private int Business_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,9 +97,8 @@ public class SingleAddActivity extends AppCompatActivity implements OptionType {
             case "edit_withId": {
 
 
-                //需要修改
                 int id = Integer.valueOf(bundle.getString("id"));
-//                Business_id=id;
+                Business_id = id;
                 DatabaseManager dm = DatabaseManager.getInstance(SingleAddActivity.this);
 
                 Business bs = dm.getBusiness(id);
@@ -139,6 +141,16 @@ public class SingleAddActivity extends AppCompatActivity implements OptionType {
                 finish();
                 return true;
             }
+            case R.id.singleAdd_action_delete: {
+                DatabaseManager databaseManager = DatabaseManager.getInstance(SingleAddActivity.this);
+                if (opt.equals("edit_withId")) {
+                    databaseManager.deleteBusiness(Business_id);
+                    Toast.makeText(this, "您成功删除了一件事！", Toast.LENGTH_SHORT).show();
+                }
+                databaseManager.close();
+                finish();
+                return true;
+            }
         }
 
 
@@ -157,9 +169,9 @@ public class SingleAddActivity extends AppCompatActivity implements OptionType {
         recyclerView_pos = (RecyclerView) findViewById(R.id.recyclerView_pos);
         recyclerView_alert = (RecyclerView) findViewById(R.id.recyclerView_alert);
         checkBox_wholeDay = (AppCompatCheckBox) findViewById(R.id.checkBox_wholeDay);
-        checkBox_noLabel = (AppCompatCheckBox) findViewById(R.id.checkBox_noLabel);
-        checkBox_noPos = (AppCompatCheckBox) findViewById(R.id.checkBox_noPos);
-        checkbox_noAlert = (AppCompatCheckBox) findViewById(R.id.checkBox_noAlert);
+        radioButton_noLabel = (AppCompatRadioButton) findViewById(R.id.RadioButton_noLabel);
+        radioButton_noPos = (AppCompatRadioButton) findViewById(R.id.RadioButton_noPos);
+        radioButton_noAlert = (AppCompatRadioButton) findViewById(R.id.RadioButton_noAlert);
 
     }
 
@@ -209,8 +221,8 @@ public class SingleAddActivity extends AppCompatActivity implements OptionType {
                 this.add("与人为乐");
                 this.add("与己为乐");
             }
-        }, SingleAddActivity.this, recyclerView_label, OptionType.LABEL, checkBox_noLabel));
-        checkBox_noLabel.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        }, SingleAddActivity.this, recyclerView_label, OptionType.LABEL, radioButton_noLabel));
+        radioButton_noLabel.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
@@ -226,8 +238,8 @@ public class SingleAddActivity extends AppCompatActivity implements OptionType {
 
                 this.add("+");
             }
-        }, SingleAddActivity.this, recyclerView_pos, OptionType.POS, checkBox_noPos));
-        checkBox_noPos.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        }, SingleAddActivity.this, recyclerView_pos, OptionType.POS, radioButton_noPos));
+        radioButton_noPos.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
@@ -240,15 +252,15 @@ public class SingleAddActivity extends AppCompatActivity implements OptionType {
         recyclerView_alert.setAdapter(new OptionWhenAddBusinessAdapter(new ArrayList<String>() {
             {
 
+                this.add("准时\n提醒");
                 this.add("提前\n5min");
                 this.add("提前\n30min");
-                this.add("当日\n8:00");
                 this.add("选择\n其他");
 
             }
 
-        }, SingleAddActivity.this, recyclerView_alert, OptionType.ALERT, checkbox_noAlert));
-        checkbox_noAlert.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        }, SingleAddActivity.this, recyclerView_alert, OptionType.ALERT, radioButton_noAlert));
+        radioButton_noAlert.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
@@ -278,6 +290,9 @@ public class SingleAddActivity extends AppCompatActivity implements OptionType {
                 timeEnd.getMonth(), timeEnd.getDay()));
         textView_startTime.setText(MyPickerDialog.getMoment(timeStart.getHour(), timeStart.getMinute()));
         textView_endTime.setText(MyPickerDialog.getMoment(timeEnd.getHour(), timeEnd.getMinute()));
+        radioButton_noLabel.setChecked(true);
+        radioButton_noPos.setChecked(true);
+        radioButton_noAlert.setChecked(true);
     }
 }
 

@@ -1,20 +1,17 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
-    <!--toolbar替代actionbar-->
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar_singleAdd"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary" />
-    <!--主布局-->
+    android:layout_margin="10dp"
+    android:orientation="vertical"
+    app:cardCornerRadius="10dp">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-
         android:padding="@dimen/paddingByLily">
         <!--输入事项窗口-->
         <LinearLayout
@@ -41,14 +38,25 @@
                 android:textSize="@dimen/singleAdd_bar_textSize" />
 
             <ImageButton
+                android:id="@+id/imageButton_delete"
                 android:layout_width="50dp"
                 android:layout_height="match_parent"
-                android:scaleType="fitXY"
                 android:background="@android:color/transparent"
-                android:src="@drawable/icon_voice_white" />
+                android:scaleType="fitXY"
+                android:src="@drawable/icon_delete_white" />
+
+            <ImageButton
+                android:id="@+id/imageButton_done"
+                android:layout_width="50dp"
+
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:scaleType="fitXY"
+                android:src="@drawable/icon_done_white" />
         </LinearLayout>
         <!--设置时间-->
         <LinearLayout
+            android:id="@+id/linearLayout_setTime"
             android:layout_width="match_parent"
 
             android:layout_height="@dimen/singleAdd_bar_height"
@@ -141,6 +149,7 @@
         </LinearLayout>
         <!--设置标签-->
         <LinearLayout
+            android:id="@+id/linearLayout_setLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/singleAdd_bar_interval">
@@ -155,10 +164,10 @@
                     android:layout_width="@dimen/singleAdd_bar_height"
                     android:layout_height="@dimen/singleAdd_bar_height"
                     android:background="@drawable/add_option_no_label_bkg"
-                    android:gravity="center"
                     android:button="@null"
+                    android:gravity="center"
                     android:text="@string/noLabel"
-                    android:textColor="@drawable/add_option_text_color"
+                    android:textColor="@color/white"
                     android:textSize="@dimen/singleAdd_bar_textSize" />
             </LinearLayout>
 
@@ -168,13 +177,13 @@
                 android:layout_height="@dimen/singleAdd_bar_height"
                 android:layout_weight="1"
 
-                android:overScrollMode="never"
-                ></android.support.v7.widget.RecyclerView>
+                android:overScrollMode="never"></android.support.v7.widget.RecyclerView>
 
 
         </LinearLayout>
         <!--设置地点-->
         <LinearLayout
+            android:id="@+id/linearLayout_setPos"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/singleAdd_bar_interval">
@@ -190,10 +199,10 @@
                     android:layout_width="@dimen/singleAdd_bar_height"
                     android:layout_height="@dimen/singleAdd_bar_height"
                     android:background="@drawable/add_option_no_pos_bkg"
+                    android:button="@null"
                     android:gravity="center"
                     android:text="@string/position"
-                    android:button="@null"
-                    android:textColor="@drawable/add_option_text_color"
+                    android:textColor="@color/white"
                     android:textSize="@dimen/singleAdd_bar_textSize" />
             </LinearLayout>
 
@@ -210,6 +219,7 @@
         </LinearLayout>
         <!--设置提醒-->
         <LinearLayout
+            android:id="@+id/linearLayout_setAlert"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/singleAdd_bar_interval">
@@ -228,20 +238,35 @@
                     android:button="@null"
                     android:gravity="center"
                     android:text="@string/noAlert"
-                    android:textColor="@drawable/add_option_text_color"
+                    android:textColor="@color/white"
                     android:textSize="@dimen/singleAdd_bar_textSize" />
             </LinearLayout>
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recyclerView_alert"
-                android:layout_width="0dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="@dimen/singleAdd_bar_height"
-                android:overScrollMode="never"
-                android:layout_weight="1"></android.support.v7.widget.RecyclerView>
+                android:layout_marginLeft="@dimen/bkg_line_width"
+                android:background="@color/add_alert_default"
+                android:paddingBottom="@dimen/singleAdd_bar_innerPaddingVertical"
+                android:paddingLeft="@dimen/singleAdd_bar_innerPaddingHorizontal"
+                android:paddingRight="@dimen/singleAdd_bar_innerPaddingHorizontal"
+                android:paddingTop="@dimen/singleAdd_bar_innerPaddingVertical">
+
+                <EditText
+                    android:id="@+id/editText_takes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@android:color/transparent"
+                    android:ems="10"
+                    android:inputType="numberDecimal" />
+            </LinearLayout>
 
 
         </LinearLayout>
+
+
     </LinearLayout>
 
-</LinearLayout>
+</android.support.v7.widget.CardView>
 
