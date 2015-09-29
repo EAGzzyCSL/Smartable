@@ -46,11 +46,15 @@ public class SingleAddActivity extends AppCompatActivity implements OptionType {
     private OptionWhenAddBusinessAdapter labelAdapter;
     private OptionWhenAddBusinessAdapter posAdapter;
     private OptionWhenAddBusinessAdapter alertAdapter;
-    private AppCompatCheckBox checkbox_noAlert;
+
     private AppCompatCheckBox checkBox_wholeDay;
     private AppCompatEditText editText_title;
     private String opt;
     private String title;
+    private AppCompatCheckBox checkbox_noAlert;
+    private AppCompatCheckBox checkBox_noLabel;
+    private AppCompatCheckBox checkBox_noPos;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,6 +134,11 @@ public class SingleAddActivity extends AppCompatActivity implements OptionType {
                 finish();
                 return true;
             }
+            case R.id.singleAdd_action_save: {
+                DatabaseManager.getInstance(SingleAddActivity.this).insertBusiness(new Business(editText_title.getText().toString(), timeStart, timeEnd).toContentValues());
+                finish();
+                return true;
+            }
         }
 
 
@@ -138,7 +147,7 @@ public class SingleAddActivity extends AppCompatActivity implements OptionType {
 
     private void myFindViewById() {
         toolbar_singleAdd = (Toolbar) findViewById(R.id.toolbar_singleAdd);
-        editText_title = (AppCompatEditText) findViewById(R.id.main_editText_title);
+        editText_title = (AppCompatEditText) findViewById(R.id.editText_title);
         textView_startDate = (AppCompatTextView) findViewById(R.id.textView_startDate);
         textView_startTime = (AppCompatTextView) findViewById(R.id.textView_startTime);
         textView_endDate = (AppCompatTextView) findViewById(R.id.textView_endDate);
@@ -148,6 +157,9 @@ public class SingleAddActivity extends AppCompatActivity implements OptionType {
         recyclerView_pos = (RecyclerView) findViewById(R.id.recyclerView_pos);
         recyclerView_alert = (RecyclerView) findViewById(R.id.recyclerView_alert);
         checkBox_wholeDay = (AppCompatCheckBox) findViewById(R.id.checkBox_wholeDay);
+        checkBox_noLabel = (AppCompatCheckBox) findViewById(R.id.checkBox_noLabel);
+        checkBox_noPos = (AppCompatCheckBox) findViewById(R.id.checkBox_noPos);
+        checkbox_noAlert = (AppCompatCheckBox) findViewById(R.id.checkBox_noAlert);
 
     }
 
@@ -197,24 +209,33 @@ public class SingleAddActivity extends AppCompatActivity implements OptionType {
                 this.add("与人为乐");
                 this.add("与己为乐");
             }
-        }, SingleAddActivity.this, recyclerView_label, OptionType.LABEL));
-        OptionWhenAddBusinessAdapter test=new OptionWhenAddBusinessAdapter(new ArrayList<String>() {
+        }, SingleAddActivity.this, recyclerView_label, OptionType.LABEL, checkBox_noLabel));
+        checkBox_noLabel.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    ((OptionWhenAddBusinessAdapter) (recyclerView_label.getAdapter())).clearSelected();
+                }
+            }
+        });
+        recyclerView_pos.setAdapter(new OptionWhenAddBusinessAdapter(new ArrayList<String>() {
             {
                 this.add("宿舍");
                 this.add("教室");
                 this.add("其他");
-                this.add("a");
-                this.add("b");
-                this.add("c");
-                this.add("d");
-                this.add("e");
-                this.add("f");
-                this.add("g");
+
                 this.add("+");
             }
-        },SingleAddActivity.this, recyclerView_pos, OptionType.POS);
-        test.setLayoutManager(recyclerView_pos.getLayoutManager());
-        recyclerView_pos.setAdapter(test);
+        }, SingleAddActivity.this, recyclerView_pos, OptionType.POS, checkBox_noPos));
+        checkBox_noPos.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    ((OptionWhenAddBusinessAdapter) (recyclerView_pos.getAdapter())).clearSelected();
+                }
+            }
+        });
+
 
         recyclerView_alert.setAdapter(new OptionWhenAddBusinessAdapter(new ArrayList<String>() {
             {
@@ -226,7 +247,15 @@ public class SingleAddActivity extends AppCompatActivity implements OptionType {
 
             }
 
-        }, SingleAddActivity.this, recyclerView_alert, OptionType.ALERT));
+        }, SingleAddActivity.this, recyclerView_alert, OptionType.ALERT, checkbox_noAlert));
+        checkbox_noAlert.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    ((OptionWhenAddBusinessAdapter) (recyclerView_alert.getAdapter())).clearSelected();
+                }
+            }
+        });
         checkBox_wholeDay.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {

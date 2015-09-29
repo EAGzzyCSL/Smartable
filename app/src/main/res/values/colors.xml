@@ -12,5 +12,8 @@
     <color name="white">#FFFFFF</color>
     <color name="add_pos_default">#CBFA96</color>
     <color name="add_alert_default">#FAF1B6</color>
-
+    <color name="day_add_item_left_line">#84ac85</color>
+    <color name="day_add_item_bkg">#c7e5c8</color>
+    <color name="day_preview_item_left_line">#dcbc6d</color>
+    <color name="day_preview_item_bkg">#faf1b6</color>
 </resources>

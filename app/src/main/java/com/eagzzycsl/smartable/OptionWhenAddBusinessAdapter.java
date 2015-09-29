@@ -10,6 +10,7 @@ import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 
 import java.util.ArrayList;
+import java.util.zip.CheckedInputStream;
 
 
 public class OptionWhenAddBusinessAdapter extends RecyclerView.Adapter<OptionWhenAddBusinessAdapter.ViewHolder> implements OptionType {
@@ -20,17 +21,24 @@ public class OptionWhenAddBusinessAdapter extends RecyclerView.Adapter<OptionWhe
     private boolean haveGetContainerHeight = false;
     private String type;
     private int selectedItemPos = -1;
+    private AppCompatCheckBox headCheckedBox;
     private RecyclerView.LayoutManager layoutManager;
 
-    public void setLayoutManager(RecyclerView.LayoutManager layoutManager) {
-        this.layoutManager = layoutManager;
+    public void clearSelected() {
+        this.selectedItemPos = -1;
+        for (int i = 0; i < layoutManager.getChildCount(); i++) {
+            AppCompatCheckBox aCb = (AppCompatCheckBox) (layoutManager.getChildAt(i));
+            aCb.setChecked(false);
+        }
     }
 
-    public OptionWhenAddBusinessAdapter(ArrayList<String> items, Context context, RecyclerView container, String type) {
+    public OptionWhenAddBusinessAdapter(ArrayList<String> items, Context context, RecyclerView container, String type, AppCompatCheckBox headCheckedBox) {
         this.items = items;
         this.context = context;
         this.container = container;
+        this.layoutManager = container.getLayoutManager();
         this.type = type;
+        this.headCheckedBox = headCheckedBox;
     }
 
     @Override
@@ -49,16 +57,40 @@ public class OptionWhenAddBusinessAdapter extends RecyclerView.Adapter<OptionWhe
     public void onBindViewHolder(ViewHolder holder, int position) {
         if (!haveGetContainerHeight) {
             containerHeight = container.getMeasuredHeight();
+            adjustHeight();
             haveGetContainerHeight = true;
+
         }
         if (position == selectedItemPos) {
             holder.setChecked(true);
+        }
+        if (position == getItemCount() - 1) {
+            holder.setIsAdd(true);
         }
         holder.setText(items.get(position));
 
 
     }
 
+    private void adjustHeight() {
+        int tmp = getItemCount();
+        int oneLineCount;
+        if (type == OptionType.POS || type == OptionType.ALERT) {
+            oneLineCount = 4;
+        } else {
+            oneLineCount = 3;
+        }
+        if (tmp <= oneLineCount) {
+
+            container.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, containerHeight));
+        } else if (tmp <= 2 * oneLineCount) {
+
+            container.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (int) (containerHeight * 2)));
+        } else {
+            container.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (int) (containerHeight * 3)));
+
+        }
+    }
 
     @Override
     public int getItemCount() {
@@ -67,46 +99,48 @@ public class OptionWhenAddBusinessAdapter extends RecyclerView.Adapter<OptionWhe
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private AppCompatCheckBox textView;
+        private boolean isAdd = false;
 
         public ViewHolder(final View itemView) {
             super(itemView);
             textView = (AppCompatCheckBox) itemView.findViewById(R.id.add_option_checkBox);
-/*
-            textView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    addData(getAdapterPosition());
-                    int tmp=getItemCount();
-                    if(tmp<=3){
+            if (type == OptionType.ALERT || type == OptionType.POS) {
 
-                        container.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, containerHeight));
-                    }else if(tmp<=6){
 
-                        container.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, containerHeight* 2));
-
-                    }else{
-                        container.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, containerHeight* 3));
-
+                textView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (isAdd) {
+                            addData(getAdapterPosition());
+                            adjustHeight();
+                        }
                     }
+                });
+            }
 
-                }
-            });
 
-*/
             textView.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if (isChecked) {
+                        headCheckedBox.setChecked(false);
                         selectedItemPos = getAdapterPosition();
-                        for (int i = 0; layoutManager != null && i < layoutManager.getChildCount(); i++) {
+                        for (int i = 0; i < layoutManager.getChildCount(); i++) {
                             AppCompatCheckBox aCb = (AppCompatCheckBox) (layoutManager.getChildAt(i));
                             if (aCb != (AppCompatCheckBox) buttonView) {
                                 aCb.setChecked(false);
                             }
                         }
                     }
+                    if (type == OptionType.ALERT || type == OptionType.POS) {
+                        if (isAdd) {
+                            buttonView.setChecked(!isChecked);
+                        }
+                    }
+
                 }
             });
+
             switch (type) {
                 case OptionType.LABEL: {
                     textView.setBackgroundResource(R.drawable.add_option_bkg_label);
@@ -134,6 +168,10 @@ public class OptionWhenAddBusinessAdapter extends RecyclerView.Adapter<OptionWhe
 
         public void setChecked(boolean isChecked) {
             textView.setChecked(isChecked);
+        }
+
+        public void setIsAdd(boolean isAdd) {
+            this.isAdd = isAdd;
         }
     }
 }

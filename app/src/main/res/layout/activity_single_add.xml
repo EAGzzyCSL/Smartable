@@ -151,11 +151,13 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <android.support.v7.widget.AppCompatTextView
+                <android.support.v7.widget.AppCompatCheckBox
+                    android:id="@+id/checkBox_noLabel"
                     android:layout_width="@dimen/singleAdd_bar_height"
                     android:layout_height="@dimen/singleAdd_bar_height"
                     android:background="@drawable/add_option_no_label_bkg"
                     android:gravity="center"
+                    android:button="@null"
                     android:text="@string/noLabel"
                     android:textColor="@color/white"
                     android:textSize="@dimen/singleAdd_bar_textSize" />
@@ -184,12 +186,14 @@
 
                 android:orientation="vertical">
 
-                <android.support.v7.widget.AppCompatTextView
+                <android.support.v7.widget.AppCompatCheckBox
+                    android:id="@+id/checkBox_noPos"
                     android:layout_width="@dimen/singleAdd_bar_height"
                     android:layout_height="@dimen/singleAdd_bar_height"
                     android:background="@drawable/add_option_no_pos_bkg"
                     android:gravity="center"
                     android:text="@string/position"
+                    android:button="@null"
                     android:textColor="@color/white"
                     android:textSize="@dimen/singleAdd_bar_textSize" />
             </LinearLayout>
@@ -218,10 +222,10 @@
                 android:orientation="vertical">
 
                 <android.support.v7.widget.AppCompatCheckBox
-                    android:id="@+id/checkbox_noAlert"
+                    android:id="@+id/checkBox_noAlert"
                     android:layout_width="@dimen/singleAdd_bar_height"
                     android:layout_height="@dimen/singleAdd_bar_height"
-                    android:background="@drawable/add_option_bkg_alert"
+                    android:background="@drawable/add_option_no_alert_bkg"
                     android:button="@null"
                     android:gravity="center"
                     android:text="@string/noAlert"

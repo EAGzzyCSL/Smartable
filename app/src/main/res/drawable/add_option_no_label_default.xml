@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@color/primary_light"></solid>
+        </shape>
+    </item>
+    <item
+        android:left="@dimen/bkg_line_width_negative"
+        android:right="@dimen/bkg_line_width_negative"
+        android:top="@dimen/bkg_line_width_negative">
+        <shape android:shape="rectangle">
+            <stroke
+                android:width="@dimen/bkg_line_width"
+                android:color="@color/primary"></stroke>
+        </shape>
+    </item>
+</layer-list>

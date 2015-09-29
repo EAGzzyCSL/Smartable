@@ -28,6 +28,7 @@ import common.MyUtil;
 
 import com.eagzzycsl.smartable.FragmentByDay;
 import com.eagzzycsl.smartable.R;
+import com.eagzzycsl.smartable.SingleAddActivity;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -259,7 +260,8 @@ public class CompleteByDayView extends ViewPager {
                     for (int i = 0; i < bs.size(); i++) {
                         //定义事件的view并为他们添加相关属性
                         AppCompatButton businessView = new AppCompatButton(getContext());
-                        businessView.setBackgroundColor(Color.rgb(60, 174, 256));
+                        businessView.setBackgroundResource(R.drawable.day_preview_item_bkg);
+                        businessView.setGravity(Gravity.LEFT);
                         businessView.setText(bs.get(i).getTitle());
                         businessView.setTag(bs.get(i).getId());
                         businessView.setOnClickListener(new OnClickListener() {
@@ -268,7 +270,7 @@ public class CompleteByDayView extends ViewPager {
                                 Bundle bundle = new Bundle();
                                 bundle.putString("opt", "edit_withId");
                                 bundle.putString("id", v.getTag().toString());
-                                Intent intent = new Intent(getContext(), AddActivity.class);
+                                Intent intent = new Intent(getContext(), SingleAddActivity.class);
                                 intent.putExtras(bundle);
                                 getContext().startActivity(intent);
                                 Toast.makeText(getContext(), v.getTag().toString(), Toast.LENGTH_SHORT).show();
@@ -282,21 +284,22 @@ public class CompleteByDayView extends ViewPager {
                         int bm = topBlank + lineWidth + bs.get(i).getEnd().getHour() * (height1h + lineWidth) + bs.get(i).getEnd().getMinute() * hpm;
                         //如果这个事件结束时间是整点的话绘制的时候减去两个像素为了美观
                         bm -= bs.get(i).getEnd().getMinute() == 0 ? 2 * lineWidth : 0;
+
                         getChildAt(i).layout(lineLeft, bt, lineRight, bm);
                     }
                 }
                 //先添加事件最后再添加添加事件的那个view,后添加的缘故是这样可以让它居于上面
                 button = new AppCompatButton(getContext());
-                button.setLayoutParams(new ViewGroup.LayoutParams(lineRight-lineLeft,height1h));
-                button.setBackgroundColor(Color.argb(192, 30, 144, 255));
+
+                button.setBackgroundResource(R.drawable.day_add_item_bkg);
                 button.setText("+");
-                button.setGravity(Gravity.CENTER);
+                button.setGravity(Gravity.LEFT);
                 button.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
 
-                        Intent intent = new Intent(getContext(), AddActivity.class);
+                        Intent intent = new Intent(getContext(), SingleAddActivity.class);
                         Bundle bundle = new Bundle();
                         bundle.putInt("year", calendar.get(Calendar.YEAR));
                         bundle.putInt("month", calendar.get(Calendar.MONTH));
