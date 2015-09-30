@@ -13,6 +13,8 @@ import android.widget.LinearLayout;
 import java.util.ArrayList;
 import java.util.zip.CheckedInputStream;
 
+import common.Affair;
+
 
 public class OptionWhenAddBusinessAdapter extends RecyclerView.Adapter<OptionWhenAddBusinessAdapter.ViewHolder> implements OptionType {
     private ArrayList<String> items;
@@ -24,6 +26,14 @@ public class OptionWhenAddBusinessAdapter extends RecyclerView.Adapter<OptionWhe
     private int selectedItemPos = -1;
     private AppCompatRadioButton headCheckedBox;
     private RecyclerView.LayoutManager layoutManager;
+//    private Affair mLinkedAffair;
+//    public void setMLinkedAffair(Affair mLinkedAffair){
+//        this.mLinkedAffair=mLinkedAffair;
+//    }
+
+    public int getSelectedItemPos() {
+        return selectedItemPos;
+    }
 
     public void clearSelected() {
         this.selectedItemPos = -1;
@@ -45,8 +55,7 @@ public class OptionWhenAddBusinessAdapter extends RecyclerView.Adapter<OptionWhe
     @Override
     public void onViewRecycled(ViewHolder holder) {
         super.onViewRecycled(holder);
-        holder.setChecked(false);
-        //这句有用嘛？
+        holder.setChecked(false);//回收前全部设置为不选中到了展示时再决定要不要选中
 
     }
 
@@ -70,6 +79,12 @@ public class OptionWhenAddBusinessAdapter extends RecyclerView.Adapter<OptionWhe
         if (position == getItemCount() - 1) {
             holder.setIsAdd(true);
         }
+        if (type == OptionType.TAKE) {
+            if (position == 0) {
+                holder.setChecked(true);
+            }
+        }
+
         holder.setText(items.get(position));
 
 
@@ -78,10 +93,10 @@ public class OptionWhenAddBusinessAdapter extends RecyclerView.Adapter<OptionWhe
     private void adjustHeight() {
         int tmp = getItemCount();
         int oneLineCount;
-        if (type == OptionType.POS || type == OptionType.ALERT) {
-            oneLineCount = 4;
-        } else {
+        if (type == OptionType.LABEL) {
             oneLineCount = 3;
+        } else {
+            oneLineCount = 4;
         }
         if (tmp <= oneLineCount) {
 
@@ -107,7 +122,7 @@ public class OptionWhenAddBusinessAdapter extends RecyclerView.Adapter<OptionWhe
         public ViewHolder(final View itemView) {
             super(itemView);
             textView = (AppCompatRadioButton) itemView.findViewById(R.id.add_option_checkBox);
-            if (type == OptionType.ALERT || type == OptionType.POS) {
+            if (type == OptionType.ALERT || type == OptionType.POS || type == OptionType.TAKE) {
 
 
                 textView.setOnClickListener(new View.OnClickListener() {
@@ -126,8 +141,13 @@ public class OptionWhenAddBusinessAdapter extends RecyclerView.Adapter<OptionWhe
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if (isChecked) {
-                        headCheckedBox.setChecked(false);
+
                         selectedItemPos = getAdapterPosition();
+                        //因为设置持续时间的那一块head是不可以选的所以要这样做
+                        if(type==OptionType.TAKE){
+                            headCheckedBox.setChecked(true);
+                        }
+                        headCheckedBox.setChecked(false);
                         for (int i = 0; i < layoutManager.getChildCount(); i++) {
                             AppCompatRadioButton aCR = (AppCompatRadioButton) (layoutManager.getChildAt(i));
                             if (aCR != (AppCompatRadioButton) buttonView) {
@@ -135,7 +155,7 @@ public class OptionWhenAddBusinessAdapter extends RecyclerView.Adapter<OptionWhe
                             }
                         }
                     }
-                    if (type == OptionType.ALERT || type == OptionType.POS) {
+                    if (type == OptionType.ALERT || type == OptionType.POS || type == OptionType.TAKE) {
                         if (isAdd) {
                             buttonView.setChecked(!isChecked);
                         }
@@ -153,7 +173,8 @@ public class OptionWhenAddBusinessAdapter extends RecyclerView.Adapter<OptionWhe
                     textView.setBackgroundResource(R.drawable.add_option_bkg_pos);
                     break;
                 }
-                case OptionType.ALERT: {
+                case OptionType.ALERT:
+                case OptionType.TAKE: {
                     textView.setBackgroundResource(R.drawable.add_option_bkg_alert);
                     break;
                 }
@@ -183,4 +204,5 @@ interface OptionType {
     String LABEL = "label";
     String POS = "pos";
     String ALERT = "alert";
+    String TAKE = "take";
 }

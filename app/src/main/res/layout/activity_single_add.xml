@@ -151,7 +151,7 @@
                 android:orientation="vertical">
 
                 <android.support.v7.widget.AppCompatRadioButton
-                    android:id="@+id/RadioButton_noLabel"
+                    android:id="@+id/radioButton_noLabel"
                     android:layout_width="@dimen/singleAdd_bar_height"
                     android:layout_height="@dimen/singleAdd_bar_height"
                     android:background="@drawable/add_option_no_label_bkg"
@@ -186,7 +186,7 @@
                 android:orientation="vertical">
 
                 <android.support.v7.widget.AppCompatRadioButton
-                    android:id="@+id/RadioButton_noPos"
+                    android:id="@+id/radioButton_noPos"
                     android:layout_width="@dimen/singleAdd_bar_height"
                     android:layout_height="@dimen/singleAdd_bar_height"
                     android:background="@drawable/add_option_no_pos_bkg"
@@ -221,7 +221,7 @@
                 android:orientation="vertical">
 
                 <android.support.v7.widget.AppCompatRadioButton
-                    android:id="@+id/RadioButton_noAlert"
+                    android:id="@+id/radioButton_noAlert"
                     android:layout_width="@dimen/singleAdd_bar_height"
                     android:layout_height="@dimen/singleAdd_bar_height"
                     android:background="@drawable/add_option_no_alert_bkg"

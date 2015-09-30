@@ -143,7 +143,7 @@
                 android:background="@drawable/add_option_bkg_whole_day"
                 android:button="@null"
                 android:gravity="center"
-                android:text="@string/wholeDay"
+                android:enabled="false"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/singleAdd_bar_textSize" />
         </LinearLayout>
@@ -160,14 +160,14 @@
                 android:orientation="vertical">
 
                 <android.support.v7.widget.AppCompatRadioButton
-                    android:id="@+id/RadioButton_noLabel"
+                    android:id="@+id/radioButton_noLabel"
                     android:layout_width="@dimen/singleAdd_bar_height"
                     android:layout_height="@dimen/singleAdd_bar_height"
                     android:background="@drawable/add_option_no_label_bkg"
                     android:button="@null"
                     android:gravity="center"
                     android:text="@string/noLabel"
-                    android:textColor="@color/white"
+                    android:textColor="@drawable/add_option_text_color"
                     android:textSize="@dimen/singleAdd_bar_textSize" />
             </LinearLayout>
 
@@ -195,14 +195,14 @@
                 android:orientation="vertical">
 
                 <android.support.v7.widget.AppCompatRadioButton
-                    android:id="@+id/RadioButton_noPos"
+                    android:id="@+id/radioButton_noPos"
                     android:layout_width="@dimen/singleAdd_bar_height"
                     android:layout_height="@dimen/singleAdd_bar_height"
                     android:background="@drawable/add_option_no_pos_bkg"
                     android:button="@null"
                     android:gravity="center"
                     android:text="@string/position"
-                    android:textColor="@color/white"
+                    android:textColor="@drawable/add_option_text_color"
                     android:textSize="@dimen/singleAdd_bar_textSize" />
             </LinearLayout>
 
@@ -231,37 +231,26 @@
                 android:orientation="vertical">
 
                 <android.support.v7.widget.AppCompatRadioButton
-                    android:id="@+id/RadioButton_noAlert"
+                    android:id="@+id/radioButton_take"
                     android:layout_width="@dimen/singleAdd_bar_height"
                     android:layout_height="@dimen/singleAdd_bar_height"
                     android:background="@drawable/add_option_no_alert_bkg"
                     android:button="@null"
                     android:gravity="center"
-                    android:text="@string/noAlert"
-                    android:textColor="@color/white"
+                    android:enabled="false"
+                    android:text="@string/timeTake"
+                    android:textColor="@drawable/add_option_text_color"
                     android:textSize="@dimen/singleAdd_bar_textSize" />
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerView_take"
+                android:layout_width="0dp"
                 android:layout_height="@dimen/singleAdd_bar_height"
-                android:layout_marginLeft="@dimen/bkg_line_width"
-                android:background="@color/add_alert_default"
-                android:paddingBottom="@dimen/singleAdd_bar_innerPaddingVertical"
-                android:paddingLeft="@dimen/singleAdd_bar_innerPaddingHorizontal"
-                android:paddingRight="@dimen/singleAdd_bar_innerPaddingHorizontal"
-                android:paddingTop="@dimen/singleAdd_bar_innerPaddingVertical">
+                android:layout_weight="1"
+                android:overScrollMode="never"
 
-                <EditText
-                    android:id="@+id/editText_takes"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:background="@android:color/transparent"
-                    android:ems="10"
-                    android:inputType="numberDecimal" />
-            </LinearLayout>
-
+                ></android.support.v7.widget.RecyclerView>
 
         </LinearLayout>
 

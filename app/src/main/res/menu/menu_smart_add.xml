@@ -2,6 +2,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.eagzzycsl.smartable.SmartAddActivity">
-    <item android:id="@+id/action_settings" android:title="@string/action_settings"
-        android:orderInCategory="100" app:showAsAction="never" />
-</menu>
+    <item
+        android:id="@+id/smartAdd_action_done"
+
+        android:title="生成"
+        app:showAsAction="ifRoom" />
+</menu><!--android:icon="@drawable/icon_publish_white"-->

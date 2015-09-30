@@ -169,9 +169,9 @@ public class SingleAddActivity extends AppCompatActivity implements OptionType {
         recyclerView_pos = (RecyclerView) findViewById(R.id.recyclerView_pos);
         recyclerView_alert = (RecyclerView) findViewById(R.id.recyclerView_alert);
         checkBox_wholeDay = (AppCompatCheckBox) findViewById(R.id.checkBox_wholeDay);
-        radioButton_noLabel = (AppCompatRadioButton) findViewById(R.id.RadioButton_noLabel);
-        radioButton_noPos = (AppCompatRadioButton) findViewById(R.id.RadioButton_noPos);
-        radioButton_noAlert = (AppCompatRadioButton) findViewById(R.id.RadioButton_noAlert);
+        radioButton_noLabel = (AppCompatRadioButton) findViewById(R.id.radioButton_noLabel);
+        radioButton_noPos = (AppCompatRadioButton) findViewById(R.id.radioButton_noPos);
+        radioButton_noAlert = (AppCompatRadioButton) findViewById(R.id.radioButton_noAlert);
 
     }
 
@@ -215,22 +215,23 @@ public class SingleAddActivity extends AppCompatActivity implements OptionType {
         recyclerView_pos.setItemAnimator(new DefaultItemAnimator());
         recyclerView_alert.setLayoutManager(new StaggeredGridLayoutManager(4, LinearLayoutManager.VERTICAL));
         recyclerView_alert.setItemAnimator(new DefaultItemAnimator());
-        recyclerView_label.setAdapter(new OptionWhenAddBusinessAdapter(new ArrayList<String>() {
+        labelAdapter = new OptionWhenAddBusinessAdapter(new ArrayList<String>() {
             {
                 this.add("作业");
                 this.add("与人为乐");
                 this.add("与己为乐");
             }
-        }, SingleAddActivity.this, recyclerView_label, OptionType.LABEL, radioButton_noLabel));
+        }, SingleAddActivity.this, recyclerView_label, OptionType.LABEL, radioButton_noLabel);
+        recyclerView_label.setAdapter(labelAdapter);
         radioButton_noLabel.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    ((OptionWhenAddBusinessAdapter) (recyclerView_label.getAdapter())).clearSelected();
+                    labelAdapter.clearSelected();
                 }
             }
         });
-        recyclerView_pos.setAdapter(new OptionWhenAddBusinessAdapter(new ArrayList<String>() {
+        posAdapter = new OptionWhenAddBusinessAdapter(new ArrayList<String>() {
             {
                 this.add("宿舍");
                 this.add("教室");
@@ -238,18 +239,17 @@ public class SingleAddActivity extends AppCompatActivity implements OptionType {
 
                 this.add("+");
             }
-        }, SingleAddActivity.this, recyclerView_pos, OptionType.POS, radioButton_noPos));
+        }, SingleAddActivity.this, recyclerView_pos, OptionType.POS, radioButton_noPos);
+        recyclerView_pos.setAdapter(posAdapter);
         radioButton_noPos.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    ((OptionWhenAddBusinessAdapter) (recyclerView_pos.getAdapter())).clearSelected();
+                    posAdapter.clearSelected();
                 }
             }
         });
-
-
-        recyclerView_alert.setAdapter(new OptionWhenAddBusinessAdapter(new ArrayList<String>() {
+        alertAdapter = new OptionWhenAddBusinessAdapter(new ArrayList<String>() {
             {
 
                 this.add("准时\n提醒");
@@ -259,18 +259,23 @@ public class SingleAddActivity extends AppCompatActivity implements OptionType {
 
             }
 
-        }, SingleAddActivity.this, recyclerView_alert, OptionType.ALERT, radioButton_noAlert));
+        }, SingleAddActivity.this, recyclerView_alert, OptionType.ALERT, radioButton_noAlert);
+
+        recyclerView_alert.setAdapter(alertAdapter);
         radioButton_noAlert.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    ((OptionWhenAddBusinessAdapter) (recyclerView_alert.getAdapter())).clearSelected();
+                    alertAdapter.clearSelected();
                 }
             }
         });
         checkBox_wholeDay.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                String s = "label" + labelAdapter.getSelectedItemPos() + "pos" + posAdapter.getSelectedItemPos() + "alert" + alertAdapter.getSelectedItemPos();
+                Toast.makeText(SingleAddActivity.this, s, Toast.LENGTH_SHORT).show();
                 if (isChecked) {
                     textView_startTime.setVisibility(View.INVISIBLE);
                     textView_endTime.setVisibility(View.INVISIBLE);

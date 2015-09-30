@@ -1,8 +1,8 @@
 package common;
 
-/**
- * Created by eagzzycsl on 7/29/15.
- */
+
+import java.util.Calendar;
+
 public class MyTime {
     private int year;
     private int month;
@@ -84,4 +84,14 @@ public class MyTime {
         return this.toMinutes() - t.toMinutes();
     }
 
+
+    public Calendar toCalendar(){
+        Calendar c=Calendar.getInstance();
+        c.set(Calendar.YEAR,year);
+        c.set(Calendar.MONTH,month-1);
+        c.set(Calendar.DAY_OF_MONTH,day);
+        c.set(Calendar.HOUR_OF_DAY,hour);
+        c.set(Calendar.MINUTE,minute);
+        return c;
+    }
 }

@@ -11,6 +11,7 @@
     <string name="noLabel">暂无\n标签</string>
     <string name="position">地点</string>
     <string name="noAlert">暂不\n提醒</string>
+    <string name="timeTake">持续\n时间</string>
 
     //By 宇
     <color name="divider_color">#E6E6E6</color>

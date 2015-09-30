@@ -17,7 +17,12 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name">
+            <!-- 移动这几行可以设置默认启动的activity -->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity android:name=".AddActivity" />
         <activity android:name=".SettingActivity" />
@@ -34,12 +39,7 @@
             android:name=".SmartAddActivity"
             android:label="@string/title_activity_smart_add">
 
-            <!-- 移动这几行可以设置默认启动的activity -->
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 

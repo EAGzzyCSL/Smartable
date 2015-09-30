@@ -13,12 +13,12 @@
             android:id="@+id/main_nav_month"
             android:checkable="true"
             android:icon="@drawable/icon_bymonth"
-            android:title="月" />
+            android:title="按周预览" />
         <item
             android:id="@+id/main_nav_year"
             android:checkable="true"
             android:icon="@drawable/icon_byyear"
-            android:title="年" />
+            android:title="批量添加" />
         <item
             android:id="@+id/main_nav_kind"
             android:checkable="true"
