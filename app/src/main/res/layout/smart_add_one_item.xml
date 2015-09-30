@@ -3,14 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/linearLayout_container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:layout_margin="10dp"
-    android:orientation="vertical"
     app:cardCornerRadius="10dp">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="@dimen/paddingByLily">
         <!--输入事项窗口-->
@@ -86,7 +85,7 @@
                         android:layout_weight="1"
                         android:gravity="center_vertical"
                         android:textColor="@android:color/white"
-                        android:textSize="@dimen/singleAdd_bar_textSize" />
+                        android:textSize="@dimen/singleAdd_bar_textSize_small" />
 
                     <android.support.v7.widget.AppCompatTextView
                         android:id="@+id/textView_endDate"
@@ -97,7 +96,7 @@
                         android:layout_weight="1"
                         android:gravity="center_vertical"
                         android:textColor="@android:color/white"
-                        android:textSize="@dimen/singleAdd_bar_textSize" />
+                        android:textSize="@dimen/singleAdd_bar_textSize_small" />
 
 
                 </LinearLayout>
@@ -120,7 +119,7 @@
                         android:layout_weight="1"
                         android:gravity="center_vertical"
                         android:textColor="@android:color/white"
-                        android:textSize="@dimen/singleAdd_bar_textSize" />
+                        android:textSize="@dimen/singleAdd_bar_textSize_small" />
 
                     <android.support.v7.widget.AppCompatTextView
                         android:id="@+id/textView_endTime"
@@ -130,7 +129,7 @@
                         android:layout_weight="1"
                         android:gravity="center_vertical"
                         android:textColor="@android:color/white"
-                        android:textSize="@dimen/singleAdd_bar_textSize" />
+                        android:textSize="@dimen/singleAdd_bar_textSize_small" />
                 </LinearLayout>
 
 
@@ -142,8 +141,8 @@
                 android:layout_height="@dimen/singleAdd_bar_height"
                 android:background="@drawable/add_option_bkg_whole_day"
                 android:button="@null"
-                android:gravity="center"
                 android:enabled="false"
+                android:gravity="center"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/singleAdd_bar_textSize" />
         </LinearLayout>
@@ -236,8 +235,8 @@
                     android:layout_height="@dimen/singleAdd_bar_height"
                     android:background="@drawable/add_option_no_alert_bkg"
                     android:button="@null"
-                    android:gravity="center"
                     android:enabled="false"
+                    android:gravity="center"
                     android:text="@string/timeTake"
                     android:textColor="@drawable/add_option_text_color"
                     android:textSize="@dimen/singleAdd_bar_textSize" />

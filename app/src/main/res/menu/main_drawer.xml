@@ -2,7 +2,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MainActivity">
-    <group android:checkableBehavior="none" >
+    <group android:checkableBehavior="none">
         <item
             android:id="@+id/main_nav_day"
             android:checkable="true"
@@ -12,12 +12,12 @@
         <item
             android:id="@+id/main_nav_month"
             android:checkable="true"
-            android:icon="@drawable/icon_bymonth"
+            android:icon="@drawable/icon_week"
             android:title="按周预览" />
         <item
             android:id="@+id/main_nav_year"
             android:checkable="true"
-            android:icon="@drawable/icon_byyear"
+            android:icon="@drawable/icon_smart_add"
             android:title="批量添加" />
         <item
             android:id="@+id/main_nav_kind"

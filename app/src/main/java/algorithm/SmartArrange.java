@@ -32,6 +32,38 @@ class freetime {
         int w = 0, q = 0;
         for (int i = 0; i < fre.size(); i++) {
             time tt = fre.get(i);
+            if (tt.begin >= 19)
+                continue;
+            if (tt.len >= b) {
+                if (s == -1) {
+                    w = tt.len;
+                    s = tt.begin;
+                    q = i;
+                } else {
+                    if (w > tt.len) {
+                        w = tt.len;
+                        s = tt.begin;
+                        q = i;
+                    }
+                }
+            }
+        }
+        if (s != -1) {
+            time tt = new time(s + b, fre.get(q).len - b);
+            all -= b;
+            fre.remove(q);
+            fre.add(tt);
+        }
+        return s;
+    }
+
+    int find1(int b) {// 查找这天里是否有空闲时间塞下这个启示时间为a长度为b的时间。
+        int s = -1;
+        int w = 0, q = 0;
+        for (int i = 0; i < fre.size(); i++) {
+            time tt = fre.get(i);
+            if (tt.begin < 19)
+                continue;
             if (tt.len >= b) {
                 if (s == -1) {
                     w = tt.len;
@@ -58,7 +90,7 @@ class freetime {
     void set_secret(int begin, int last) {
         for (int i = 0; i < fre.size(); i++) {
             time pp = fre.get(i);
-            if (pp.begin <= begin && pp.len + pp.begin >= last) {
+            if(last>=pp.begin&&pp.len+pp.begin>=begin){
                 fre.remove(pp);
                 time pp1;
                 if (begin > pp.begin) {
@@ -69,8 +101,7 @@ class freetime {
                     pp1 = new time(last, pp.len + pp.begin - last);
                     fre.add(pp1);
                 }
-                all -= last - begin;
-                break;
+                all -= Math.min(pp.len+pp.begin,last)-Math.max(pp.begin,begin);
             }
         }
     }
@@ -80,7 +111,9 @@ class daysort implements Comparator<freetime> {
     public int compare(freetime x, freetime y) {
         freetime a = (freetime) x;
         freetime b = (freetime) y;
-        return a.all < b.all ? 1 : 0;
+        if (a.all != b.all)
+            return a.all < b.all ? 1 : -1;
+        return a.id > b.id ? 1 : -1;
     }
 }
 
@@ -94,9 +127,8 @@ class item {
     int id;// 第几个安排
     int loca;// 1代表宿舍，0代表其他
     int cla;// 类型0代表作业，1代表与人为乐，2代表与己为乐，3代表bull
-    int len;
     int begin, end;// 起始日期，截止日期。
-
+    int len;
     ji dana;// 最后返回的安排的日期和这个日期的时间
 
     item(int a, int b, int c, int e, int d, int f) {
@@ -115,10 +147,10 @@ class itemsort implements Comparator<item> {// 正向排序
         item a = (item) x;
         item b = (item) y;
         if (a.end != b.end)
-            return a.end < b.end ? 1 : 0;
+            return a.end > b.end ? 1 : -1;
         if (a.begin != b.begin)
-            return a.begin > b.begin ? 1 : 0;
-        return a.len < b.len ? 1 : 0;
+            return a.begin < b.begin ? 1 : -1;
+        return a.len > b.len ? 1 : -1;
     }
 }
 
@@ -128,10 +160,10 @@ class itemsort2 implements Comparator<item> {// 反向排序
         item a = (item) x;
         item b = (item) y;
         if (a.end != b.end)
-            return a.end > b.end ? 1 : 0;
+            return a.end < b.end ? 1 : -1;
         if (a.begin != b.begin)
-            return a.begin < b.begin ? 1 : 0;
-        return a.len > b.len ? 1 : 0;
+            return a.begin > b.begin ? 1 : -1;
+        return a.len < b.len ? 1 : -1;
     }
 }
 
@@ -214,7 +246,7 @@ public class SmartArrange {
             int f = 0;
             ji da = new ji();
             for (int j = 0; j < cnt; j++) {
-                int ww = ff[j].find(a[i].len);
+                int ww = ff[j].find1(a[i].len);
                 if (ww != -1) {
                     f = 1;
                     da.yes = 1;
@@ -356,7 +388,38 @@ public class SmartArrange {
         // cnt既是一个全局的静态变量也是init的参数！！！！
         //cnt已经通过参数传递
         cnt = 7;//允许的时间范围，默认为一周
+
+
         init(cnt);
+        day[0].set_secret(7, 12);
+        day[0].set_secret(14, 16);
+        day[0].set_secret(17, 18);
+        day[0].set_secret(19, 21);
+
+
+        day[1].set_secret(0, 9  );
+        day[1].set_secret(11, 12);
+        day[1].set_secret(14, 16);
+        day[1].set_secret(14, 18);
+        day[1].set_secret(22, 24);
+        day[2].set_secret(0, 8  );
+        day[2].set_secret(11, 12);
+        day[2].set_secret(14, 18);
+        day[2].set_secret(19, 21);
+        day[3].set_secret(0, 8  );
+        day[3].set_secret(11, 12);
+        day[3].set_secret(14, 18);
+        day[4].set_secret(0, 7  );
+        day[4].set_secret(9, 14 );
+        day[4].set_secret(17, 18);
+        day[4].set_secret(22, 24);
+        day[5].set_secret(0, 12 );
+        day[5].set_secret(17, 18);
+        day[5].set_secret(19, 21);
+        day[6].set_secret(0, 12 );
+        day[6].set_secret(17, 18);
+
+
         tot = as.size();
         all = new item[tot];
         for (int i = 0; i < tot; i++) {

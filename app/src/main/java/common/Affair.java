@@ -50,7 +50,8 @@ public class Affair {
     }
 
     public Affair() {
-
+        this.title="";
+        //just for test
     }
 
     public int getNo() {

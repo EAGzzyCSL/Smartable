@@ -11,12 +11,16 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -29,6 +33,7 @@ public class SmartAddOneItemAdapter extends RecyclerView.Adapter<SmartAddOneItem
     private ArrayList<Affair> affairs = new ArrayList<Affair>();
     private Context context;
     private RecyclerView recyclerView_container;
+
     private RecyclerView.LayoutManager layoutManager;
     private boolean hasEmpty = true;
 
@@ -50,13 +55,15 @@ public class SmartAddOneItemAdapter extends RecyclerView.Adapter<SmartAddOneItem
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+        holder.setText(affairs.get(position).getTitle());
+        //// TODO: 9/30/15  recycler的特性，所以数据不能通过view来存储，而必须得独立于view存放 
         if (position == getItemCount() - 1) {
             holder.setDefaultChecked();
             //为了解决recyclerView的getAdapterPosition问题
             //http://stackoverflow.com/questions/29156172/viewholder-getadapterposition-always-returns-1
             //当第一次被加载的时候设置默认选中而不是创建对象的时候设置默认选中
             holder.setAutoFocus();
-            layoutManager.scrollToPosition(layoutManager.getItemCount() - 1);
+//            layoutManager.scrollToPosition(layoutManager.getItemCount() - 1);
         }
 
     }
@@ -91,7 +98,9 @@ public class SmartAddOneItemAdapter extends RecyclerView.Adapter<SmartAddOneItem
         private OptionWhenAddBusinessAdapter posAdapter;
         private OptionWhenAddBusinessAdapter alertAdapter;
         private OptionWhenAddBusinessAdapter takeAdapter;
-
+        public void  setText(String text){
+            editText_title.setText(text);
+        }
         public ViewHolder(View itemView) {
             super(itemView);
             final Calendar calendar = Calendar.getInstance();
@@ -195,6 +204,22 @@ public class SmartAddOneItemAdapter extends RecyclerView.Adapter<SmartAddOneItem
                     highlightMe();
                 }
             });
+            editText_title.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    affairs.get(getAdapterPosition()).setTitle(s.toString());
+                }
+            });
             imageButton_done = (ImageButton) itemView.findViewById(R.id.imageButton_done);
             imageButton_done.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -207,7 +232,7 @@ public class SmartAddOneItemAdapter extends RecyclerView.Adapter<SmartAddOneItem
                         addItem(getItemCount());
                         hasEmpty = true;
                     }
-
+                    //如果使用的时候正好是晚上12点日期交接的时候就坏事了
                     Calendar c = Calendar.getInstance();
                     affairs.get(getAdapterPosition()).setStartDay(timeStart.toCalendar().get(Calendar.DAY_OF_YEAR) - c.get(Calendar.DAY_OF_YEAR));
                     affairs.get(getAdapterPosition()).setEndDAy(timeEnd.toCalendar().get(Calendar.DAY_OF_YEAR) - c.get(Calendar.DAY_OF_YEAR));

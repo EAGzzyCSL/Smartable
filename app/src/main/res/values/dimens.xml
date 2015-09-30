@@ -8,6 +8,7 @@
     <dimen name="singleAdd_bar_interval">5dp</dimen>
     <dimen name="singleAdd_bar_height_x2">200dp</dimen>
     <dimen name="singleAdd_bar_textSize">16sp</dimen>
+    <dimen name="singleAdd_bar_textSize_small">14sp</dimen>
     <dimen name="singleAdd_bar_innerPaddingVertical">5dp</dimen>
     <dimen name="singleAdd_bar_innerPaddingHorizontal">10dp</dimen>
     <dimen name="bkg_line_width">5dp</dimen>

@@ -21,7 +21,8 @@ public class WeekPreviewActivity extends ActionBarActivity {
     private Toolbar weekPre_toolbar;
     private FloatingActionButton weekPre_fab_different;
     private ByWeekView byWeekView;
-    private  ArrayList<Affair> as = new ArrayList<Affair>();;
+    private ArrayList<Affair> as = new ArrayList<Affair>();
+    ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,13 +32,15 @@ public class WeekPreviewActivity extends ActionBarActivity {
         myFindViewById();//findView
         mySetView();//给view设置侦听等
         Intent intent = getIntent();
+
+
         ArrayList<String> titles = intent.getStringArrayListExtra("titles");
         ArrayList<Integer> dayHourTake = intent.getIntegerArrayListExtra("dayHourTake");
-
-        for (int i = 0; i < titles.size(); i++) {
-            as.add(new Affair(titles.get(i), dayHourTake.get(i*3+0), dayHourTake.get(i*3 + 1), dayHourTake.get(i*3 + 2)));
+        if (titles != null && dayHourTake != null) {
+            for (int i = 0; i < titles.size(); i++) {
+                as.add(new Affair(titles.get(i), dayHourTake.get(i * 3 + 0), dayHourTake.get(i * 3 + 1), dayHourTake.get(i * 3 + 2)));
+            }
         }
-
 
         myIni();//一些初始化操作
         System.out.println(this.getLocalClassName() + "#######");
@@ -85,8 +88,10 @@ public class WeekPreviewActivity extends ActionBarActivity {
 //        };
 //        SmartArrange sa = new SmartArrange(7, as);
 //        sa.doArrange();
-        for (int i = 0; i < as.size(); i++) {
-            bs.add(as.get(i).toBusiness());
+        if (as != null) {
+            for (int i = 0; i < as.size(); i++) {
+                bs.add(as.get(i).toBusiness());
+            }
         }
 //        bs.add(new Business("1:00-10:00", new MyTime(1, 0), new MyTime(10, 0), 1));
 //        bs.add(new Business("8:00-12:00", new MyTime(8, 0), new MyTime(12, 0), 2));

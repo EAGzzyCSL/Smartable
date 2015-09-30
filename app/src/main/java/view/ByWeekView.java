@@ -5,11 +5,15 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.support.v7.widget.AppCompatCheckBox;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 import android.support.v7.widget.AppCompatTextView;
+
+import com.eagzzycsl.smartable.R;
+
 import java.util.ArrayList;
 
 import common.Business;
@@ -36,7 +40,7 @@ public class ByWeekView extends ViewGroup {
 
     public ByWeekView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.setBackgroundColor(Color.rgb(255,255,255));
+        this.setBackgroundColor(Color.rgb(255, 255, 255));
     }
 
     @Override
@@ -58,37 +62,86 @@ public class ByWeekView extends ViewGroup {
     }
 
     private void arrangeLayout() {
+        this.removeAllViews();
+
+
+        PresetBkg presetBkg[] = new PresetBkg[]{
+                new PresetBkg(1, 0, 12),
+                new PresetBkg(1, 14, 16),
+                new PresetBkg(1, 17, 18),
+                new PresetBkg(1, 19, 21),
+
+                new PresetBkg(2, 0, 9  ),
+                new PresetBkg(2, 11, 12),
+                new PresetBkg(2, 14, 16),
+                new PresetBkg(2, 14, 18),
+                new PresetBkg(2, 22, 24),
+                new PresetBkg(3, 0, 8  ),
+                new PresetBkg(3, 11, 12),
+                new PresetBkg(3, 14, 18),
+                new PresetBkg(3, 19, 21),
+                new PresetBkg(4, 0, 8  ),
+                new PresetBkg(4, 11, 12),
+                new PresetBkg(4, 14, 18),
+                new PresetBkg(5, 0, 7  ),
+                new PresetBkg(5, 9, 14 ),
+                new PresetBkg(5, 17, 18),
+                new PresetBkg(5, 22, 24),
+                new PresetBkg(6, 0, 12 ),
+                new PresetBkg(6, 17, 18),
+                new PresetBkg(6, 19, 21),
+                new PresetBkg(7, 0, 12 ),
+                new PresetBkg(7, 17, 18),
+
+
+        };
+        for (int i = 0; i < presetBkg.length; i++) {
+            AppCompatTextView t = new AppCompatTextView(getContext());
+            t.setBackgroundColor(Color.rgb(250, 241, 182));
+            addView(t);
+            t.setText("#");
+            int bt = topHead + lineWidth + presetBkg[i].start * (heightOf2H / 2 + lineWidth);
+            int bm = topHead + lineWidth + presetBkg[i].end * (heightOf2H / 2 + lineWidth);
+            int tmp = widthOf1Day + lineWidth;
+            int bl = tmp * presetBkg[i].week + 1;
+            int br = tmp * (presetBkg[i].week + 1);
+//                System.out.println(bl + "###" + br);
+            t.layout(bl, bt, br, bm);
+        }
         if (bs != null) {
-            this.removeAllViews();
+
             for (int i = 0; i < bs.size(); i++) {
                 AppCompatTextView businessView = new AppCompatTextView(getContext());
                 businessView.setBackgroundColor(Color.rgb(60, 174, 256));
                 businessView.setText(bs.get(i).getTitle());
                 businessView.setTag(bs.get(i).getId());
-                businessView.setTextSize(MyUtil.dpToPxInCode(destiny,3));
+                businessView.setTextSize(MyUtil.dpToPxInCode(destiny, 3));
                 businessView.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
-                        Toast.makeText(getContext(), "不要乱摸乱点！", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getContext(), "不要乱摸乱点！", Toast.LENGTH_SHORT).show();
                     }
                 });
                 addView(businessView);
                 int bt = topHead + lineWidth + bs.get(i).getStart().getHour() * (heightOf2H / 2 + lineWidth) + bs.get(i).getStart().getMinute() * hpm;
                 int bm = topHead + lineWidth + bs.get(i).getEnd().getHour() * (heightOf2H / 2 + lineWidth) + bs.get(i).getEnd().getMinute() * hpm;
                 int tmp = widthOf1Day + lineWidth;
-                int bl = tmp * bs.get(i).getWeek()+1;
-                int br = tmp *( bs.get(i).getWeek()+1);
-                System.out.println(bl + "###" + br);
-                getChildAt(i).layout(bl, bt, br, bm);
+                int bl = tmp * bs.get(i).getWeek() + 1;
+                int br = tmp * (bs.get(i).getWeek() + 1);
+//                System.out.println(bl + "###" + br);
+                businessView.layout(bl, bt, br, bm);
             }
         }
 
+
     }
-    public void updateBusiness(ArrayList<Business> bs){
-        this.bs=bs;
+
+    public void updateBusiness(ArrayList<Business> bs) {
+        this.bs = bs;
         arrangeLayout();
     }
+
     public void setBusiness(ArrayList<Business> bs) {
         this.bs = bs;
     }
@@ -117,5 +170,17 @@ public class ByWeekView extends ViewGroup {
             canvas.drawText(String.format("%02d", i * 2) + ":00", textLeftPad, hy + (textSize - lineWidth) / 2, paint);
         }
 
+    }
+}
+
+class PresetBkg {
+    public int week;
+    public int start;
+    public int end;
+
+    public PresetBkg(int week, int start, int end) {
+        this.week = week;
+        this.start = start;
+        this.end = end;
     }
 }
