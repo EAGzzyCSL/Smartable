@@ -80,6 +80,7 @@ public class MyTime {
         this.hour=hour;
         this.minute=minute;
     }
+    //不能覆写
     public int compareTo(MyTime t) {
         return this.toMinutes() - t.toMinutes();
     }
@@ -92,6 +93,7 @@ public class MyTime {
         c.set(Calendar.DAY_OF_MONTH,day);
         c.set(Calendar.HOUR_OF_DAY,hour);
         c.set(Calendar.MINUTE,minute);
+
         return c;
     }
 }

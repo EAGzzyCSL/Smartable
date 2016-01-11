@@ -1,7 +1,6 @@
 package com.eagzzycsl.smartable;
 
 import android.content.Context;
-import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.AppCompatRadioButton;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,9 +10,7 @@ import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 
 import java.util.ArrayList;
-import java.util.zip.CheckedInputStream;
 
-import common.Affair;
 
 
 public class OptionWhenAddBusinessAdapter extends RecyclerView.Adapter<OptionWhenAddBusinessAdapter.ViewHolder> implements OptionType {
@@ -103,9 +100,9 @@ public class OptionWhenAddBusinessAdapter extends RecyclerView.Adapter<OptionWhe
             container.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, containerHeight));
         } else if (tmp <= 2 * oneLineCount) {
 
-            container.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (int) (containerHeight * 2)));
+            container.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, containerHeight * 2));
         } else {
-            container.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (int) (containerHeight * 3)));
+            container.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,containerHeight * 3));
 
         }
     }
@@ -148,9 +145,10 @@ public class OptionWhenAddBusinessAdapter extends RecyclerView.Adapter<OptionWhe
                             headCheckedBox.setChecked(true);
                         }
                         headCheckedBox.setChecked(false);
+                        //因为获取数据的侦听在head上所以修改head的check可以实现获取数据
                         for (int i = 0; i < layoutManager.getChildCount(); i++) {
                             AppCompatRadioButton aCR = (AppCompatRadioButton) (layoutManager.getChildAt(i));
-                            if (aCR != (AppCompatRadioButton) buttonView) {
+                            if (aCR != buttonView) {
                                 aCR.setChecked(false);
                             }
                         }
@@ -206,3 +204,4 @@ interface OptionType {
     String ALERT = "alert";
     String TAKE = "take";
 }
+//TODO 可以考虑使用枚举来替换接口常量

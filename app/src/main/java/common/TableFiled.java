@@ -1,8 +1,5 @@
 package common;
 
-/**
- * Created by eagzzycsl on 7/29/15.
- */
 public interface TableFiled {
     String TITLE = "title";
     String START_year = "s_year";

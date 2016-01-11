@@ -19,15 +19,17 @@ public class FragmentByDay extends Fragment implements ScrollAdjustClick, ClickA
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_day, container, false);
         completeByDayView = (CompleteByDayView) v.findViewById(R.id.completeByDayView_byDay);
-        completeByDayView.setScrollAdjustClick((ScrollAdjustClick) this);
+        completeByDayView.setScrollAdjustClick(this);
         switchInWeekView = (SwitchInWeekView) v.findViewById(R.id.switchInWeekView);
-        switchInWeekView.setClickAdjustScroll((ClickAdjustScroll) this);
+        switchInWeekView.setClickAdjustScroll(this);
         return v;
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        //似乎没有必要，看来是当时忘了删掉了，
+        // 不过需要注意的是如果从别的fragment切回来的时候会回到当天，这个bug目前不太清楚怎么导致的
         //在onResume的时候更新界面
 //        completeByDayView.updateSimpleByDayViews();
     }

@@ -55,7 +55,8 @@ public class AddActivity extends ActionBarActivity {
     private MyTime timeStart = new MyTime();
     private MyTime timeEnd = new MyTime();
     private String opt;
-private int Business_id;
+    private int Business_id;
+
     private void myIni() {
         textView_startDate.setText(MyPickerDialog.getDate(timeStart.getYear(),
                 timeStart.getMonth(), timeStart.getDay()));
@@ -114,13 +115,13 @@ private int Business_id;
 
                 break;
             case "edit_withId":
-                int id=Integer.valueOf(bundle.getString("id"));
-                Business_id=id;
-                DatabaseManager dm=DatabaseManager.getInstance(AddActivity.this);
+                int id = Integer.valueOf(bundle.getString("id"));
+                Business_id = id;
+                DatabaseManager dm = DatabaseManager.getInstance(AddActivity.this);
 
-                Business bs=dm.getBusiness(id);
-                timeStart=bs.getStart();
-                timeEnd=bs.getEnd();
+                Business bs = dm.getBusiness(id);
+                timeStart = bs.getStart();
+                timeEnd = bs.getEnd();
                 editText_title.setText(bs.getTitle());
 
                 dm.close();
@@ -159,12 +160,12 @@ private int Business_id;
                 DatabaseManager databaseManager = DatabaseManager.getInstance(AddActivity.this);
                 String[] data = {title, location_title};
 //                if (FinalFlag.equals("FragmentByKind_ListView")) {
-                    if (opt.equals("edit")) {
+                if (opt.equals("edit")) {
                     databaseManager.delete_thing("add_table", "title = ? and location = ?", data);
 
                     Toast.makeText(this, "恭喜主人，您成功删除了一件事！", Toast.LENGTH_SHORT).show();
                 }
-                if(opt.equals("edit_withId")){
+                if (opt.equals("edit_withId")) {
                     databaseManager.deleteBusiness(Business_id);
                     Toast.makeText(this, "您成功删除了一件事！", Toast.LENGTH_SHORT).show();
                 }

@@ -19,9 +19,7 @@ import java.util.ArrayList;
 import common.Business;
 import common.MyUtil;
 
-/**
- * Created by eagzzycsl on 7/31/15.
- */
+
 public class ByWeekView extends ViewGroup {
     private int defaultWidth = 100;
     private int defaultHeight = 100;

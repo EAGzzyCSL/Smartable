@@ -16,11 +16,11 @@ class time {
     }
 }
 
-class freetime {
+class FreeTime {
     ArrayList<time> fre;
     int all;// 总闲时
 
-    freetime() {
+    FreeTime() {
         fre = new ArrayList<time>();
         all = 0;
     }
@@ -107,10 +107,10 @@ class freetime {
     }
 }
 
-class daysort implements Comparator<freetime> {
-    public int compare(freetime x, freetime y) {
-        freetime a = (freetime) x;
-        freetime b = (freetime) y;
+class daysort implements Comparator<FreeTime> {
+    public int compare(FreeTime x, FreeTime y) {
+        FreeTime a =  x;
+        FreeTime b =  y;
         if (a.all != b.all)
             return a.all < b.all ? 1 : -1;
         return a.id > b.id ? 1 : -1;
@@ -169,8 +169,8 @@ class itemsort2 implements Comparator<item> {// 反向排序
 
 public class SmartArrange {
 
-    freetime day[];// 所有天数
-    freetime ff[];
+    FreeTime day[];// 所有天数
+    FreeTime ff[];
     int cnt;// 总天数
     item all[];// 这个变量有歧义，在这边表示某一件事情相关的所有属性
     item a[];
@@ -182,9 +182,9 @@ public class SmartArrange {
     ji jieguo[];// c从0~tot-1这些事件对应的安排结果
 
     void init(int cnt) {
-        day = new freetime[cnt];
+        day = new FreeTime[cnt];
         for (int i = 0; i < cnt; i++) {
-            day[i] = new freetime();
+            day[i] = new FreeTime();
             day[i].fre.add(new time(7, 5));
             day[i].fre.add(new time(12, 7));
             day[i].fre.add(new time(19, 5));
@@ -238,7 +238,7 @@ public class SmartArrange {
         Arrays.sort(d, new itemsort2());
         Arrays.sort(f, new itemsort2());
         for (int i = 0; i < x; i++) {
-            ff = new freetime[a[i].end - a[i].begin + 1];
+            ff = new FreeTime[a[i].end - a[i].begin + 1];
             for (int j = a[i].begin; j <= a[i].end; j++) {
                 ff[j - a[i].begin] = day[j];
             }
@@ -262,7 +262,7 @@ public class SmartArrange {
             jieguo[a[i].id] = da;
         }
         for (int i = 0; i < y; i++) {
-            ff = new freetime[b[i].end - b[i].begin + 1];
+            ff = new FreeTime[b[i].end - b[i].begin + 1];
             for (int j = b[i].begin; j <= b[i].end; j++) {
                 ff[j - b[i].begin] = day[j];
             }
@@ -287,7 +287,7 @@ public class SmartArrange {
         }
         while (z > 0 || w > 0 || q > 0) {
             if (z > 0) {
-                ff = new freetime[c[z - 1].end - c[z - 1].begin + 1];
+                ff = new FreeTime[c[z - 1].end - c[z - 1].begin + 1];
                 for (int j = c[z - 1].begin; j <= c[z - 1].end; j++) {
                     ff[j - c[z - 1].begin] = day[j];
                 }
@@ -312,7 +312,7 @@ public class SmartArrange {
                 z--;
             }
             if (w > 0) {
-                ff = new freetime[d[w - 1].end - d[w - 1].begin + 1];
+                ff = new FreeTime[d[w - 1].end - d[w - 1].begin + 1];
                 for (int j = d[w - 1].begin; j <= d[w - 1].end; j++) {
                     ff[j - d[w - 1].begin] = day[j];
                 }
@@ -337,7 +337,7 @@ public class SmartArrange {
                 w--;
             }
             if (q > 0) {
-                ff = new freetime[f[q - 1].end - f[q - 1].begin + 1];
+                ff = new FreeTime[f[q - 1].end - f[q - 1].begin + 1];
                 for (int j = f[q - 1].begin; j <= f[q - 1].end; j++) {
                     ff[j - f[q - 1].begin] = day[j];
                 }
